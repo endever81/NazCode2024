@@ -1,3 +1,5 @@
+
+/*
 package org.firstinspires.ftc.teamcode.OldCode;
 
 
@@ -590,6 +592,7 @@ public class StandardAutonBase extends LinearOpMode{
     /**
      * Initialize the Vuforia localization engine.
      */
+/*
     private void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
@@ -654,6 +657,7 @@ public class StandardAutonBase extends LinearOpMode{
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
+/*
     private void telemetryTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
@@ -751,4 +755,4 @@ public class StandardAutonBase extends LinearOpMode{
 
 
 
-
+*/
