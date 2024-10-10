@@ -57,15 +57,15 @@ public void runOpMode() {
         telemetry.addData("Say", "Waiting for Start");
         telemetry.update();
 
-        robot.liftleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.liftright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftup.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftup.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     waitForStart();
 
-        newLiftTargetLeft = robot.liftleft.getCurrentPosition();
-        newLiftTargetRight = robot.liftright.getCurrentPosition();
-        robot.liftleft.setTargetPosition(newLiftTargetLeft);
-        robot.liftright.setTargetPosition(newLiftTargetRight);
+        newLiftTargetLeft = robot.liftup.getCurrentPosition();
+        newLiftTargetRight = robot.liftup.getCurrentPosition();
+        robot.liftup.setTargetPosition(newLiftTargetLeft);
+        robot.liftup.setTargetPosition(newLiftTargetRight);
 
         double dropperPosition = .53;//.5
 
@@ -151,8 +151,8 @@ public void runOpMode() {
     robot.leftRearDrive.setPower(rear_left);
     robot.rightRearDrive.setPower(rear_right);
 
-    robot.liftleft.setPower(liftleftPower);
-    robot.liftright.setPower(liftrightPower);
+    robot.liftup.setPower(liftleftPower);
+    robot.liftup.setPower(liftrightPower);
 
     robot.intake.setPower(intakePower);
 
