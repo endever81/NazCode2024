@@ -62,10 +62,10 @@ public void runOpMode() {
 
     waitForStart();
 
-        newLiftTargetLeft = robot.liftup.getCurrentPosition();
-        newLiftTargetRight = robot.liftup.getCurrentPosition();
-        robot.liftup.setTargetPosition(newLiftTargetLeft);
-        robot.liftup.setTargetPosition(newLiftTargetRight);
+       // newLiftTargetLeft = robot.liftleft.getCurrentPosition();
+      //  newLiftTargetRight = robot.liftright.getCurrentPosition();
+       // robot.liftleft.setTargetPosition(newLiftTargetLeft);
+       // robot.liftright.setTargetPosition(newLiftTargetRight);
 
         double dropperPosition = .53;//.5
 
@@ -151,8 +151,8 @@ public void runOpMode() {
     robot.leftRearDrive.setPower(rear_left);
     robot.rightRearDrive.setPower(rear_right);
 
-    robot.liftup.setPower(liftleftPower);
-    robot.liftup.setPower(liftrightPower);
+   // robot.liftleft.setPower(liftleftPower);
+  //  robot.liftright.setPower(liftrightPower);
 
     robot.intake.setPower(intakePower);
 
