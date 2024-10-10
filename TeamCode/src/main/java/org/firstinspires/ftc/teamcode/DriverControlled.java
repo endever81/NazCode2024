@@ -57,8 +57,8 @@ public void runOpMode() {
         telemetry.addData("Say", "Waiting for Start");
         telemetry.update();
 
-        robot.liftup.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.liftup.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+      //  robot.liftup.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //robot.liftup.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     waitForStart();
 
