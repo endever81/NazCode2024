@@ -14,16 +14,16 @@ public class HardwareRobot {
     public DcMotor rightFrontDrive = null;
     public DcMotor leftRearDrive = null;
     public DcMotor rightRearDrive = null;
-    public DcMotor liftleft = null;
-    public DcMotor liftright = null;
+    public DcMotor liftup = null;
+    public DcMotor liftout = null;
     public DcMotor intake = null;
 
     public DcMotor launcher = null;
-    public Servo servorelease = null;
+    public Servo pickuprist = null;
 
     public Servo servoDropper = null;
     public Servo droneGuard = null;
-    public CRServo rightPickup = null;
+    public CRServo Pickupspesaman = null;
     public CRServo leftPickup = null;
     public RevBlinkinLedDriver blinkinLedDriver = null;
 
@@ -46,18 +46,18 @@ public class HardwareRobot {
         rightFrontDrive = hwMap.get(DcMotor.class, "motor_front_right");
         leftRearDrive = hwMap.get(DcMotor.class, "motor_rear_left");
         rightRearDrive = hwMap.get(DcMotor.class, "motor_rear_right");
-        liftleft = hwMap.get(DcMotor.class, "lift_left");
-        liftright = hwMap.get(DcMotor.class, "lift_right");
+        liftup = hwMap.get(DcMotor.class, "lift_up");
+        liftout = hwMap.get(DcMotor.class, "lift_out");
         intake = hwMap.get(DcMotor.class, "motor_intake");
         launcher = hwMap.get(DcMotor.class, "launcher");
 
 
-        servorelease = hwMap.get(Servo.class, "servo_release");
+        pickuprist = hwMap.get(Servo.class, "servo_release");
         servoDropper = hwMap.get(Servo.class, "servo_dropper");
         droneGuard = hwMap.get(Servo.class, "servo_drone_guard");
 
-        leftPickup = hwMap.get(CRServo.class, "servo_left_pickup");
-        rightPickup = hwMap.get(CRServo.class, "servo_right_pickup");
+        //leftPickup = hwMap.get(CRServo.class, "servo_left_pickup");
+        Pickupspesaman = hwMap.get(CRServo.class, "servo_pickup_spesaman");
 
 
         blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin");
@@ -68,11 +68,11 @@ public class HardwareRobot {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftRearDrive.setDirection(DcMotor.Direction.REVERSE);
         rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
-        liftleft.setDirection(DcMotor.Direction.REVERSE);
-        liftleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        liftright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftup.setDirection(DcMotor.Direction.REVERSE);
+        liftup.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftout.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftup.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftout.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
         leftFrontDrive.setPower(0);
@@ -80,7 +80,7 @@ public class HardwareRobot {
         leftRearDrive.setPower(0);
         rightRearDrive.setPower(0);
 
-        servorelease.setPosition(.5);
+        pickuprist.setPosition(.5);
         servoDropper.setPosition(.6);
         droneGuard.setPosition(.5);
     }

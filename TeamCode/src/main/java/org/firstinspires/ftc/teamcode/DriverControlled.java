@@ -57,15 +57,15 @@ public void runOpMode() {
         telemetry.addData("Say", "Waiting for Start");
         telemetry.update();
 
-        robot.liftleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.liftright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftup.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftout.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     waitForStart();
 
-        newLiftTargetLeft = robot.liftleft.getCurrentPosition();
-        newLiftTargetRight = robot.liftright.getCurrentPosition();
-        robot.liftleft.setTargetPosition(newLiftTargetLeft);
-        robot.liftright.setTargetPosition(newLiftTargetRight);
+        newLiftTargetLeft = robot.liftup.getCurrentPosition();
+        newLiftTargetRight = robot.liftout.getCurrentPosition();
+        robot.liftup.setTargetPosition(newLiftTargetLeft);
+        robot.liftout.setTargetPosition(newLiftTargetRight);
 
         double dropperPosition = .53;//.5
 
@@ -121,8 +121,8 @@ public void runOpMode() {
         }
 
 
-        double liftleftPower = gamepad2.left_stick_y;
-        double liftrightPower = gamepad2.left_stick_y;
+        double liftupPower = gamepad2.left_stick_y;
+        double liftoutPower = gamepad2.left_stick_y;
 
 //*******************************************************************
         //Robot Coloration Conditions and Controls
@@ -151,10 +151,10 @@ public void runOpMode() {
     robot.leftRearDrive.setPower(rear_left);
     robot.rightRearDrive.setPower(rear_right);
 
-    robot.liftleft.setPower(liftleftPower);
-    robot.liftright.setPower(liftrightPower);
+    robot.liftup.setPower(liftupPower);
+    robot.liftout.setPower(liftoutPower);
 
-    robot.intake.setPower(intakePower);
+    robot.Pickupspesaman.setPower(intakePower);
 
     robot.servoDropper.setPosition(dropperPosition);
 
