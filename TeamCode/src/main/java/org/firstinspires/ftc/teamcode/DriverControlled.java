@@ -58,16 +58,15 @@ public void runOpMode() {
         telemetry.update();
 
         robot.liftup.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.liftup.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftout.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     waitForStart();
 
         newLiftTargetLeft = robot.liftup.getCurrentPosition();
-        newLiftTargetRight = robot.liftup.getCurrentPosition();
+        newLiftTargetRight = robot.liftout.getCurrentPosition();
         robot.liftup.setTargetPosition(newLiftTargetLeft);
-        robot.liftup.setTargetPosition(newLiftTargetRight);
+        robot.liftout.setTargetPosition(newLiftTargetRight);
 
-        double dropperPosition = .53;//.5
 
         while (opModeIsActive()){
 
@@ -78,8 +77,8 @@ public void runOpMode() {
 
         double front_left = Speed + Turn - Strafe;
         double front_right = Speed - Turn + Strafe;
-        double rear_left = Speed + Turn + Strafe;
-        double rear_right = Speed - Turn - Strafe;
+        double rear_left = -Speed - Turn - Strafe;
+        double rear_right = -Speed + Turn + Strafe;
     
         front_left = Range.clip(front_left, -1, 1);
         front_right = Range.clip(front_right, -1, 1);
@@ -110,19 +109,16 @@ public void runOpMode() {
         rear_right /=2.5;
         }
 
-        double intakePower = 0;
+        double releasePosition = .53;//.5
 
         if (gamepad2.a){
-        intakePower = -.8;
-        }
-
-        if (gamepad2.left_trigger != 0){
-        intakePower = .8;
+        releasePosition = 0.38;
         }
 
 
-        double liftleftPower = gamepad2.left_stick_y;
-        double liftrightPower = gamepad2.left_stick_y;
+
+        double liftupPower = gamepad2.left_stick_y;
+        double lifoutPower = gamepad2.right_stick_y;
 
 //*******************************************************************
         //Robot Coloration Conditions and Controls
@@ -151,12 +147,12 @@ public void runOpMode() {
     robot.leftRearDrive.setPower(rear_left);
     robot.rightRearDrive.setPower(rear_right);
 
-    robot.liftup.setPower(liftleftPower);
-    robot.liftup.setPower(liftrightPower);
+    robot.liftup.setPower(liftupPower);
+    robot.liftout.setPower(lifoutPower);
 
-    robot.intake.setPower(intakePower);
+    robot.servorelease.setPosition(releasePosition);
 
-    robot.servoDropper.setPosition(dropperPosition);
+    robot.servorelease.setPosition(releasePosition);
 
     }
 
