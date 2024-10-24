@@ -62,15 +62,17 @@ public void runOpMode() {
 
     waitForStart();
 
-        newLiftTargetLeft = robot.liftup.getCurrentPosition();
-        newLiftTargetRight = robot.liftout.getCurrentPosition();
-        robot.liftup.setTargetPosition(newLiftTargetLeft);
-        robot.liftout.setTargetPosition(newLiftTargetRight);
+        double LiftUpStartPose = robot.liftup.getCurrentPosition();
+        double LiftOutStartPose = robot.liftout.getCurrentPosition();
+        //robot.liftup.setTargetPosition(newLiftTargetLeft);
+        //robot.liftout.setTargetPosition(newLiftTargetRight);
 
         double dropperPosition = .53;//.5
 
         while (opModeIsActive()){
-
+            telemetry.addData("Up Pose", robot.liftup.getCurrentPosition());
+            telemetry.addData("Out Pose", robot.liftout.getCurrentPosition());
+            telemetry.update();
 
         double Turn = gamepad1.left_stick_x;
         double Speed = -gamepad1.left_stick_y;
@@ -112,18 +114,33 @@ public void runOpMode() {
 
         double intakePower = 0;
 
-        if (gamepad2.a){
-        intakePower = -.8;
+        if (gamepad2.left_trigger != 0){
+            intakePower = -.8;
         }
 
-        if (gamepad2.left_trigger != 0){
+        if (gamepad2.right_trigger != 0){
         intakePower = .8;
         }
 
+            double wrist = 0;
+
+            if (gamepad2.a){
+                wrist = .5;
+            }
+
 
         double liftupPower = gamepad2.left_stick_y;
-        double liftoutPower = gamepad2.left_stick_y;
+        if ((robot.liftup.getCurrentPosition() >=3100)  )  //|| (robot.liftup.getCurrentPosition() <=0)
+            {
+                liftupPower = 0;
+            }
 
+
+        double liftoutPower = gamepad2.right_stick_y;
+            if ((robot.liftout.getCurrentPosition() >=3200) && (liftoutPower >0)  )  //|| (robot.liftup.getCurrentPosition() <=0)
+            {
+                liftoutPower = liftoutPower/15;
+            }
 //*******************************************************************
         //Robot Coloration Conditions and Controls
         //***********************************************************
@@ -154,9 +171,9 @@ public void runOpMode() {
     robot.liftup.setPower(liftupPower);
     robot.liftout.setPower(liftoutPower);
 
-    robot.Pickupspesaman.setPower(intakePower);
+    robot.PickupSpecimen.setPower(intakePower);
 
-    robot.servoDropper.setPosition(dropperPosition);
+    robot.pickupwrist.setPosition(wrist);
 
     }
 
