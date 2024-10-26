@@ -62,10 +62,10 @@ public void runOpMode() {
 
     waitForStart();
 
-        newLiftTargetLeft = robot.liftup.getCurrentPosition();
-        newLiftTargetRight = robot.liftout.getCurrentPosition();
-        robot.liftup.setTargetPosition(newLiftTargetLeft);
-        robot.liftout.setTargetPosition(newLiftTargetRight);
+        //newLiftTargetLeft = robot.liftup.getCurrentPosition();
+        //newLiftTargetRight = robot.liftout.getCurrentPosition();
+        //robot.liftup.setTargetPosition(newLiftTargetLeft);
+        //robot.liftout.setTargetPosition(newLiftTargetRight);
 
 
         while (opModeIsActive()){
@@ -109,16 +109,39 @@ public void runOpMode() {
         rear_right /=2.5;
         }
 
-        double releasePosition = .53;//.5
+        double releasePosition = .38;//.5
 
-        if (gamepad2.a){
-        releasePosition = 0.38;
+        if (gamepad2.right_bumper){
+        releasePosition = 0.58;
         }
 
 
 
-        double liftupPower = gamepad2.left_stick_y;
-        double lifoutPower = gamepad2.right_stick_y;
+        double liftoutPower = gamepad2.left_stick_y;
+        double liftupPower = gamepad2.right_stick_y;
+        double x = 1880; // base of triangle solution
+        double y = -robot.liftup.getCurrentPosition(); //height of triangle variable with lift
+                if (y < 2000)  //this value will restrict low height over extension and allow the extension after the lift climbs
+                    y=0;
+
+        double c = Math.sqrt((Math.pow(x,2)) + Math.pow(y*1.2,2)); //hyp calculation based on max x and variable y
+            telemetry.addData("OUT Value", -robot.liftout.getCurrentPosition());
+            telemetry.addData("UP Value", y);
+            telemetry.addData("C", c);
+
+            telemetry.update();
+
+            if (-robot.liftout.getCurrentPosition() > c && -gamepad2.left_stick_y > 0) {
+                liftoutPower = 0;
+            }
+            robot.liftout.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            if (y > 2000 && -gamepad2.right_stick_y <0)
+            {
+                robot.liftout.setTargetPosition(1880);
+                robot.liftout.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftoutPower = -1;
+            }
 
 //*******************************************************************
         //Robot Coloration Conditions and Controls
@@ -148,7 +171,7 @@ public void runOpMode() {
     robot.rightRearDrive.setPower(rear_right);
 
     robot.liftup.setPower(liftupPower);
-    robot.liftout.setPower(lifoutPower);
+    robot.liftout.setPower(liftoutPower);
 
     robot.servorelease.setPosition(releasePosition);
 
