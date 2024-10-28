@@ -20,8 +20,8 @@ public class DriverControlled extends LinearOpMode {
 public void runOpMode() {
         robot.init(hardwareMap);
 
-        int newLiftTargetLeft;
-        int newLiftTargetRight;
+        int newLiftTargetH;
+        int newLiftTargetV;
 
         RevBlinkinLedDriver.BlinkinPattern pattern;
         pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
@@ -57,18 +57,18 @@ public void runOpMode() {
         telemetry.addData("Say", "Waiting for Start");
         telemetry.update();
 
-        robot.liftleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.liftright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftV.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     waitForStart();
 
-        newLiftTargetLeft = robot.liftleft.getCurrentPosition();
-        newLiftTargetRight = robot.liftright.getCurrentPosition();
-        robot.liftleft.setTargetPosition(newLiftTargetLeft);
-        robot.liftright.setTargetPosition(newLiftTargetRight);
+        newLiftTargetH = robot.liftH.getCurrentPosition();
+        newLiftTargetV = robot.liftV.getCurrentPosition();
+        robot.liftH.setTargetPosition(newLiftTargetH);
+        robot.liftV.setTargetPosition(newLiftTargetV);
 
-        double dropperPosition = .53;//.5
 
+        double rotatePostion = .4;
         while (opModeIsActive()){
 
 
@@ -113,16 +113,22 @@ public void runOpMode() {
         double intakePower = 0;
 
         if (gamepad2.a){
-        intakePower = -.8;
+        intakePower = 1;
         }
 
-        if (gamepad2.left_trigger != 0){
-        intakePower = .8;
+        if (gamepad2.b){
+        intakePower = -1;
         }
 
+        if (gamepad2.y){
+            rotatePostion = 1;
+        }
 
-        double liftleftPower = gamepad2.left_stick_y;
-        double liftrightPower = gamepad2.left_stick_y;
+        if (gamepad2.x){
+            rotatePostion = .4;
+        }
+        double liftHPower = gamepad2.left_stick_y;
+        double liftVPower = gamepad2.right_stick_y;
 
 //*******************************************************************
         //Robot Coloration Conditions and Controls
@@ -151,12 +157,14 @@ public void runOpMode() {
     robot.leftRearDrive.setPower(rear_left);
     robot.rightRearDrive.setPower(rear_right);
 
-    robot.liftleft.setPower(liftleftPower);
-    robot.liftright.setPower(liftrightPower);
+    robot.liftH.setPower(liftHPower);
+    robot.liftV.setPower(liftVPower);
 
-    robot.intake.setPower(intakePower);
+    robot.servointake.setPower(intakePower);
 
-    robot.servoDropper.setPosition(dropperPosition);
+
+
+    robot.servorotate.setPosition(rotatePostion);
 
     }
 
