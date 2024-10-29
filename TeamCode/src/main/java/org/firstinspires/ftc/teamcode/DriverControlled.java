@@ -68,12 +68,16 @@ public void runOpMode() {
         robot.liftV.setTargetPosition(newLiftTargetV);
         telemetry.addData("horizontal",robot.liftH.getCurrentPosition());
         telemetry.addData("Vertical",robot.liftV.getCurrentPosition());
+        telemetry.addData("encoder", robot.leftRearDrive.getCurrentPosition());
         telemetry.update();
 
 
     double rotatePostion = .4;
         while (opModeIsActive()){
-
+            telemetry.addData("horizontal",robot.liftH.getCurrentPosition());
+            telemetry.addData("Vertical",robot.liftV.getCurrentPosition());
+            telemetry.addData("encoder", robot.leftRearDrive.getCurrentPosition());
+            telemetry.update();
 
         double Turn = gamepad1.left_stick_x;
         double Speed = -gamepad1.left_stick_y;
@@ -123,17 +127,17 @@ public void runOpMode() {
         intakePower = -1;
         }
 
-        if (gamepad2.y){
+        if (gamepad2.x){
             rotatePostion = 1;
         }
 
-        if (gamepad2.x){
+        if (gamepad2.y){
             rotatePostion = .4;
         }
         double liftHPower = gamepad2.left_stick_y;
         double liftVPower = gamepad2.right_stick_y;
 
-            if (-robot.liftH.getCurrentPosition() > 1880 && -gamepad2.left_stick_y > 0) {  //1880 default value... adjust to bring in and out
+            if (-robot.liftH.getCurrentPosition() > 2300 && -gamepad2.left_stick_y > 0) {  //1880 default value... adjust to bring in and out
                 liftHPower = 0;
             }
 

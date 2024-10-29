@@ -153,7 +153,7 @@ public class BLUE_TEST_AUTO extends LinearOpMode {
         public class RotateUp implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                rotate.setPosition(1.0);
+                rotate.setPosition(.4);
                 return false;
             }
         }
@@ -187,16 +187,16 @@ public class BLUE_TEST_AUTO extends LinearOpMode {
         int visionOutputPosition = 1;
 
         TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
-                .lineToYSplineHeading(5, Math.toRadians(90))
-                .waitSeconds(2)
-                .setTangent(Math.toRadians(2))
-                .lineToY(5)
-                .setTangent(Math.toRadians(0))
-                .lineToX(5)
-                .strafeTo(new Vector2d(0, 0))
-                .turn(Math.toRadians(180))
-                .lineToY(5)
-                .waitSeconds(3);
+                //.lineToYSplineHeading(5, Math.toRadians(90))
+               // .waitSeconds(2)
+                //.setTangent(Math.toRadians(2))
+                //.lineToY(5)
+                //.setTangent(Math.toRadians(0))
+                //.lineToX(5)
+                .strafeTo(new Vector2d(39, 0))
+                //.turn(Math.toRadians(180))
+                //.lineToY(5)
+                .waitSeconds(.1);
       /*  TrajectoryActionBuilder tab2 = drive.actionBuilder(initialPose)
                 .lineToY(37)
                 .setTangent(Math.toRadians(0))
@@ -235,17 +235,19 @@ public class BLUE_TEST_AUTO extends LinearOpMode {
         if (isStopRequested()) return;
 
 
+        lift (1, 20);
 
         Actions.runBlocking(
                 new SequentialAction(
                         tab1.build()
                         //lift.liftUp(),
-                        //rotate.rotateUp(),
+                      //  rotate.rotateDown()
                         //lift.liftDown(),
                         //trajectoryActionCloseOut
                 )
         );
-        lift (1, 10);
+        lift (1, -10);
+
         sleep(500);
     }
     public void lift(double power, double inches)
@@ -264,7 +266,7 @@ public class BLUE_TEST_AUTO extends LinearOpMode {
             runtime.reset();
             robot.liftV.setPower(Math.abs(power));
 
-            while (opModeIsActive() &&
+           /*while (opModeIsActive() &&
                                    robot.liftV.isBusy()) {
                        telemetry.addData("Lift", "Running at %7d",
                                        robot.liftV.getCurrentPosition());
@@ -272,7 +274,7 @@ public class BLUE_TEST_AUTO extends LinearOpMode {
 
         }
           robot.liftV.setPower(0);
-          robot.liftV.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+          robot.liftV.setMode(DcMotor.RunMode.RUN_USING_ENCODER); */
 
     }
 }
