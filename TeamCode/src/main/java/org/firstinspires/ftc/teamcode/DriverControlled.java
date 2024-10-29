@@ -133,6 +133,10 @@ public void runOpMode() {
         double liftHPower = gamepad2.left_stick_y;
         double liftVPower = gamepad2.right_stick_y;
 
+            if (-robot.liftH.getCurrentPosition() > 1880 && -gamepad2.left_stick_y > 0) {  //1880 default value... adjust to bring in and out
+                liftHPower = 0;
+            }
+
 //*******************************************************************
         //Robot Coloration Conditions and Controls
         //***********************************************************
