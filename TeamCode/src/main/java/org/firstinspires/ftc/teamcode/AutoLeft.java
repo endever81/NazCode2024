@@ -113,11 +113,13 @@ public class AutoLeft extends LinearOpMode{
 
         waitForStart();
 //Drive
+
+        gyroDrive(.5, 4, 0);
         gyroDrive(.5, 12, 0);
         //Turn
-        gyroTurn(.5, 90);
+        gyroTurn(.5, -90);
         //gyroStrafe
-        gyroStrafe(.5, 12, 90);
+       // gyroStrafe(.5, 12, 90);
 
 
 
