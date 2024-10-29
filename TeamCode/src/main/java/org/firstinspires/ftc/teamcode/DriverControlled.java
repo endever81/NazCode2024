@@ -66,9 +66,12 @@ public void runOpMode() {
         newLiftTargetV = robot.liftV.getCurrentPosition();
         robot.liftH.setTargetPosition(newLiftTargetH);
         robot.liftV.setTargetPosition(newLiftTargetV);
+        telemetry.addData("horizontal",robot.liftH.getCurrentPosition());
+        telemetry.addData("Vertical",robot.liftV.getCurrentPosition());
+        telemetry.update();
 
 
-        double rotatePostion = .4;
+    double rotatePostion = .4;
         while (opModeIsActive()){
 
 
