@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.widget.Spinner;
+import android.widget.ToggleButton;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,9 +18,9 @@ public class DriverControlled extends LinearOpMode {
 
     HardwareRobot robot = new HardwareRobot();
 
-    
-@Override
-public void runOpMode() {
+
+    @Override
+    public void runOpMode() {
         robot.init(hardwareMap);
 
         int newLiftTargetLeft;
@@ -32,26 +35,26 @@ public void runOpMode() {
 
         Orientation angles;
 
-       // robot.init(hardwareMap);
+        // robot.init(hardwareMap);
 
 
         //IMU Initialization
-                BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-                parameters.mode = BNO055IMU.SensorMode.IMU;
-                parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-                parameters.loggingEnabled = false;
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.loggingEnabled = false;
 
-                imu = hardwareMap.get(BNO055IMU.class, "imu");
-                imu.initialize(parameters);
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
 
-                telemetry.addData("Mode", "calibrating...");
-                telemetry.update();
+        telemetry.addData("Mode", "calibrating...");
+        telemetry.update();
 
-                // make sure the imu gyro is calibrated before continuing.
-                while (!isStopRequested() && !imu.isGyroCalibrated()) {
-                    sleep(50);
-                    idle();
-                }
+        // make sure the imu gyro is calibrated before continuing.
+        while (!isStopRequested() && !imu.isGyroCalibrated()) {
+            sleep(50);
+            idle();
+        }
 
 
         telemetry.addData("Say", "Waiting for Start");
@@ -60,80 +63,105 @@ public void runOpMode() {
         robot.liftleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.liftright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-    waitForStart();
+        waitForStart();
 
         newLiftTargetLeft = robot.liftleft.getCurrentPosition();
         newLiftTargetRight = robot.liftright.getCurrentPosition();
         robot.liftleft.setTargetPosition(newLiftTargetLeft);
         robot.liftright.setTargetPosition(newLiftTargetRight);
 
-        double dropperPosition = .53;//.5
+
+
+        //double dropperPosition = .53;//.5
 
         while (opModeIsActive()){
 
 
-        double Turn = gamepad1.left_stick_x;
-        double Speed = -gamepad1.left_stick_y;
-        double Strafe = -gamepad1.right_stick_x;
+            double Turn = gamepad1.left_stick_x;
+            double Speed = -gamepad1.left_stick_y;
+            double Strafe = gamepad1.right_stick_x;
 
-        double front_left = Speed + Turn - Strafe;
-        double front_right = Speed - Turn + Strafe;
-        double rear_left = Speed + Turn + Strafe;
-        double rear_right = Speed - Turn - Strafe;
-    
-        front_left = Range.clip(front_left, -1, 1);
-        front_right = Range.clip(front_right, -1, 1);
-        rear_left = Range.clip(rear_left, -1, 1);
-        rear_right = Range.clip(rear_right, -1, 1);
+            double front_left = Speed + Turn - Strafe;
+            double front_right = Speed - Turn + Strafe;
+            double rear_left = Speed + Turn + Strafe;
+            double rear_right = Speed - Turn - Strafe;
 
-        front_left = (float)scaleInput(front_left);
-        front_right = (float)scaleInput(front_right);
-        rear_left = (float)scaleInput(rear_left);
-        rear_right = (float)scaleInput(rear_right);
+            front_left = Range.clip(front_left, -1, 1);
+            front_right = Range.clip(front_right, -1, 1);
+            rear_left = Range.clip(rear_left, -1, 1);
+            rear_right = Range.clip(rear_right, -1, 1);
 
-        front_left /=2;
-        front_right /=2;
-        rear_left /=2;
-        rear_right /=2;
+            front_left = (float)scaleInput(front_left);
+            front_right = (float)scaleInput(front_right);
+            rear_left = (float)scaleInput(rear_left);
+            rear_right = (float)scaleInput(rear_right);
 
-        if (gamepad1.right_bumper){
-        front_left *=2;
-        front_right *=2;
-        rear_left *=2;
-        rear_right *=2;
-        }
+            front_left /=2;
+            front_right /=2;
+            rear_left /=2;
+            rear_right /=2;
 
-        if (gamepad1.left_bumper){
-        front_left /=2.5;
-        front_right /=2.5;
-        rear_left /=2.5;
-        rear_right /=2.5;
-        }
+            if (gamepad1.right_bumper){
+                front_left *=2;
+                front_right *=2;
+                rear_left *=2;
+                rear_right *=2;
+            }
 
-        double intakePower = 0;
+            if (gamepad1.left_bumper){
+                front_left /=2.5;
+                front_right /=2.5;
+                rear_left /=2.5;
+                rear_right /=2.5;
+            }
+            double Robot_Lift = 0;
 
-        if (gamepad2.a){
-        intakePower = -.8;
-        }
+            if (gamepad1.a){
+                Robot_Lift = 1;
+            }
 
-        if (gamepad2.left_trigger != 0){
-        intakePower = .8;
-        }
+            if(gamepad1.b) {
+                Robot_Lift = -1;
+            }
 
+            double Spinner = .5;
 
-        double liftleftPower = gamepad2.left_stick_y;
-        double liftrightPower = gamepad2.left_stick_y;
+            if (gamepad2.right_trigger>0){
+                Spinner = 0;
+            }
+
+            double Dumper = .55;
+
+            if (gamepad2.left_bumper){
+
+             Dumper = .925;
+            }
+
+            if(gamepad2.left_trigger>0){
+                Spinner = .65;
+            }
+
+            double Flipper =.675 ;
+
+            if (gamepad2.right_bumper){
+                Flipper = .0125;
+            }
+
+            double ExtenderPower = gamepad2.right_stick_y;
+
+            double liftleftPower = gamepad2.left_stick_y;
+            double liftrightPower = gamepad2.left_stick_y;
 
 //*******************************************************************
-        //Robot Coloration Conditions and Controls
-        //***********************************************************
-        if (gamepad2.dpad_right){
-            patternPrime = RevBlinkinLedDriver.BlinkinPattern.DARK_RED;
-        }
+            //Robot Coloration Conditions and Controls
+            //***********************************************************
+            if (gamepad2.dpad_right){
+                patternPrime = RevBlinkinLedDriver.BlinkinPattern.DARK_RED;
+            }
 
-        if (gamepad2.dpad_left){
-            patternPrime = RevBlinkinLedDriver.BlinkinPattern.DARK_BLUE;
-        }
+            if (gamepad2.dpad_left){
+                patternPrime = RevBlinkinLedDriver.BlinkinPattern.DARK_BLUE;
+            }
 /*
         if (robot.pole.getDistance(DistanceUnit.INCH) > 9 && robot.pole.getDistance(DistanceUnit.INCH) <14) {
             pattern = RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN;
@@ -144,46 +172,46 @@ public void runOpMode() {
 */
 //************************************************************************
 
-    robot.blinkinLedDriver.setPattern(patternPrime);
+            robot.blinkinLedDriver.setPattern(patternPrime);
+            robot.Extender.setPower(ExtenderPower);
+            robot.leftFrontDrive.setPower(front_left);
+            robot.rightFrontDrive.setPower(front_right);
+            robot.leftRearDrive.setPower(rear_left);
+            robot.rightRearDrive.setPower(rear_right);
+            robot.Robot_Lift.setPower(Robot_Lift);
+            robot.liftleft.setPower(liftleftPower);
+            robot.liftright.setPower(liftrightPower);
+            robot.Spinner.setPosition(Spinner);
+            robot.Flipper.setPosition(Flipper);
+            robot.Dumper.setPosition(Dumper);
+            //robot.servoDropper.setPosition(dropperPosition);
 
-    robot.leftFrontDrive.setPower(front_left);
-    robot.rightFrontDrive.setPower(front_right);
-    robot.leftRearDrive.setPower(rear_left);
-    robot.rightRearDrive.setPower(rear_right);
-
-    robot.liftleft.setPower(liftleftPower);
-    robot.liftright.setPower(liftrightPower);
-
-    robot.intake.setPower(intakePower);
-
-    robot.servoDropper.setPosition(dropperPosition);
+        }
 
     }
 
-}
+    double scaleInput(double dVal)  {
+        double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
+                0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
 
-double scaleInput(double dVal)  {
-      double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
-            0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
-      
-      // get the corresponding index for the scaleInput array.
-      int index = (int) (dVal * 16.0);
-      if (index < 0) {
-         index = -index;
-      } else if (index > 16) {
-         index = 16;
-      }
-      
-      double dScale = 0.0;
-      if (dVal < 0) {
-         dScale = -scaleArray[index];
-      } else {
-         dScale = scaleArray[index];
-      }
-      
-      return dScale;
-   }
-    
+        // get the corresponding index for the scaleInput array.
+        int index = (int) (dVal * 16.0);
+        if (index < 0) {
+            index = -index;
+        } else if (index > 16) {
+            index = 16;
+        }
+
+        double dScale = 0.0;
+        if (dVal < 0) {
+            dScale = -scaleArray[index];
+        } else {
+            dScale = scaleArray[index];
+        }
+
+        return dScale;
+    }
+
 }
 
 

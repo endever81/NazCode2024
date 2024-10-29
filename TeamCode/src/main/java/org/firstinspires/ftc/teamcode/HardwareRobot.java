@@ -18,12 +18,12 @@ public class HardwareRobot {
     public DcMotor liftright = null;
     public DcMotor intake = null;
 
-    public DcMotor launcher = null;
-    public Servo servorelease = null;
-
-    public Servo servoDropper = null;
-    public Servo droneGuard = null;
-    public CRServo rightPickup = null;
+    public DcMotor Robot_Lift = null;
+    public Servo Spinner = null;
+    public Servo Flipper = null;
+    public Servo Dumper = null;
+    //public Servo droneGuard = null;
+    public CRServo Extender = null;
     public CRServo leftPickup = null;
     public RevBlinkinLedDriver blinkinLedDriver = null;
 
@@ -33,12 +33,12 @@ public class HardwareRobot {
     //public Servo grabber = null;
 
     HardwareMap hwMap = null;
-   
+
     private ElapsedTime period = new ElapsedTime();
 
     public HardwareRobot(){
     }
-   
+
     public void init(HardwareMap ahwMap){
         hwMap = ahwMap; //saves a reference Hardware Map
 
@@ -49,15 +49,20 @@ public class HardwareRobot {
         liftleft = hwMap.get(DcMotor.class, "lift_left");
         liftright = hwMap.get(DcMotor.class, "lift_right");
         intake = hwMap.get(DcMotor.class, "motor_intake");
-        launcher = hwMap.get(DcMotor.class, "launcher");
 
 
-        servorelease = hwMap.get(Servo.class, "servo_release");
-        servoDropper = hwMap.get(Servo.class, "servo_dropper");
-        droneGuard = hwMap.get(Servo.class, "servo_drone_guard");
+        // 2024 Code
+        Dumper = hwMap.get(Servo.class, "Dumper");
+        Extender = hwMap.get(CRServo.class, "Extender");
+        Spinner = hwMap.get(Servo.class, "Spinner");
+        Flipper = hwMap.get(Servo.class, "Flipper");
+        Robot_Lift = hwMap.get(DcMotor.class, "Robot_Lift");
+        // robot lift is the acuator kit Anna built.
 
-        leftPickup = hwMap.get(CRServo.class, "servo_left_pickup");
-        rightPickup = hwMap.get(CRServo.class, "servo_right_pickup");
+        // droneGuard = hwMap.get(Servo.class, "servo_drone_guard");
+
+        //leftPickup = hwMap.get(CRServo.class, "servo_left_pickup");
+
 
 
         blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin");
@@ -79,10 +84,10 @@ public class HardwareRobot {
         rightFrontDrive.setPower(0);
         leftRearDrive.setPower(0);
         rightRearDrive.setPower(0);
-
-        servorelease.setPosition(.5);
-        servoDropper.setPosition(.6);
-        droneGuard.setPosition(.5);
+        Extender.setPower(0);
+        //Spinner.setPosition(0);
+        Flipper.setPosition(.625);
+        Dumper.setPosition(.55);
     }
 
 }
