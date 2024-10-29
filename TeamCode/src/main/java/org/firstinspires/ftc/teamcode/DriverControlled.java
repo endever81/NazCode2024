@@ -121,7 +121,7 @@ public void runOpMode() {
         double liftupPower = gamepad2.right_stick_y;
         double x = 1880; // base of triangle solution
         double y = -robot.liftup.getCurrentPosition(); //height of triangle variable with lift
-                if (y < 2000)  //this value will restrict low height over extension and allow the extension after the lift climbs
+                if (y < 2500)  //this value will restrict low height over extension and allow the extension after the lift climbs
                     y=0;
 
         double c = Math.sqrt((Math.pow(x,2)) + Math.pow(y*1.2,2)); //hyp calculation based on max x and variable y
@@ -134,14 +134,12 @@ public void runOpMode() {
             if (-robot.liftout.getCurrentPosition() > c && -gamepad2.left_stick_y > 0) {
                 liftoutPower = 0;
             }
-            robot.liftout.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            if (y > 2000 && -gamepad2.right_stick_y <0)
+            if (y > 2500 && -robot.liftout.getCurrentPosition() > 900 && -gamepad2.right_stick_y < 0)
             {
-                robot.liftout.setTargetPosition(1880);
-                robot.liftout.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftoutPower = -1;
+               liftupPower = 0;
             }
+
 
 //*******************************************************************
         //Robot Coloration Conditions and Controls
