@@ -193,19 +193,21 @@ public class BLUE_TEST_AUTO extends LinearOpMode {
                 //.lineToY(5)
                 //.setTangent(Math.toRadians(0))
                 //.lineToX(5)
-                .strafeTo(new Vector2d(39, 0))
+                .strafeTo(new Vector2d(39, 0));
                 //.turn(Math.toRadians(180))
                 //.lineToY(5)
-                .waitSeconds(.1);
-      /*  TrajectoryActionBuilder tab2 = drive.actionBuilder(initialPose)
-                .lineToY(37)
-                .setTangent(Math.toRadians(0))
+                //.waitSeconds(.1);
+        Pose2d tab1Pose = new Pose2d(39, 0, Math.toRadians(90));
+
+        TrajectoryActionBuilder tab2 = drive.actionBuilder(tab1Pose)
+                .splineTo(new Vector2d(0.0, 48.0), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(35,37, 0.0), Math.toRadians(180))
                 .lineToX(18)
                 .waitSeconds(3)
                 .setTangent(Math.toRadians(0))
                 .lineToXSplineHeading(46, Math.toRadians(180))
                 .waitSeconds(3);
-        TrajectoryActionBuilder tab3 = drive.actionBuilder(initialPose)
+       /* TrajectoryActionBuilder tab3 = drive.actionBuilder(initialPose)
                 .lineToYSplineHeading(33, Math.toRadians(180))
                 .waitSeconds(2)
                 .strafeTo(new Vector2d(46, 30))
