@@ -182,25 +182,25 @@ public class AUTO_Chamber_Test extends LinearOpMode {
 
         TrajectoryActionBuilder toSub = drive.actionBuilder(initialPose)
 
-                .strafeTo(new Vector2d(0, -21));
+                .strafeTo(new Vector2d(0, -21.5));
                             Pose2d toSubEnd = new Pose2d(0, -21, Math.toRadians(180));
 
         TrajectoryActionBuilder toSamples = drive.actionBuilder(toSubEnd)
                 //Travel Around submersible and toward samples.
-                .waitSeconds(.15)
-                .splineToSplineHeading(new Pose2d(10,-21, Math.toRadians(180)), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(35,-15, Math.toRadians(-90)), Math.toRadians(90))
-                .strafeTo(new Vector2d(45, -10))
+              //  .waitSeconds(.15)
+                .splineToSplineHeading(new Pose2d(10,-28, Math.toRadians(180)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(31,-10, Math.toRadians(-90)), Math.toRadians(90))
+                .strafeTo(new Vector2d(38, 0))
                 //Push in Sample 1
-                .lineToY(-50)
-                .lineToY (-10)
-                .strafeTo(new Vector2d(55, -10))
+                .strafeTo(new Vector2d(38, -50))//  lineToY(-50)
+                .strafeTo(new Vector2d(38, -10))// .lineToY (-10)
+                .strafeTo(new Vector2d(48, -10))
                 //Push in Sample 2
-                .lineToY(-50)
-                .lineToY(-10)
-                .strafeTo(new Vector2d(65, -10))
+                .strafeTo(new Vector2d(48, -50))
+                .strafeTo(new Vector2d(48, -10))
+                .strafeTo(new Vector2d(58, -10))
                 //Push in Sample 3
-                .lineToY(-50)
+                .strafeTo(new Vector2d(58,-50))
                 //Relocate to retrieve Specemine 1
                 .splineToSplineHeading(new Pose2d(35,-50, Math.toRadians(0)), Math.toRadians(-90))
                 //Press to wall for Spec1
@@ -262,7 +262,7 @@ public class AUTO_Chamber_Test extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-
+        robot.servorotate.setPosition(.4);
         lift (1, 19);
 
         Actions.runBlocking(

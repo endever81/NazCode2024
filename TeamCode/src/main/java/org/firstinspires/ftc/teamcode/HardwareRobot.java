@@ -80,7 +80,7 @@ public class HardwareRobot {
         leftRearDrive.setPower(0);
         rightRearDrive.setPower(0);
 
-        servorotate.setPosition(1);
+        servorotate.setPosition(.4);
         servointake.setPower(0);
         droneGuard.setPosition(.5);
     }

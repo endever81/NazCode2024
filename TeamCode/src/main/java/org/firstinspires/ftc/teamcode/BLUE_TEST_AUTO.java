@@ -82,7 +82,6 @@ public class BLUE_TEST_AUTO extends LinearOpMode {
         }
     }
 
-
     public class Extender {
         private DcMotorEx extendH;
 
@@ -141,8 +140,6 @@ public class BLUE_TEST_AUTO extends LinearOpMode {
         }
     }
 
-
-
     public static class Rotate {
         private Servo rotate;
 
@@ -172,6 +169,7 @@ public class BLUE_TEST_AUTO extends LinearOpMode {
             return new RotateDown();
         }
     }
+
     HardwareRobot robot = new HardwareRobot();
 
     @Override
