@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import androidx.annotation.NonNull;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
@@ -9,21 +10,18 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
-
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Config
-@Autonomous(name = "BLUE_TEST_AUTO", group = "Autonomous")
-public class BLUE_TEST_AUTO extends LinearOpMode {
+@Autonomous(name = "Auto Chamber Full Test", group = "Autonomous")
+public class AUTO_Chamber_Test extends LinearOpMode {
     public class Lift {
         private DcMotorEx liftV;
 
@@ -81,7 +79,6 @@ public class BLUE_TEST_AUTO extends LinearOpMode {
             return new LiftDown();
         }
     }
-
 
     public class Extender {
         private DcMotorEx extendH;
@@ -141,8 +138,6 @@ public class BLUE_TEST_AUTO extends LinearOpMode {
         }
     }
 
-
-
     public static class Rotate {
         private Servo rotate;
 
@@ -172,87 +167,161 @@ public class BLUE_TEST_AUTO extends LinearOpMode {
             return new RotateDown();
         }
     }
+
     HardwareRobot robot = new HardwareRobot();
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        Pose2d initialPose = new Pose2d(0, 0, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(0, -60, Math.toRadians(180));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
-        Rotate rotate = new Rotate(hardwareMap);
-        Lift lift = new Lift(hardwareMap);
-        Extender extender = new Extender(hardwareMap);
+       // Rotate rotate = new Rotate(hardwareMap);
+        //Lift lift = new Lift(hardwareMap);
+       // Extender extender = new Extender(hardwareMap);
 
-        // vision here that outputs position
-        int visionOutputPosition = 1;
 
-        TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
-                //.lineToYSplineHeading(5, Math.toRadians(90))
-               // .waitSeconds(2)
-                //.setTangent(Math.toRadians(2))
-                //.lineToY(5)
-                //.setTangent(Math.toRadians(0))
-                //.lineToX(5)
-                .strafeToLinearHeading(new Vector2d(39, 0),Math.toRadians(90))
-                .strafeTo(new Vector2d(39, 0));
-                //.turn(Math.toRadians(180))
-                //.lineToY(5)
-                //.waitSeconds(.1);
-/*
-        Pose2d tab1Pose = new Pose2d(39, 0, Math.toRadians(90));
+        TrajectoryActionBuilder toSub = drive.actionBuilder(initialPose)
 
-        TrajectoryActionBuilder tab2 = drive.actionBuilder(tab1Pose)
-                .splineTo(new Vector2d(0.0, 48.0), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(35,37, 0.0), Math.toRadians(180))
-                .lineToX(18)
-                .waitSeconds(3)
-                .setTangent(Math.toRadians(0))
-                .lineToXSplineHeading(46, Math.toRadians(180))
-                .waitSeconds(3);
-        TrajectoryActionBuilder tab3 = drive.actionBuilder(initialPose)
-                .lineToYSplineHeading(33, Math.toRadians(180))
-                .waitSeconds(2)
-                .strafeTo(new Vector2d(46, 30))
-                .waitSeconds(3);
+                .strafeTo(new Vector2d(0, -21));
+                            Pose2d toSubEnd = new Pose2d(0, -21, Math.toRadians(180));
 
-       */
-        Action trajectoryActionCloseOut = tab1.fresh()
-                .strafeTo(new Vector2d(48, 12))
+        TrajectoryActionBuilder toSamples = drive.actionBuilder(toSubEnd)
+                //Travel Around submersible and toward samples.
+                .waitSeconds(.15)
+                .splineToSplineHeading(new Pose2d(10,-21, Math.toRadians(180)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(35,-15, Math.toRadians(-90)), Math.toRadians(90))
+                .strafeTo(new Vector2d(45, -10))
+                //Push in Sample 1
+                .lineToY(-50)
+                .lineToY (-10)
+                .strafeTo(new Vector2d(55, -10))
+                //Push in Sample 2
+                .lineToY(-50)
+                .lineToY(-10)
+                .strafeTo(new Vector2d(65, -10))
+                //Push in Sample 3
+                .lineToY(-50)
+                //Relocate to retrieve Specemine 1
+                .splineToSplineHeading(new Pose2d(35,-50, Math.toRadians(0)), Math.toRadians(-90))
+                //Press to wall for Spec1
+                .strafeTo(new Vector2d(35, -61));
+                          Pose2d toSamplesEnd = new Pose2d(35, -61, Math.toRadians(-90));
+
+        TrajectoryActionBuilder toSub2 = drive.actionBuilder(toSamplesEnd)
+                      //Move to submersible to deliver Spec1
+                .waitSeconds(.15)
+                .strafeTo(new Vector2d(30, -50))
+                .strafeToLinearHeading(new Vector2d(3, -21),Math.toRadians(180));
+                         Pose2d toSub2End = new Pose2d(3, -21, Math.toRadians(180));
+
+        TrajectoryActionBuilder toWall2 = drive.actionBuilder(toSub2End)
+                //Return for Spec2
+                .waitSeconds(.15)
+                .strafeTo(new Vector2d(35, -50))
+                .strafeToLinearHeading(new Vector2d(35, -55),Math.toRadians(0))
+                     //Press Wall for Spec2
+                .strafeTo(new Vector2d(35, -61));
+                         Pose2d toWall2End = new Pose2d(35, -61, Math.toRadians(0));
+
+        TrajectoryActionBuilder toSub3 = drive.actionBuilder(toWall2End)
+                .waitSeconds(.15)
+                //Move to submersible to deliver Spec2
+                .strafeTo(new Vector2d(30, -50))
+                .strafeToLinearHeading(new Vector2d(3, -21),Math.toRadians(180)) ;
+                      Pose2d toSub3End = new Pose2d(3, -21, Math.toRadians(180));
+
+        TrajectoryActionBuilder toWall3 = drive.actionBuilder(toSub3End)
+                .waitSeconds(.15)
+                //Return to the wall
+                .strafeTo(new Vector2d(35, -50))
+                .strafeToLinearHeading(new Vector2d(35, -55),Math.toRadians(0))
+                //Pick up Spec3
+                .strafeTo(new Vector2d(35, -61));
+                         Pose2d toWall3End = new Pose2d(35, -61, Math.toRadians(0));
+
+        TrajectoryActionBuilder toSub4 = drive.actionBuilder(toWall3End)
+                 //Deliver Spec3
+                .strafeTo(new Vector2d(30, -50))
+                .strafeToLinearHeading(new Vector2d(3, -21),Math.toRadians(180));
+
+
+
+        Action trajectoryActionCloseOut = toSub4.fresh()
+                //.strafeTo(new Vector2d(48, 12))
                 .build();
 
         // actions that need to happen on init; for instance, a claw tightening.
-        Actions.runBlocking(rotate.rotateUp());
+        //Actions.runBlocking(rotate.rotateUp());
 
 
 
-        while (!isStopRequested() && !opModeIsActive()) {
-            int position = visionOutputPosition;
-            telemetry.addData("Position during Init", position);
-            telemetry.update();
-        }
 
-        int startPosition = visionOutputPosition;
-        telemetry.addData("Starting Position", startPosition);
+        telemetry.addData("Initialization Complete", "Awaiting Start Command");
         telemetry.update();
         waitForStart();
 
         if (isStopRequested()) return;
 
 
-        lift (1, 20);
+        lift (1, 19);
 
         Actions.runBlocking(
                 new SequentialAction(
-                        tab1.build()
+                        toSub.build()
                         //lift.liftUp(),
                       //  rotate.rotateDown()
                         //lift.liftDown(),
                         //trajectoryActionCloseOut
                 )
         );
-        lift (1, -10);
+        lift (1, -19);
 
-        sleep(500);
+        Actions.runBlocking(
+                new SequentialAction(
+                        toSamples.build()
+                )
+        );
+
+        lift (1, 19);
+
+        Actions.runBlocking(
+                new SequentialAction(
+                        toSub2.build()
+                )
+        );
+        lift (1, -19);
+        Actions.runBlocking(
+                new SequentialAction(
+                        toWall2.build()
+                )
+        );
+
+        lift (1, 19);
+
+        Actions.runBlocking(
+                new SequentialAction(
+                        toSub3.build()
+                )
+        );
+        lift (1, -19);
+
+        Actions.runBlocking(
+                new SequentialAction(
+                        toWall3.build()
+                )
+        );
+
+        lift (1, 19);
+
+        Actions.runBlocking(
+                new SequentialAction(
+                        toSub4.build()
+                )
+        );
+        lift (1, -19);
+
+
+
     }
     public void lift(double power, double inches)
     {     ElapsedTime runtime = new ElapsedTime();
