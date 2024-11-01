@@ -354,5 +354,34 @@ public class AUTO_Chamber_Test extends LinearOpMode {
      }
 
 
+    public void extend(double power, double inches)
+    {     ElapsedTime runtime = new ElapsedTime();
+
+        int newLiftTarget;
+
+        if (opModeIsActive()) {
+
+            newLiftTarget = robot.liftH.getCurrentPosition() + (int) (inches * (1140/(3.5 * 3.1415)));
+
+            robot.liftH.setTargetPosition(newLiftTarget);
+
+            robot.liftH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            runtime.reset();
+            robot.liftH.setPower(Math.abs(power));
+
+           /*while (opModeIsActive() &&
+                                   robot.liftV.isBusy()) {
+                       telemetry.addData("Lift", "Running at %7d",
+                                       robot.liftV.getCurrentPosition());
+                    telemetry.update();
+
+               }
+          robot.liftV.setPower(0);
+          robot.liftV.setMode(DcMotor.RunMode.RUN_USING_ENCODER); */
+
+        }
+    }
+
 }
 
