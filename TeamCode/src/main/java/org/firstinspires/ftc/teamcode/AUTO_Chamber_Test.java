@@ -95,7 +95,7 @@ public class AUTO_Chamber_Test extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 if (!initialized) {
-                    extendH.setPower(0.8);
+                    extendH.setPower(1);
                     initialized = true;
                 }
 
@@ -184,33 +184,34 @@ public class AUTO_Chamber_Test extends LinearOpMode {
 
                 .strafeTo(new Vector2d(0, -21.5));
                             Pose2d toSubEnd = new Pose2d(0, -21, Math.toRadians(180));
+                            // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
 
         TrajectoryActionBuilder toSamples = drive.actionBuilder(toSubEnd)
                 //Travel Around submersible and toward samples.
               //  .waitSeconds(.15)
                 .splineToSplineHeading(new Pose2d(10,-28, Math.toRadians(180)), Math.toRadians(0))
                 .splineToSplineHeading(new Pose2d(31,-10, Math.toRadians(-90)), Math.toRadians(90))
-                .strafeTo(new Vector2d(38, 0))
+                .strafeTo(new Vector2d(38, -5))
                 //Push in Sample 1
-                .strafeTo(new Vector2d(38, -50))//  lineToY(-50)
-                .strafeTo(new Vector2d(38, -10))// .lineToY (-10)
-                .strafeTo(new Vector2d(48, -10))
+                .strafeTo(new Vector2d(38, -50))// push sample to wall
+                .strafeTo(new Vector2d(38, -15))// bak up
+                .strafeTo(new Vector2d(48, -15)) // move over to sample 2
                 //Push in Sample 2
-                .strafeTo(new Vector2d(48, -50))
-                .strafeTo(new Vector2d(48, -10))
-                .strafeTo(new Vector2d(58, -10))
+                .strafeTo(new Vector2d(48, -50))// push sample to wall
+                .strafeTo(new Vector2d(48, -15)) // backup
+                .strafeTo(new Vector2d(58, -15)) // move over
                 //Push in Sample 3
                 .strafeTo(new Vector2d(58,-50))
                 //Relocate to retrieve Specemine 1
-                .splineToSplineHeading(new Pose2d(35,-50, Math.toRadians(0)), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(25,-50, Math.toRadians(0)), Math.toRadians(-90))
                 //Press to wall for Spec1
-                .strafeTo(new Vector2d(35, -61));
-                          Pose2d toSamplesEnd = new Pose2d(35, -61, Math.toRadians(-90));
+                .strafeTo(new Vector2d(25, -61));
+                          Pose2d toSamplesEnd = new Pose2d(25, -61, Math.toRadians(-90));
 
         TrajectoryActionBuilder toSub2 = drive.actionBuilder(toSamplesEnd)
                       //Move to submersible to deliver Spec1
                 .waitSeconds(.15)
-                .strafeTo(new Vector2d(30, -50))
+                .strafeTo(new Vector2d(25, -50))
                 .strafeToLinearHeading(new Vector2d(3, -21),Math.toRadians(180));
                          Pose2d toSub2End = new Pose2d(3, -21, Math.toRadians(180));
 
