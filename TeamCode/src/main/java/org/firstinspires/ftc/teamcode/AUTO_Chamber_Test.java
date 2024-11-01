@@ -183,56 +183,60 @@ public class AUTO_Chamber_Test extends LinearOpMode {
         TrajectoryActionBuilder toSub = drive.actionBuilder(initialPose)
 
                 .strafeTo(new Vector2d(0, -21.5));
-                            Pose2d toSubEnd = new Pose2d(0, -21, Math.toRadians(180));
+                            Pose2d toSubEnd = new Pose2d(0, -21.5, Math.toRadians(180));
                             // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
 
         TrajectoryActionBuilder toSamples = drive.actionBuilder(toSubEnd)
                 //Travel Around submersible and toward samples.
-              //  .waitSeconds(.15)
+                .waitSeconds(.15)
                 .splineToSplineHeading(new Pose2d(10,-28, Math.toRadians(180)), Math.toRadians(0))
                 .splineToSplineHeading(new Pose2d(31,-10, Math.toRadians(-90)), Math.toRadians(90))
                 .strafeTo(new Vector2d(38, -5))
                 //Push in Sample 1
                 .strafeTo(new Vector2d(38, -50))// push sample to wall
-                .strafeTo(new Vector2d(38, -15))// bak up
-                .strafeTo(new Vector2d(48, -15)) // move over to sample 2
+                .strafeTo(new Vector2d(38, -10))// bak up
+                .strafeTo(new Vector2d(48, -10)) // move over to sample 2
                 //Push in Sample 2
                 .strafeTo(new Vector2d(48, -50))// push sample to wall
-                .strafeTo(new Vector2d(48, -15)) // backup
-                .strafeTo(new Vector2d(58, -15)) // move over
+                .strafeTo(new Vector2d(48, -10)) // backup
+                .strafeTo(new Vector2d(58, -10)) // move over
                 //Push in Sample 3
-                .strafeTo(new Vector2d(58,-50))
+                .strafeTo(new Vector2d(58,-48))
                 //Relocate to retrieve Specemine 1
-                .splineToSplineHeading(new Pose2d(25,-50, Math.toRadians(0)), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(29,-50, Math.toRadians(0)), Math.toRadians(-90))
                 //Press to wall for Spec1
-                .strafeTo(new Vector2d(25, -61));
-                          Pose2d toSamplesEnd = new Pose2d(25, -61, Math.toRadians(-90));
+                .waitSeconds(.15)
+                .strafeTo(new Vector2d(29, -62));
+                          Pose2d toSamplesEnd = new Pose2d(30, -62, Math.toRadians(-90));
 
         TrajectoryActionBuilder toSub2 = drive.actionBuilder(toSamplesEnd)
                       //Move to submersible to deliver Spec1
                 .waitSeconds(.15)
                 .strafeTo(new Vector2d(25, -50))
-                .strafeToLinearHeading(new Vector2d(3, -21),Math.toRadians(180));
-                         Pose2d toSub2End = new Pose2d(3, -21, Math.toRadians(180));
+                .strafeToLinearHeading(new Vector2d(3, -20.5),Math.toRadians(168))
+                .waitSeconds(.25);
+                         Pose2d toSub2End = new Pose2d(3, -20.5, Math.toRadians(168));
+
 
         TrajectoryActionBuilder toWall2 = drive.actionBuilder(toSub2End)
                 //Return for Spec2
-                .waitSeconds(.15)
-                .strafeTo(new Vector2d(35, -50))
-                .strafeToLinearHeading(new Vector2d(35, -55),Math.toRadians(0))
+                .waitSeconds(.25)
+                .strafeTo(new Vector2d(36, -50))
+                .strafeToLinearHeading(new Vector2d(36, -55),Math.toRadians(-5))
                      //Press Wall for Spec2
-                .strafeTo(new Vector2d(35, -61));
-                         Pose2d toWall2End = new Pose2d(35, -61, Math.toRadians(0));
+                .strafeTo(new Vector2d(36, -65));
+                         Pose2d toWall2End = new Pose2d(35, -65, Math.toRadians(-5));
 
         TrajectoryActionBuilder toSub3 = drive.actionBuilder(toWall2End)
-                .waitSeconds(.15)
+                //.waitSeconds(.15)
                 //Move to submersible to deliver Spec2
                 .strafeTo(new Vector2d(30, -50))
-                .strafeToLinearHeading(new Vector2d(3, -21),Math.toRadians(180)) ;
-                      Pose2d toSub3End = new Pose2d(3, -21, Math.toRadians(180));
+                .strafeToLinearHeading(new Vector2d(0, -20),Math.toRadians(190)) ;
+
+        Pose2d toSub3End = new Pose2d(0, -20, Math.toRadians(190));
 
         TrajectoryActionBuilder toWall3 = drive.actionBuilder(toSub3End)
-                .waitSeconds(.15)
+                .waitSeconds(.25)
                 //Return to the wall
                 .strafeTo(new Vector2d(35, -50))
                 .strafeToLinearHeading(new Vector2d(35, -55),Math.toRadians(0))
@@ -264,7 +268,7 @@ public class AUTO_Chamber_Test extends LinearOpMode {
         if (isStopRequested()) return;
 
         robot.servorotate.setPosition(.4);
-        lift (1, 19);
+        lift (1, 18.5);
 
         Actions.runBlocking(
                 new SequentialAction(
@@ -275,7 +279,8 @@ public class AUTO_Chamber_Test extends LinearOpMode {
                         //trajectoryActionCloseOut
                 )
         );
-        lift (1, -19);
+        lift (1, -18.5);
+
 
         Actions.runBlocking(
                 new SequentialAction(
@@ -283,28 +288,28 @@ public class AUTO_Chamber_Test extends LinearOpMode {
                 )
         );
 
-        lift (1, 19);
+        lift (1, 18.5);
 
         Actions.runBlocking(
                 new SequentialAction(
                         toSub2.build()
                 )
         );
-        lift (1, -19);
+        lift (1, -18.5);
         Actions.runBlocking(
                 new SequentialAction(
                         toWall2.build()
                 )
         );
 
-        lift (1, 19);
+        lift (1, 18.5);
 
         Actions.runBlocking(
                 new SequentialAction(
                         toSub3.build()
                 )
         );
-        lift (1, -19);
+        lift (1, -18.5);
 
         Actions.runBlocking(
                 new SequentialAction(
@@ -312,14 +317,14 @@ public class AUTO_Chamber_Test extends LinearOpMode {
                 )
         );
 
-        lift (1, 19);
+        lift (1, 18.5);
 
         Actions.runBlocking(
                 new SequentialAction(
                         toSub4.build()
                 )
         );
-        lift (1, -19);
+        lift (1, -18.5);
 
 
 
