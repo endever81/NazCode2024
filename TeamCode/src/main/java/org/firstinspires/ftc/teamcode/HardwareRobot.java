@@ -14,12 +14,10 @@ public class HardwareRobot {
     public DcMotor rightFrontDrive = null;
     public DcMotor leftRearDrive = null;
     public DcMotor rightRearDrive = null;
-    public DcMotor liftleft = null;
-    public DcMotor liftright = null;
-    public DcMotor intake = null;
+    public DcMotor cascadeLift = null;
 
     public DcMotor Robot_Lift = null;
-    public Servo Spinner = null;
+    public CRServo Spinner = null;
     public Servo Flipper = null;
     public Servo Dumper = null;
     //public Servo droneGuard = null;
@@ -46,17 +44,15 @@ public class HardwareRobot {
         rightFrontDrive = hwMap.get(DcMotor.class, "motor_front_right");
         leftRearDrive = hwMap.get(DcMotor.class, "motor_rear_left");
         rightRearDrive = hwMap.get(DcMotor.class, "motor_rear_right");
-        liftleft = hwMap.get(DcMotor.class, "lift_left");
-        liftright = hwMap.get(DcMotor.class, "lift_right");
-        intake = hwMap.get(DcMotor.class, "motor_intake");
+        cascadeLift = hwMap.get(DcMotor.class, "cascade_lift");
+        Robot_Lift = hwMap.get(DcMotor.class, "Robot_Lift");
 
 
         // 2024 Code
         Dumper = hwMap.get(Servo.class, "Dumper");
         Extender = hwMap.get(CRServo.class, "Extender");
-        Spinner = hwMap.get(Servo.class, "Spinner");
+        Spinner = hwMap.get(CRServo.class, "Spinner");
         Flipper = hwMap.get(Servo.class, "Flipper");
-        Robot_Lift = hwMap.get(DcMotor.class, "Robot_Lift");
         // robot lift is the acuator kit Anna built.
 
         // droneGuard = hwMap.get(Servo.class, "servo_drone_guard");
@@ -73,11 +69,9 @@ public class HardwareRobot {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftRearDrive.setDirection(DcMotor.Direction.REVERSE);
         rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
-        liftleft.setDirection(DcMotor.Direction.REVERSE);
-        liftleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        liftright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        cascadeLift.setDirection(DcMotor.Direction.REVERSE);
+        cascadeLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        cascadeLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
         leftFrontDrive.setPower(0);

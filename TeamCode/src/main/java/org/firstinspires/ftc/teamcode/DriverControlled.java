@@ -60,15 +60,12 @@ public class DriverControlled extends LinearOpMode {
         telemetry.addData("Say", "Waiting for Start");
         telemetry.update();
 
-        robot.liftleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.liftright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.cascadeLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
 
-        newLiftTargetLeft = robot.liftleft.getCurrentPosition();
-        newLiftTargetRight = robot.liftright.getCurrentPosition();
-        robot.liftleft.setTargetPosition(newLiftTargetLeft);
-        robot.liftright.setTargetPosition(newLiftTargetRight);
+        newLiftTargetLeft = robot.cascadeLift.getCurrentPosition();
+        robot.cascadeLift.setTargetPosition(newLiftTargetLeft);
 
 
 
@@ -124,22 +121,26 @@ public class DriverControlled extends LinearOpMode {
                 Robot_Lift = -1;
             }
 
-            double Spinner = .5;
+            double Spinner = 0;
 
             if (gamepad2.right_trigger>0){
-                Spinner = 0;
+                Spinner = -1;
+            }
+
+            if(gamepad2.left_trigger>0){
+                Spinner = .65;
             }
 
             double Dumper = .55;
 
             if (gamepad2.left_bumper){
 
-             Dumper = .925;
+             Dumper = .91;
             }
 
-            if(gamepad2.left_trigger>0){
-                Spinner = .65;
-            }
+
+
+
 
             double Flipper =.675 ;
 
@@ -149,8 +150,7 @@ public class DriverControlled extends LinearOpMode {
 
             double ExtenderPower = gamepad2.right_stick_y;
 
-            double liftleftPower = gamepad2.left_stick_y;
-            double liftrightPower = gamepad2.left_stick_y;
+            double cascadeLiftPower = gamepad2.left_stick_y;
 
 //*******************************************************************
             //Robot Coloration Conditions and Controls
@@ -179,9 +179,8 @@ public class DriverControlled extends LinearOpMode {
             robot.leftRearDrive.setPower(rear_left);
             robot.rightRearDrive.setPower(rear_right);
             robot.Robot_Lift.setPower(Robot_Lift);
-            robot.liftleft.setPower(liftleftPower);
-            robot.liftright.setPower(liftrightPower);
-            robot.Spinner.setPosition(Spinner);
+            robot.cascadeLift.setPower(cascadeLiftPower);
+            robot.Spinner.setPower(Spinner);
             robot.Flipper.setPosition(Flipper);
             robot.Dumper.setPosition(Dumper);
             //robot.servoDropper.setPosition(dropperPosition);
