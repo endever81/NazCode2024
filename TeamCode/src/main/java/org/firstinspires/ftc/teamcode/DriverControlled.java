@@ -124,10 +124,13 @@ public void runOpMode() {
 
             double wrist = 0;
 
-            if (gamepad2.a){
+            if (gamepad2.right_bumper){
                 wrist = .5;
             }
-
+            double bucketpose = .5;
+            if (gamepad2.a){
+                wrist = 0;
+            }
 
         double liftupPower = gamepad2.left_stick_y;
         if ((robot.liftup.getCurrentPosition() >=3100)  )  //|| (robot.liftup.getCurrentPosition() <=0)
@@ -137,9 +140,9 @@ public void runOpMode() {
 
 
         double liftoutPower = gamepad2.right_stick_y;
-            if ((robot.liftout.getCurrentPosition() >=3200) && (liftoutPower >0)  )  //|| (robot.liftup.getCurrentPosition() <=0)
-            {
-                liftoutPower = liftoutPower/15;
+
+            if (-robot.liftout.getCurrentPosition() > 1880 && -gamepad2.right_stick_y > 0) {
+                liftoutPower = 0;
             }
 //*******************************************************************
         //Robot Coloration Conditions and Controls
@@ -175,6 +178,7 @@ public void runOpMode() {
 
     robot.pickupwrist.setPosition(wrist);
 
+    robot.servobucket.setPosition(bucketpose);
     }
 
 }
