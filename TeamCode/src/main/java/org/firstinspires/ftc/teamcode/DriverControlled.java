@@ -70,13 +70,14 @@ public void runOpMode() {
         telemetry.addData("Vertical",robot.liftV.getCurrentPosition());
         telemetry.addData("encoder", robot.leftRearDrive.getCurrentPosition());
         telemetry.update();
-
-
+    double hangPower = 0;
+    double specimenPosition = 0;
     double rotatePostion = .4;
         while (opModeIsActive()){
             telemetry.addData("horizontal",robot.liftH.getCurrentPosition());
             telemetry.addData("Vertical",robot.liftV.getCurrentPosition());
-            telemetry.addData("encoder", robot.leftRearDrive.getCurrentPosition());
+            telemetry.addData(
+                    "encoder", robot.leftRearDrive.getCurrentPosition());
             telemetry.update();
 
         double Turn = gamepad1.left_stick_x;
@@ -87,7 +88,7 @@ public void runOpMode() {
         double front_right = Speed - Turn + Strafe;
         double rear_left = Speed + Turn + Strafe;
         double rear_right = Speed - Turn - Strafe;
-    
+
         front_left = Range.clip(front_left, -1, 1);
         front_right = Range.clip(front_right, -1, 1);
         rear_left = Range.clip(rear_left, -1, 1);
@@ -116,9 +117,23 @@ public void runOpMode() {
         rear_left /=2.5;
         rear_right /=2.5;
         }
-
+        if (gamepad1.a){
+            hangPower = 1;
+        }
+        else {
+            hangPower = 0;
+        }
+        if (gamepad1.b)
+             {
+            hangPower = -1;
+        }
         double intakePower = 0;
-
+        if (gamepad2.dpad_up){
+        specimenPosition =0;
+        }
+        if (gamepad2.dpad_down){
+            specimenPosition =.3;
+            }
         if (gamepad2.a){
         intakePower = 1;
         }
@@ -170,11 +185,11 @@ public void runOpMode() {
 
     robot.liftH.setPower(liftHPower);
     robot.liftV.setPower(liftVPower);
-
+    robot.hang.setPower(hangPower);
     robot.servointake.setPower(intakePower);
 
 
-
+    robot.specimenClamp.setPosition(specimenPosition);
     robot.servorotate.setPosition(rotatePostion);
 
     }
