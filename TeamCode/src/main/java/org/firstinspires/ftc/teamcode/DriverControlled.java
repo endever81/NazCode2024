@@ -125,11 +125,11 @@ public void runOpMode() {
             double wrist = 0;
 
             if (gamepad2.right_bumper){
-                wrist = .5;
+                wrist = 1;
             }
-            double bucketpose = .5;
+            double bucketpose = .3;
             if (gamepad2.a){
-                wrist = 0;
+                bucketpose = 1;
             }
 
         double liftupPower = gamepad2.left_stick_y;
