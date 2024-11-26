@@ -113,11 +113,11 @@ public class DriverControlled extends LinearOpMode {
             }
             double Robot_Lift = 0;
 
-            if (gamepad1.a){
+            if (gamepad1.x){
                 Robot_Lift = 1;
             }
 
-            if(gamepad1.b) {
+            if(gamepad1.y) {
                 Robot_Lift = -1;
             }
 
