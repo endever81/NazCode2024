@@ -20,8 +20,8 @@ public class HardwareRobot {
 
     public DcMotor hang = null;
     public Servo servorotate = null;
-
-    public CRServo servointake = null;
+    public Servo servohang = null;
+    public Servo servointake = null;
     public Servo specimenClamp = null;
     public CRServo rightPickup = null;
     public CRServo leftPickup = null;
@@ -49,12 +49,12 @@ public class HardwareRobot {
         liftH = hwMap.get(DcMotor.class, "liftH");
         liftV = hwMap.get(DcMotor.class, "liftV");
         intake = hwMap.get(DcMotor.class, "motor_intake");
-        hang = hwMap.get(DcMotor.class, "launcher");
+        hang = hwMap.get(DcMotor.class, "hang");
 
-
+        servohang = hwMap.get(Servo.class, "servo_hang");
         servorotate = hwMap.get(Servo.class, "servo_rotate");
-        servointake = hwMap.get(CRServo.class, "servo_intake");
-        specimenClamp = hwMap.get(Servo.class, "servo_drone_guard");
+        servointake = hwMap.get(Servo.class, "servo_intake");
+        specimenClamp = hwMap.get(Servo.class, "specimenClamp");
 
         leftPickup = hwMap.get(CRServo.class, "servo_left_pickup");
         rightPickup = hwMap.get(CRServo.class, "servo_right_pickup");
@@ -81,8 +81,9 @@ public class HardwareRobot {
         rightRearDrive.setPower(0);
 
         servorotate.setPosition(.4);
-        servointake.setPower(0);
-        specimenClamp.setPosition(.2);
+        servointake.setPosition(0);
+        specimenClamp.setPosition(0);
+        servohang.setPosition(0);
     }
 
 }

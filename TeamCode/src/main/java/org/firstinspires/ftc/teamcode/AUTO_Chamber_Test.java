@@ -189,33 +189,33 @@ public class AUTO_Chamber_Test extends LinearOpMode {
         TrajectoryActionBuilder toSamples = drive.actionBuilder(toSubEnd)
                 //Travel Around submersible and toward samples.
                 .waitSeconds(.15)
-                .splineToSplineHeading(new Pose2d(10,-28, Math.toRadians(180)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(10,-30, Math.toRadians(180)), Math.toRadians(0))
                 .splineToSplineHeading(new Pose2d(31,-10, Math.toRadians(-90)), Math.toRadians(90))
                 .strafeTo(new Vector2d(38, -5))
                 //Push in Sample 1
                 .strafeTo(new Vector2d(38, -50))// push sample to wall
                 .strafeTo(new Vector2d(38, -10))// bak up
-                .strafeTo(new Vector2d(48, -10)) // move over to sample 2
+                .strafeTo(new Vector2d(53, -10)) // move over to sample 2
                 //Push in Sample 2
-                .strafeTo(new Vector2d(48, -50))// push sample to wall
-                .strafeTo(new Vector2d(48, -10)) // backup
-                .strafeTo(new Vector2d(58, -10)) // move over
+                .strafeTo(new Vector2d(53, -50))// push sample to wall
+                .strafeTo(new Vector2d(53, -10)) // backup
+                .strafeTo(new Vector2d(63, -10)) // move over
                 //Push in Sample 3
-                .strafeTo(new Vector2d(58,-48))
+                .strafeTo(new Vector2d(63,-48))
                 //Relocate to retrieve Specemine 1
-                .splineToSplineHeading(new Pose2d(29,-50, Math.toRadians(0)), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(29,-51, Math.toRadians(0)), Math.toRadians(-90))
                 //Press to wall for Spec1
                 .waitSeconds(.15)
-                .strafeTo(new Vector2d(29, -62));
-                          Pose2d toSamplesEnd = new Pose2d(30, -62, Math.toRadians(-90));
+                .strafeTo(new Vector2d(29, -55));
+                          Pose2d toSamplesEnd = new Pose2d(30, -51, Math.toRadians(-90));
 
         TrajectoryActionBuilder toSub2 = drive.actionBuilder(toSamplesEnd)
                       //Move to submersible to deliver Spec1
                 .waitSeconds(.15)
                 .strafeTo(new Vector2d(25, -50))
-                .strafeToLinearHeading(new Vector2d(3, -20.5),Math.toRadians(168))
+                .strafeToLinearHeading(new Vector2d(0, -0.5),Math.toRadians(150))
                 .waitSeconds(.25);
-                         Pose2d toSub2End = new Pose2d(3, -20.5, Math.toRadians(168));
+                         Pose2d toSub2End = new Pose2d(0, -18.5, Math.toRadians(180));
 
 
         TrajectoryActionBuilder toWall2 = drive.actionBuilder(toSub2End)
@@ -266,10 +266,10 @@ public class AUTO_Chamber_Test extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
-
+        robot.servohang.setPosition(.5);
+        robot.specimenClamp.setPosition(0);
         robot.servorotate.setPosition(.4);
         lift (1, 18.5);
-
         Actions.runBlocking(
                 new SequentialAction(
                         toSub.build()
@@ -279,7 +279,10 @@ public class AUTO_Chamber_Test extends LinearOpMode {
                         //trajectoryActionCloseOut
                 )
         );
-        lift (1, -18.5);
+        lift (1, -4.5);
+        sleep(500);
+        robot.specimenClamp.setPosition(.4);
+        lift (1, -13);
 
 
         Actions.runBlocking(
@@ -287,7 +290,8 @@ public class AUTO_Chamber_Test extends LinearOpMode {
                         toSamples.build()
                 )
         );
-
+        robot.specimenClamp.setPosition(0);
+        sleep(500);
         lift (1, 18.5);
 
         Actions.runBlocking(

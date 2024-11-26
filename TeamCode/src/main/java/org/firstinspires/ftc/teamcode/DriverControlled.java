@@ -71,8 +71,10 @@ public void runOpMode() {
         telemetry.addData("encoder", robot.leftRearDrive.getCurrentPosition());
         telemetry.update();
     double hangPower = 0;
+    double intakePosition = .6;
     double specimenPosition = 0;
-    double rotatePostion = .4;
+    double rotatePostion = .6;
+    double servohangPosition = 0;
         while (opModeIsActive()){
             telemetry.addData("horizontal",robot.liftH.getCurrentPosition());
             telemetry.addData("Vertical",robot.liftV.getCurrentPosition());
@@ -127,27 +129,30 @@ public void runOpMode() {
              {
             hangPower = -1;
         }
-        double intakePower = 0;
+        if (gamepad1.dpad_up){
+            servohangPosition = .5;
+        }
+
         if (gamepad2.dpad_up){
-        specimenPosition =0;
+        specimenPosition = 0;
         }
         if (gamepad2.dpad_down){
             specimenPosition =.3;
             }
         if (gamepad2.a){
-        intakePower = 1;
+        intakePosition = .5;
         }
 
         if (gamepad2.b){
-        intakePower = -1;
+        intakePosition = 0;
         }
 
         if (gamepad2.x){
-            rotatePostion = 1;
+            rotatePostion = .89;
         }
 
         if (gamepad2.y){
-            rotatePostion = .4;
+            rotatePostion = .6;
         }
         double liftHPower = gamepad2.left_stick_y;
         double liftVPower = gamepad2.right_stick_y;
@@ -186,8 +191,8 @@ public void runOpMode() {
     robot.liftH.setPower(liftHPower);
     robot.liftV.setPower(liftVPower);
     robot.hang.setPower(hangPower);
-    robot.servointake.setPower(intakePower);
-
+    robot.servointake.setPosition(intakePosition);
+    robot.servohang.setPosition(servohangPosition);
 
     robot.specimenClamp.setPosition(specimenPosition);
     robot.servorotate.setPosition(rotatePostion);
