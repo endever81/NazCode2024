@@ -76,7 +76,7 @@ public class DriverControlled extends LinearOpMode {
 
             double Turn = gamepad1.left_stick_x;
             double Speed = -gamepad1.left_stick_y;
-            double Strafe = gamepad1.right_stick_x;
+            double Strafe = -gamepad1.right_stick_x;
 
             double front_left = Speed + Turn - Strafe;
             double front_right = Speed - Turn + Strafe;
