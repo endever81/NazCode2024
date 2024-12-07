@@ -80,10 +80,10 @@ public class HardwareRobot {
         leftRearDrive.setPower(0);
         rightRearDrive.setPower(0);
 
-        servorotate.setPosition(.4);
+        servorotate.setPosition(.45);
         servointake.setPosition(0);
         specimenClamp.setPosition(0);
-        servohang.setPosition(0);
+        servohang.setPosition(1);
     }
 
 }
