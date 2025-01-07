@@ -71,7 +71,7 @@ public void runOpMode() {
         telemetry.addData("encoder", robot.leftRearDrive.getCurrentPosition());
         telemetry.update();
     double hangPower = 0;
-    double intakePosition = 0;
+    double intakePosition = .6;
     double specimenPosition = 0;
     double rotatePostion = .6;
     double servohangPosition = 0;
@@ -140,18 +140,13 @@ public void runOpMode() {
             specimenPosition =.3;
             }
         if (gamepad2.y){
-        intakePosition = .35;
+        intakePosition = .5;
         }
 
         if (gamepad2.x){
         intakePosition = 0;
         }
-        if (gamepad1.y){
-            servohangPosition = 1;
-        }
-        if (gamepad1.x){
-                servohangPosition = .4;
-            }
+
         if (gamepad2.a){
             rotatePostion = .89;
         }
@@ -161,8 +156,9 @@ public void runOpMode() {
         }
         double liftHPower = gamepad2.left_stick_y;
         double liftVPower = -gamepad2.right_stick_y;
+// new code for Livy's Controller
 
-            if (-robot.liftH.getCurrentPosition() > 2000 && -gamepad2.left_stick_y > 0) {  //1880 default value... adjust to bring in and out
+            if (-robot.liftH.getCurrentPosition() > 2300 && -gamepad2.left_stick_y > 0) {  //1880 default value... adjust to bring in and out
                 liftHPower = 0;
             }
 

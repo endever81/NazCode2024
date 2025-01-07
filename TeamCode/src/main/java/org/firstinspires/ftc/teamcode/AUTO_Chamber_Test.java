@@ -173,7 +173,7 @@ public class AUTO_Chamber_Test extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        Pose2d initialPose = new Pose2d(0, -62, Math.toRadians(180));
+        Pose2d initialPose = new Pose2d(0, -63, Math.toRadians(180));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
        // Rotate rotate = new Rotate(hardwareMap);
         //Lift lift = new Lift(hardwareMap);
@@ -268,7 +268,7 @@ public class AUTO_Chamber_Test extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
-        robot.servohang.setPosition(.5);
+        robot.servohang.setPosition(1);
         robot.specimenClamp.setPosition(0);
         robot.servorotate.setPosition(.4);
         lift (1, 18.5);
