@@ -174,8 +174,8 @@ public class AUTO_Chamber_Test extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         Pose2d initialPose = new Pose2d(0, -60, Math.toRadians(180));
-        SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, initialPose);
-        //MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
+        //SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, initialPose);
+        MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
        // Rotate rotate = new Rotate(hardwareMap);
         //Lift lift = new Lift(hardwareMap);
        // Extender extender = new Extender(hardwareMap);

@@ -88,6 +88,8 @@ public class AutoTest extends LinearOpMode{
 
 
         waitForStart();
+
+
        // gyroStrafe(.5, 32, 0);
         //lift(.5, 2);
        // sleep(1000);
@@ -98,7 +100,21 @@ public class AutoTest extends LinearOpMode{
        // lift(.5,-2);
        // sleep(500);
        // gyroStrafe(.5,-35,0);
-        gyroDrive(.5,45,0);
+        //gyroDrive(.5,45,0);
+
+        robot.rightFrontDrive.setPower(.5);
+        robot.leftFrontDrive.setPower(.5);
+        robot.rightRearDrive.setPower(.5);
+        robot.leftRearDrive.setPower(.5);
+
+        sleep(500);
+
+        robot.rightFrontDrive.setPower(0);
+        robot.leftFrontDrive.setPower(0);
+        robot.rightRearDrive.setPower(0);
+        robot.leftRearDrive.setPower(0);
+
+        sleep(2000);
 
     }
 
