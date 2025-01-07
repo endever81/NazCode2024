@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,20 +19,11 @@ import org.firstinspires.ftc.vision.VisionPortal;
 
 import java.util.List;
 
-@Disabled
+//@Disabled
 
-//@Autonomous(name = "AutoRed1", group = "Automonous")
+@Autonomous(name = "AutoLeft", group = "Automonous")
 
 public class AutoLeft extends LinearOpMode{
-    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-
-    private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
-    private static final String[] LABELS = {
-            "1 Bolt",
-            "2 Bulb",
-            "3 Panel"
-    };
-
 
 
 
@@ -114,10 +106,10 @@ public class AutoLeft extends LinearOpMode{
         waitForStart();
 //Drive
 
-        gyroDrive(.5, 4, 0);
-        gyroDrive(.5, 12, 0);
+        gyroDrive(.1, -15, 0);
+        //gyroStrafe(.1, -12, 0);
         //Turn
-        gyroTurn(.5, -90);
+       // gyroTurn(.5, -90);
         //gyroStrafe
        // gyroStrafe(.5, 12, 90);
 
@@ -217,8 +209,8 @@ public class AutoLeft extends LinearOpMode{
             moveCounts = (int)(distance * COUNTS_PER_INCH);
             newFrontRightTarget = robot.rightFrontDrive.getCurrentPosition() + moveCounts;
             newFrontLeftTarget = robot.leftFrontDrive.getCurrentPosition() + moveCounts;
-            newRearRightTarget = robot.rightRearDrive.getCurrentPosition() + moveCounts;
-            newRearLeftTarget = robot.leftRearDrive.getCurrentPosition() + moveCounts;
+            newRearRightTarget = robot.rightRearDrive.getCurrentPosition() - moveCounts;
+            newRearLeftTarget = robot.leftRearDrive.getCurrentPosition() - moveCounts;
 
             robot.rightFrontDrive.setTargetPosition(newFrontRightTarget);
             robot.leftFrontDrive.setTargetPosition(newFrontLeftTarget);

@@ -79,7 +79,7 @@ public void runOpMode() {
         double front_right = Speed - Turn + Strafe;
         double rear_left = -Speed - Turn - Strafe;
         double rear_right = -Speed + Turn + Strafe;
-    
+
         front_left = Range.clip(front_left, -1, 1);
         front_right = Range.clip(front_right, -1, 1);
         rear_left = Range.clip(rear_left, -1, 1);
@@ -119,15 +119,19 @@ public void runOpMode() {
 
         double liftoutPower = gamepad2.left_stick_y;
         double liftupPower = gamepad2.right_stick_y;
+     //   liftupPower = liftupPower * .5;
         double x = 1880; // base of triangle solution
         double y = -robot.liftup.getCurrentPosition(); //height of triangle variable with lift
-                if (y < 2500)  //this value will restrict low height over extension and allow the extension after the lift climbs
+                if (y < 5000)  //this value will restrict low height over extension and allow the extension after the lift climbs
                     y=0;
 
         double c = Math.sqrt((Math.pow(x,2)) + Math.pow(y*1.2,2)); //hyp calculation based on max x and variable y
             telemetry.addData("OUT Value", -robot.liftout.getCurrentPosition());
             telemetry.addData("UP Value", y);
             telemetry.addData("C", c);
+            telemetry.addData("Button Position", robot.touchSensor.getConnectionInfo());
+            telemetry.addData("Button Position", robot.touchSensor.getValue());
+
 
             telemetry.update();
 
@@ -135,9 +139,18 @@ public void runOpMode() {
                 liftoutPower = 0;
             }
 
-            if (y > 2500 && -robot.liftout.getCurrentPosition() > 900 && -gamepad2.right_stick_y < 0)
+
+            if (y > 2500 && y < 7500 && -robot.liftout.getCurrentPosition() > 900 && -gamepad2.right_stick_y < 0)
             {
                liftupPower = 0;
+            }
+
+            else if (y > 9500 && -gamepad2.right_stick_y > 0) {
+                liftupPower = 0;
+            }
+           else if (robot.touchSensor.isPressed() && -gamepad2.right_stick_y < 0) {
+                liftupPower = 0;
+
             }
 
 
