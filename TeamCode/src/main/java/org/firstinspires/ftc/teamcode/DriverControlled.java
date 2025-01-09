@@ -71,10 +71,28 @@ public void runOpMode() {
         telemetry.addData("encoder", robot.leftRearDrive.getCurrentPosition());
         telemetry.update();
     double hangPower = 0;
-    double intakePosition = .6;
+    double intakePosition = 0.50;
     double specimenPosition = 0;
-    double rotatePostion = .6;
+    double rotatePostion = .5;
+    double swingPosition= 0.5;
+    double artPosition = 0.5;
     double servohangPosition = 0;
+
+
+
+    // Variables for articulation servo
+    double articulationBaseAngle = 0; // Base angle synchronized with swing arm
+    double articulationTrim = 0;     // Trim adjustment
+    final double TRIM_INCREMENT = 23; // 23-degree increments
+    final double MAX_ARTICULATION_ANGLE = 270;
+    final double MIN_ARTICULATION_ANGLE = 0;
+    final double DEFAULT_CENTER_OFFSET = 21; // Default center offset from the left edge
+
+// Track button state to ensure single press action
+    boolean xPressed = false;
+    boolean yPressed = false;
+
+
         while (opModeIsActive()){
             telemetry.addData("horizontal",robot.liftH.getCurrentPosition());
             telemetry.addData("Vertical",robot.liftV.getCurrentPosition());
@@ -139,24 +157,61 @@ public void runOpMode() {
         if (gamepad2.dpad_left){
             specimenPosition =.3;
             }
-        if (gamepad2.y){
-        intakePosition = .5;
-        }
 
-        if (gamepad2.x){
-        intakePosition = 0;
-        }
+            rotatePostion = .2;
+            intakePosition = .2;
 
-        if (gamepad2.a){
-            rotatePostion = .89;
-        }
 
-        if (gamepad2.b){
-            rotatePostion = .6;
-        }
         double liftHPower = gamepad2.left_stick_y;
         double liftVPower = -gamepad2.right_stick_y;
 // new code for Livy's Controller
+        if (gamepad2.a) {
+            intakePosition = 0;
+        }
+        if (gamepad2.b) {
+                rotatePostion = .6;
+            }
+      //  double artPower = (0);
+
+            if (gamepad2.touchpad_finger_1) {
+                // Calculate swing arm angle (60° to 240° range)
+                double swingAngle = 150 + (gamepad2.touchpad_finger_1_x * 90); // Center at 150°, ±90°
+                swingAngle = Math.max(0, Math.min(300, swingAngle)); // Clamp to valid range
+                swingPosition = (swingAngle - 60) / (300 - 60);
+
+
+                // Calculate the articulation servo base angle
+                articulationBaseAngle = swingAngle - DEFAULT_CENTER_OFFSET; // Offset by default center (90° off left edge)
+
+                // Add trim adjustment
+                double articulationAngle = articulationBaseAngle + articulationTrim;
+
+                // Clamp the articulation angle to stay within valid range
+                articulationAngle = Math.max(MIN_ARTICULATION_ANGLE, Math.min(MAX_ARTICULATION_ANGLE, articulationAngle));
+
+                // Map articulation angle to servo range (0 to 1)
+                double articulationPosition = articulationAngle / MAX_ARTICULATION_ANGLE;
+                robot.servoart.setPosition(articulationPosition);
+            }
+
+// Handle trim adjustments with X and Y buttons
+            if (gamepad2.x && !xPressed) {
+                articulationTrim -= TRIM_INCREMENT; // Decrease trim
+                xPressed = true; // Mark X as pressed
+            } else if (!gamepad2.x) {
+                xPressed = false; // Reset X press state
+            }
+
+            if (gamepad2.y && !yPressed) {
+                articulationTrim += TRIM_INCREMENT; // Increase trim
+                yPressed = true; // Mark Y as pressed
+            } else if (!gamepad2.y) {
+                yPressed = false; // Reset Y press state
+            }
+
+// Clamp the trim to ensure articulation stays within bounds
+            articulationTrim = Math.max(MIN_ARTICULATION_ANGLE - articulationBaseAngle,
+                    Math.min(MAX_ARTICULATION_ANGLE - articulationBaseAngle, articulationTrim));
 
             if (-robot.liftH.getCurrentPosition() > 2300 && -gamepad2.left_stick_y > 0) {  //1880 default value... adjust to bring in and out
                 liftHPower = 0;
@@ -192,12 +247,15 @@ public void runOpMode() {
     robot.liftH.setPower(liftHPower);
     robot.liftV.setPower(liftVPower);
     robot.hang.setPower(hangPower);
-    robot.servointake.setPosition(intakePosition);
+
     robot.servohang.setPosition(servohangPosition);
 
     robot.specimenClamp.setPosition(specimenPosition);
-    robot.servorotate.setPosition(rotatePostion);
 
+    robot.servorotate.setPosition(rotatePostion);
+    //robot.servoart.setPosition(artPosition);
+    robot.servoswing.setPosition(swingPosition);
+    robot.servointake.setPosition(intakePosition);
     }
 
 }

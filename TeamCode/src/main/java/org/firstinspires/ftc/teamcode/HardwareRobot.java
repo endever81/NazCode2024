@@ -21,6 +21,9 @@ public class HardwareRobot {
     public DcMotor hang = null;
     public Servo servorotate = null;
     public Servo servohang = null;
+    public Servo servoart = null;
+    public Servo servoswing = null;
+
     public Servo servointake = null;
     public Servo specimenClamp = null;
     public CRServo rightPickup = null;
@@ -53,6 +56,8 @@ public class HardwareRobot {
 
         servohang = hwMap.get(Servo.class, "servo_hang");
         servorotate = hwMap.get(Servo.class, "servo_rotate");
+        servoart = hwMap.get(Servo.class, "servo_art");
+        servoswing = hwMap.get(Servo.class, "servo_swing");
         servointake = hwMap.get(Servo.class, "servo_intake");
         specimenClamp = hwMap.get(Servo.class, "specimenClamp");
 
