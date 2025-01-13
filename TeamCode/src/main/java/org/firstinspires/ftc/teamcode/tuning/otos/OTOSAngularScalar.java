@@ -5,13 +5,15 @@ import com.acmerobotics.roadrunner.Rotation2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.SparkFunOTOSDrive;
+
+import org.firstinspires.ftc.teamcode.MecanumDrive;
+
 @TeleOp
 public class OTOSAngularScalar extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, new Pose2d(0,0,0));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
         double radsTurned = 0;
         Rotation2d lastHeading = Rotation2d.fromDouble(0);
         telemetry.addLine("OTOS Angular Scalar Tuner");

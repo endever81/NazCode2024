@@ -4,13 +4,15 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.SparkFunOTOSDrive;
+
+import org.firstinspires.ftc.teamcode.MecanumDrive;
+
 @TeleOp
 public class OTOSPositionOffsetTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SparkFunOTOSDrive drive = new SparkFunOTOSDrive(hardwareMap, new Pose2d(0,0,0));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
         telemetry.addLine("OTOS Position Offset Tuner");
         telemetry.addLine("Line the robot against the corner of two walls facing forward and Press START.");
         telemetry.addLine("Then rotate the robot exactly 180 degrees and press it back into the corner.");

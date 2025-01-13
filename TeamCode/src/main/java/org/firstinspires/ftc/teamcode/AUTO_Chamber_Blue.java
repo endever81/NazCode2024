@@ -266,9 +266,9 @@ public class AUTO_Chamber_Blue extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
-        robot.servohang.setPosition(.5);
-        robot.specimenClamp.setPosition(0);
-        robot.servorotate.setPosition(.4);
+       // robot.servohang.setPosition(.5);
+        //robot.specimenClamp.setPosition(0);
+        //robot.servorotate.setPosition(.4);
         lift (1, 18.5);
         Actions.runBlocking(
                 new SequentialAction(
@@ -281,7 +281,7 @@ public class AUTO_Chamber_Blue extends LinearOpMode {
         );
         lift (1, -4.5);
         sleep(500);
-        robot.specimenClamp.setPosition(.4);
+        //robot.specimenClamp.setPosition(.4);
         lift (1, -13);
 
 
@@ -290,7 +290,7 @@ public class AUTO_Chamber_Blue extends LinearOpMode {
                         toSamples.build()
                 )
         );
-        robot.specimenClamp.setPosition(0);
+      //  robot.specimenClamp.setPosition(0);
         sleep(500);
         lift (1, 18.5);
 
@@ -340,14 +340,14 @@ public class AUTO_Chamber_Blue extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            newLiftTarget = robot.liftV.getCurrentPosition() + (int) (inches * (1140/(3.5 * 3.1415)));
+           // newLiftTarget = robot.liftV.getCurrentPosition() + (int) (inches * (1140/(3.5 * 3.1415)));
 
-            robot.liftV.setTargetPosition(newLiftTarget);
+           // robot.liftV.setTargetPosition(newLiftTarget);
 
-            robot.liftV.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+           // robot.liftV.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             runtime.reset();
-            robot.liftV.setPower(Math.abs(power));
+           // robot.liftV.setPower(Math.abs(power));
 
            /*while (opModeIsActive() &&
                                    robot.liftV.isBusy()) {
@@ -370,14 +370,14 @@ public class AUTO_Chamber_Blue extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            newLiftTarget = robot.liftH.getCurrentPosition() + (int) (inches * (1140/(3.5 * 3.1415)));
+          //  newLiftTarget = robot.liftH.getCurrentPosition() + (int) (inches * (1140/(3.5 * 3.1415)));
 
-            robot.liftH.setTargetPosition(newLiftTarget);
+          //  robot.liftH.setTargetPosition(newLiftTarget);
 
-            robot.liftH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+           // robot.liftH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             runtime.reset();
-            robot.liftH.setPower(Math.abs(power));
+           // robot.liftH.setPower(Math.abs(power));
 
            /*while (opModeIsActive() &&
                                    robot.liftV.isBusy()) {
