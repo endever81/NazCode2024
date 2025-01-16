@@ -93,6 +93,9 @@ public class HardwareRobot {
         servointake.setPosition(0.5);
         specimenClamp.setPosition(0);
         servohang.setPosition(1);
+        servoswing.setPosition(.7);
+        servoart.setPosition(.5);
+
     }
 
 }
