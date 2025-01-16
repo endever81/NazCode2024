@@ -26,8 +26,9 @@ public class HardwareRobot {
 
     public Servo servointake = null;
     public Servo specimenClamp = null;
-    public CRServo rightPickup = null;
-    public CRServo leftPickup = null;
+    public Servo bucketgrab = null;
+    public Servo bucketrotate = null;
+    public Servo bucketart = null;
     public RevBlinkinLedDriver blinkinLedDriver = null;
 
 
@@ -60,9 +61,9 @@ public class HardwareRobot {
         servoswing = hwMap.get(Servo.class, "servo_swing");
         servointake = hwMap.get(Servo.class, "servo_intake");
         specimenClamp = hwMap.get(Servo.class, "specimenClamp");
-
-        leftPickup = hwMap.get(CRServo.class, "servo_left_pickup");
-        rightPickup = hwMap.get(CRServo.class, "servo_right_pickup");
+        bucketgrab = hwMap.get(Servo.class, "bucket_grab");
+        bucketart = hwMap.get(Servo.class, "bucket_articulate");
+        bucketrotate = hwMap.get(Servo.class, "bucket_rotate");
 
 
         blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin");
@@ -85,8 +86,11 @@ public class HardwareRobot {
         leftRearDrive.setPower(0);
         rightRearDrive.setPower(0);
 
+        bucketgrab.setPosition(.5);
+        bucketart.setPosition(.5);
+        bucketrotate.setPosition(.5);
         servorotate.setPosition(.45);
-        servointake.setPosition(0);
+        servointake.setPosition(0.5);
         specimenClamp.setPosition(0);
         servohang.setPosition(1);
     }
