@@ -109,15 +109,15 @@ public void runOpMode() {
         rear_right /=2.5;
         }
 
-        double releasePosition = .38;//.5
+        double releasePosition = .25;//.5
 
         if (gamepad2.right_bumper){
-        releasePosition = 0.58;
+        releasePosition = 0.66;
         }
 
 
 
-        double liftoutPower = gamepad2.left_stick_y;
+        double liftoutPower = -gamepad2.left_stick_y;
         double liftupPower = gamepad2.right_stick_y;
      //   liftupPower = liftupPower * .5;
         double x = 1880; // base of triangle solution
@@ -142,10 +142,13 @@ public void runOpMode() {
 
             if (y > 2500 && y < 7500 && -robot.liftout.getCurrentPosition() > 900 && -gamepad2.right_stick_y < 0)
             {
-               liftupPower = 0;
+               liftupPower = 1;
             }
 
             else if (y > 9500 && -gamepad2.right_stick_y > 0) {
+                liftupPower = 0;
+            }
+            else if (y < 8000 && -robot.liftout.getCurrentPosition() > 1000 && -gamepad2.right_stick_y < 0) {
                 liftupPower = 0;
             }
            else if (robot.touchSensor.isPressed() && -gamepad2.right_stick_y < 0) {
@@ -184,7 +187,6 @@ public void runOpMode() {
     robot.liftup.setPower(liftupPower);
     robot.liftout.setPower(liftoutPower);
 
-    robot.servorelease.setPosition(releasePosition);
 
     robot.servorelease.setPosition(releasePosition);
 

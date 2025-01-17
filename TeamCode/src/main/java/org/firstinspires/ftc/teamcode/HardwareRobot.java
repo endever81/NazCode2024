@@ -82,9 +82,9 @@ public class HardwareRobot {
         leftRearDrive.setPower(0);
         rightRearDrive.setPower(0);
 
-        servorelease.setPosition(.5);
-        servoDropper.setPosition(.6);
-        droneGuard.setPosition(.5);
+       // servorelease.setPosition(.2);
+        //servoDropper.setPosition(.75);
+       // droneGuard.setPosition(.85);
     }
 
 }
