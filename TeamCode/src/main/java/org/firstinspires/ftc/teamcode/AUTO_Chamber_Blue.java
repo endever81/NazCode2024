@@ -11,6 +11,7 @@ import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -18,9 +19,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+@Disabled
 @Config
-@Autonomous(name = "Auto Chamber Blue Test", group = "Autonomous")
+@Autonomous(name = "Auto To Corner", group = "Autonomous")
 public class AUTO_Chamber_Blue extends LinearOpMode {
 
 
@@ -29,36 +30,27 @@ public class AUTO_Chamber_Blue extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        Pose2d initialPose = new Pose2d(0, -62, Math.toRadians(180));
+        Pose2d initialPose = new Pose2d(0, -62, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder toSub = drive.actionBuilder(initialPose)
 
-                .strafeTo(new Vector2d(0, -21.5));
-                            Pose2d toSubEnd = new Pose2d(0, -20, Math.toRadians(180));
+                .strafeTo(new Vector2d(-20, -62));
+                            Pose2d toSubEnd = new Pose2d(-12, -60, Math.toRadians(90));
                             // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
 
-        TrajectoryActionBuilder toSamples = drive.actionBuilder(toSubEnd)
-                //Travel Around submersible and toward samples.
-                .waitSeconds(.15)
-                .splineToSplineHeading(new Pose2d(10,-30, Math.toRadians(180)), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(29,-5, Math.toRadians(-90)), Math.toRadians(90))
-                .strafeTo(new Vector2d(38, -5))
-                //Push in Sample 1
-                .strafeTo(new Vector2d(38, -50))// push sample to wall
-                .strafeTo(new Vector2d(38, -10))// bak up
-                .strafeTo(new Vector2d(53, -10)) // move over to sample 2
-                //Push in Sample 2
-                .strafeTo(new Vector2d(53, -50))// push sample to wall
-                .strafeTo(new Vector2d(53, -10)) // backup
-                .strafeTo(new Vector2d(66, -10)) // move over
-                //Push in Sample 3
-                .strafeTo(new Vector2d(66,-48))
-                //Relocate to retrieve Specemine 1
-                .splineToSplineHeading(new Pose2d(29,-51, Math.toRadians(0)), Math.toRadians(-90))
-                //Press to wall for Spec1
-                .waitSeconds(.15)
-                .strafeTo(new Vector2d(29, -58));
+        TrajectoryActionBuilder backFromSub = drive.actionBuilder(toSubEnd)
+
+                .strafeTo(new Vector2d(0, -42));
+        Pose2d backFromSubEnd = new Pose2d(0, -42, Math.toRadians(90));
+        // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
+
+        TrajectoryActionBuilder toSamples = drive.actionBuilder(backFromSubEnd)
+                //Travel Around submersible and toward submersible.
+                .splineToSplineHeading(new Pose2d(-10,-30, Math.toRadians(45)), Math.toRadians(45))
+                .splineToSplineHeading(new Pose2d(-29,-5, Math.toRadians(90)), Math.toRadians(90))
+                .strafeTo(new Vector2d(-20, 0));
+
                           Pose2d toSamplesEnd = new Pose2d(30, -53, Math.toRadians(-90));
 
         TrajectoryActionBuilder toSub2 = drive.actionBuilder(toSamplesEnd)
@@ -118,72 +110,41 @@ public class AUTO_Chamber_Blue extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
-        robot.servorelease.setPosition(.5);
-        //robot.specimenClamp.setPosition(0);
-       // robot.//servorotate.setPosition(.4);
-      //  lift (1, 18.5);
-      //  Actions.runBlocking(
-               // new SequentialAction(
-                       // toSub.build()
-                        //lift.liftUp(),
-                      //  rotate.rotateDown()
-                        //lift.liftDown(),
-                        //trajectoryActionCloseOut
-            //    )
-      //  );
-        liftUp (1, -4.5);
-        sleep(500);
+       // robot.servorelease.setPosition(.66);
+
+        //liftUp (1, 30);
+        //sleep  (2000);
+        //extend(1, 1);
+        //sleep(2000);
       //  robot.specimenClamp.setPosition(.4);
-        liftUp (1, -13);
 
 
+        Actions.runBlocking(
+                new SequentialAction(
+                        toSub.build()
+                )
+        );
+       /* extend(1, -2);
+        sleep(1000);
+        robot.servorelease.setPosition(.46);
+        sleep(500);
+        liftUp(1, 5);
+
+        Actions.runBlocking(
+                new SequentialAction(
+                        backFromSub.build()
+                )
+        );
+        extend(1,5);
+        liftUp(1,-5);
+        sleep(2000);
         Actions.runBlocking(
                 new SequentialAction(
                         toSamples.build()
                 )
         );
-       // robot.specimenClamp.setPosition(0);
-        //sleep(500);
-       // lift (1, 18.5);
 
-        //Actions.runBlocking(
-                //new SequentialAction(
-                        //toSub2.build()
-               // )
-     //   );
-        liftUp (1, -18.5);
-        Actions.runBlocking(
-                new SequentialAction(
-                        toWall2.build()
-                )
-        );
-
-        liftUp (1, 18.5);
-
-        Actions.runBlocking(
-                new SequentialAction(
-                        toSub3.build()
-                )
-        );
-        liftUp (1, -18.5);
-
-        Actions.runBlocking(
-                new SequentialAction(
-                        toWall3.build()
-                )
-        );
-
-        liftUp (1, 18.5);
-
-        Actions.runBlocking(
-                new SequentialAction(
-                        toSub4.build()
-                )
-        );
-        liftUp (1, -18.5);
-
-
-
+*/
     }
     public void liftUp (double power, double inches)
     {     ElapsedTime runtime = new ElapsedTime();
@@ -192,7 +153,7 @@ public class AUTO_Chamber_Blue extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-           newLiftTarget = robot.liftup.getCurrentPosition() + (int) (inches * (1140/(3.5 * 3.1415)));
+           newLiftTarget = robot.liftup.getCurrentPosition() + (int) (-inches * (1140/(3.5 * 3.1415)));
 
            robot.liftup.setTargetPosition(newLiftTarget);
 
@@ -222,7 +183,7 @@ public class AUTO_Chamber_Blue extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-           newLiftTarget = robot.liftout.getCurrentPosition() + (int) (inches * (1140/(3.5 * 3.1415)));
+           newLiftTarget = -robot.liftout.getCurrentPosition() + (int) (inches * (1140/(3.5 * 3.1415)));
 
            robot.liftout.setTargetPosition(newLiftTarget);
 

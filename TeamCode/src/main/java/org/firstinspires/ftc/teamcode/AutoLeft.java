@@ -106,15 +106,17 @@ public class AutoLeft extends LinearOpMode{
         waitForStart();
 //Drive
 
-        gyroDrive(.1, -15, 0);
-        //gyroStrafe(.1, -12, 0);
-        //Turn
-       // gyroTurn(.5, -90);
-        //gyroStrafe
-       // gyroStrafe(.5, 12, 90);
+        robot.rightFrontDrive.setPower(-.5);
+        robot.leftFrontDrive.setPower(-.5);
+        robot.rightRearDrive.setPower(.5);
+        robot.leftRearDrive.setPower(.5);
 
+        sleep(750);
 
-
+        robot.rightFrontDrive.setPower(0);
+        robot.leftFrontDrive.setPower(0);
+        robot.rightRearDrive.setPower(0);
+        robot.leftRearDrive.setPower(0);
 
 
 
