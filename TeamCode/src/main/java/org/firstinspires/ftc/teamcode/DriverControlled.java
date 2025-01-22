@@ -66,7 +66,17 @@ public void runOpMode() {
         //newLiftTargetRight = robot.liftout.getCurrentPosition();
         //robot.liftup.setTargetPosition(newLiftTargetLeft);
         //robot.liftout.setTargetPosition(newLiftTargetRight);
+    // Variables for articulation servo
+    double articulationBaseAngle = 0; // Base angle synchronized with swing arm
+    double articulationTrim = 0;     // Trim adjustment
+    final double TRIM_INCREMENT = 23; // 23-degree increments
+    final double MAX_ARTICULATION_ANGLE = 270;
+    final double MIN_ARTICULATION_ANGLE = 0;
+    final double DEFAULT_CENTER_OFFSET = 135; // Default center offset from the left edge
 
+// Track button state to ensure single press action
+    boolean xPressed = false;
+    boolean yPressed = false;
 
         while (opModeIsActive()){
 
@@ -177,7 +187,44 @@ public void runOpMode() {
 */
 //************************************************************************
 
-    robot.blinkinLedDriver.setPattern(patternPrime);
+            // Calculate the articulation servo base angle
+            articulationBaseAngle = DEFAULT_CENTER_OFFSET; // Offset by default center (90° off left edge)
+
+
+
+            // Add trim adjustment
+            double articulationAngle = articulationBaseAngle + articulationTrim;
+
+            // Clamp the articulation angle to stay within valid range
+            articulationAngle = Math.max(MIN_ARTICULATION_ANGLE, Math.min(MAX_ARTICULATION_ANGLE, articulationAngle));
+
+            // Map articulation angle to servo range (0 to 1)
+            double articulationPosition = articulationAngle / MAX_ARTICULATION_ANGLE;
+
+// Handle trim adjustments with X and Y buttons
+
+            if (gamepad2.y && !xPressed) {
+                articulationTrim -= TRIM_INCREMENT; // Decrease trim
+                xPressed = true; // Mark right bumper as pressed
+            } else if (!gamepad2.y) {
+                xPressed = false; // Reset right bumper press state
+            }
+
+            if (gamepad2.x && !yPressed) {
+                articulationTrim += TRIM_INCREMENT; // Increase trim
+                yPressed = true; // Mark Y as pressed
+            } else if (!gamepad2.x) {
+                yPressed = false; // Reset Y press state
+            }
+
+// Clamp the trim to ensure articulation stays within bounds
+            articulationTrim = Math.max(MIN_ARTICULATION_ANGLE - articulationBaseAngle,
+                    Math.min(MAX_ARTICULATION_ANGLE - articulationBaseAngle, articulationTrim));
+
+            robot.servoart.setPosition(articulationPosition);
+
+
+            robot.blinkinLedDriver.setPattern(patternPrime);
 
     robot.leftFrontDrive.setPower(front_left);
     robot.rightFrontDrive.setPower(front_right);
