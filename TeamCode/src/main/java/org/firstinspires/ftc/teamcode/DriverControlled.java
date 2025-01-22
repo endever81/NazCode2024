@@ -2,26 +2,25 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
-@TeleOp (name = "Driver Controlled", group = "Robot")
+@Disabled
+@TeleOp (name = "Driver Controlled TrackPad", group = "Robot")
 
 public class DriverControlled extends LinearOpMode {
 
     HardwareRobot robot = new HardwareRobot();
+    private volatile boolean servoOverrideActive = false; // Flag to manage servo control
 
     
 @Override
 public void runOpMode() {
         robot.init(hardwareMap);
-
-        int newLiftTargetH;
-        int newLiftTargetV;
 
         RevBlinkinLedDriver.BlinkinPattern pattern;
         pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
@@ -32,26 +31,23 @@ public void runOpMode() {
 
         Orientation angles;
 
-       // robot.init(hardwareMap);
-
-
         //IMU Initialization
-                BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-                parameters.mode = BNO055IMU.SensorMode.IMU;
-                parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-                parameters.loggingEnabled = false;
+            BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+            parameters.mode = BNO055IMU.SensorMode.IMU;
+            parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+            parameters.loggingEnabled = false;
 
-                imu = hardwareMap.get(BNO055IMU.class, "imu");
-                imu.initialize(parameters);
+            imu = hardwareMap.get(BNO055IMU.class, "imu");
+            imu.initialize(parameters);
 
-                telemetry.addData("Mode", "calibrating...");
-                telemetry.update();
+            telemetry.addData("Mode", "calibrating...");
+            telemetry.update();
 
-                // make sure the imu gyro is calibrated before continuing.
-                while (!isStopRequested() && !imu.isGyroCalibrated()) {
-                    sleep(50);
-                    idle();
-                }
+            // make sure the imu gyro is calibrated before continuing.
+            while (!isStopRequested() && !imu.isGyroCalibrated()) {
+                sleep(50);
+                idle();
+            }
 
 
         telemetry.addData("Say", "Waiting for Start");
@@ -59,6 +55,9 @@ public void runOpMode() {
 
         robot.liftH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.liftV.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    int newLiftTargetH;
+    int newLiftTargetV;
 
     waitForStart();
 
@@ -75,7 +74,6 @@ public void runOpMode() {
     double rotatePostion = .5;
     double swingPosition= 0.5;
     double artPosition = 0.5;
-    double servohangPosition = 0;
     double bucketartPosition = .5;
     double bucketrotatePosition = .5;
     double bucketgrabPosition = .5;
@@ -94,12 +92,12 @@ public void runOpMode() {
     boolean yPressed = false;
 
 
-        while (opModeIsActive()){
-            telemetry.addData("horizontal",robot.liftH.getCurrentPosition());
-            telemetry.addData("Vertical",robot.liftV.getCurrentPosition());
-            telemetry.addData(
-                    "encoder", robot.leftRearDrive.getCurrentPosition());
-            telemetry.update();
+    while (opModeIsActive()){
+        telemetry.addData("horizontal",robot.liftH.getCurrentPosition());
+        telemetry.addData("Vertical",robot.liftV.getCurrentPosition());
+        telemetry.addData(
+                "encoder", robot.leftRearDrive.getCurrentPosition());
+        telemetry.update();
 
         double Turn = gamepad1.left_stick_x;
         double Speed = -gamepad1.left_stick_y;
@@ -126,48 +124,37 @@ public void runOpMode() {
         rear_right /=1;
 
         if (gamepad1.right_bumper){
-        front_left *=2;
-        front_right *=2;
-        rear_left *=2;
-        rear_right *=2;
-        }
+            front_left *=2;
+            front_right *=2;
+            rear_left *=2;
+            rear_right *=2;
+            }
 
         if (gamepad1.left_bumper){
-        front_left /=2.5;
-        front_right /=2.5;
-        rear_left /=2.5;
-        rear_right /=2.5;
-        }
+            front_left /=2.5;
+            front_right /=2.5;
+            rear_left /=2.5;
+            rear_right /=2.5;
+            }
         if (gamepad1.a){
             hangPower = 1;
         }
-        else {
-            hangPower = 0;
-        }
+            else {
+             hangPower = 0;
+             }
         if (gamepad1.b)
              {
             hangPower = -1;
         }
-     //   if (gamepad1.dpad_up){
-       //     servohangPosition = .5;
-        //}
+
 
         if (gamepad1.dpad_up){
-        specimenPosition = 0;
+            specimenPosition = 0;
         }
         if (gamepad1.dpad_down){
             specimenPosition =.3;
             }
 
-
-     //   double liftVPower = 0;
-
-     //   if (gamepad1.dpad_up){
-       //     liftVPower = 1;
-      //  }
-      //  if (gamepad1.dpad_down){
-      //      liftVPower = -1;
-       // }
 
         double liftVPower = ((gamepad1.right_trigger)-(gamepad1.left_trigger));
         double liftHPower = gamepad2.right_stick_y;
@@ -175,30 +162,27 @@ public void runOpMode() {
             {liftHPower = 0;
             }
 // new code for Livy's Controller
-            double intakePosition = 0.50;
+        double intakePosition = 0.45;
 
-            if (gamepad2.a) {
+        if (gamepad2.a) {
             intakePosition = .7;
-
         }
 
+        rotatePostion = .3;
 
-            rotatePostion = .3;
-
-            if (gamepad2.b) {
+        if (gamepad2.b) {
                 rotatePostion = .6;
             }
-      //  double artPower = (0);
 
-            if (gamepad2.touchpad_finger_1) {
-                // Calculate swing arm angle (60° to 240° range)
-                double swingAngle = 150 + (gamepad2.touchpad_finger_1_x * 85); // Center at 150°, ±90°
-                swingAngle = Math.max(0, Math.min(300, swingAngle)); // Clamp to valid range
-                swingPosition = (swingAngle - 60) / (300 - 60);
+        if (gamepad2.touchpad_finger_1) {
+            // Calculate swing arm angle (60° to 240° range)
+            double swingAngle = 150 + (gamepad2.touchpad_finger_1_x * 85); // Center at 150°, ±90°
+            swingAngle = Math.max(0, Math.min(300, swingAngle)); // Clamp to valid range
+            swingPosition = (swingAngle - 60) / (300 - 60);
 
 
-                // Calculate the articulation servo base angle
-                articulationBaseAngle = swingAngle - DEFAULT_CENTER_OFFSET; // Offset by default center (90° off left edge)
+            // Calculate the articulation servo base angle
+            articulationBaseAngle = swingAngle - DEFAULT_CENTER_OFFSET; // Offset by default center (90° off left edge)
 
             }
 
@@ -217,16 +201,16 @@ public void runOpMode() {
             if (gamepad2.right_bumper && !xPressed) {
                 articulationTrim -= TRIM_INCREMENT; // Decrease trim
                 xPressed = true; // Mark right bumper as pressed
-            } else if (!gamepad2.right_bumper) {
-                xPressed = false; // Reset right bumper press state
-            }
+                } else if (!gamepad2.right_bumper) {
+                    xPressed = false; // Reset right bumper press state
+                }
 
             if (gamepad2.left_bumper && !yPressed) {
                 articulationTrim += TRIM_INCREMENT; // Increase trim
                 yPressed = true; // Mark Y as pressed
-            } else if (!gamepad2.left_bumper) {
-                yPressed = false; // Reset Y press state
-            }
+                } else if (!gamepad2.left_bumper) {
+                  yPressed = false; // Reset Y press state
+              }
 
 // Clamp the trim to ensure articulation stays within bounds
             articulationTrim = Math.max(MIN_ARTICULATION_ANGLE - articulationBaseAngle,
@@ -255,6 +239,10 @@ public void runOpMode() {
         }
 */
 //************************************************************************
+        // Start the asynchronous servo sequence when gamepad2.dpad_right is pressed
+        if (gamepad2.dpad_right && !servoOverrideActive) {
+            controlServosAsync();
+        }
 
     robot.blinkinLedDriver.setPattern(patternPrime);
 
@@ -267,20 +255,66 @@ public void runOpMode() {
     robot.liftV.setPower(liftVPower);
     robot.hang.setPower(hangPower);
 
-    robot.servohang.setPosition(servohangPosition);
 
-    robot.specimenClamp.setPosition(specimenPosition);
+        if (!servoOverrideActive) {
+            robot.specimenClamp.setPosition(specimenPosition);
+            robot.bucketgrab.setPosition(bucketgrabPosition);
+            robot.bucketart.setPosition(bucketartPosition);
+            robot.bucketrotate.setPosition(bucketrotatePosition);
+            robot.servorotate.setPosition(rotatePostion);
+            robot.servoswing.setPosition(swingPosition);
+            robot.servointake.setPosition(intakePosition);
 
-    robot.bucketgrab.setPosition(bucketgrabPosition);
-    robot.bucketart.setPosition(bucketartPosition);
-    robot.bucketrotate.setPosition(bucketrotatePosition);
 
-    robot.servorotate.setPosition(rotatePostion);
-    //robot.servoart.setPosition(artPosition);
-    robot.servoswing.setPosition(swingPosition);
-    robot.servointake.setPosition(intakePosition);
+        }
+
     }
 
+}
+
+    /**
+     * Asynchronous method to control servos
+     */
+    private void controlServosAsync() {
+        new Thread(() -> {
+            try {
+                servoOverrideActive = true; // Mark override as active
+
+                // Move servos through a sequence
+                setServoPosition(robot.servorotate, 0.3);
+                Thread.sleep(1000);  // Wait for movement to complete
+
+                setServoPosition(robot.servoswing, 0.7);
+                Thread.sleep(1000);
+
+                setServoPosition(robot.bucketgrab, 0.4);
+                Thread.sleep(1000);
+
+                setServoPosition(robot.bucketart, 0.6);
+                Thread.sleep(1000);
+
+                setServoPosition(robot.bucketrotate, 0.5);
+                Thread.sleep(500);
+
+                setServoPosition(robot.servohang, 0.5);
+                Thread.sleep(500);
+
+            } catch (Exception e) {
+                // Handle interrupted exception properly
+                Thread.currentThread().interrupt(); // Restore interrupt flag
+            } finally {
+                servoOverrideActive = false; // Release control back to manual mode
+            }
+        }).start();
+    }
+
+/**
+ * Safe method to set servo position, ensuring override is respected.
+ */
+private synchronized void setServoPosition(com.qualcomm.robotcore.hardware.Servo servo, double position) {
+    if (servoOverrideActive) {
+        servo.setPosition(position);
+    }
 }
 
 double scaleInput(double dVal)  {

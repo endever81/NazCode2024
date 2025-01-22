@@ -86,15 +86,18 @@ public class HardwareRobot {
         leftRearDrive.setPower(0);
         rightRearDrive.setPower(0);
 
-        bucketgrab.setPosition(.5);
-        bucketart.setPosition(.5);
-        bucketrotate.setPosition(.5);
-        servorotate.setPosition(.45);
-        servointake.setPosition(0.5);
-        specimenClamp.setPosition(0);
-        servohang.setPosition(1);
-        servoswing.setPosition(.7);
-        servoart.setPosition(.5);
+        bucketgrab.setPosition(.3);
+        bucketart.setPosition(.25);
+        bucketrotate.setPosition(0);
+
+        servorotate.setPosition(.6);
+        servointake.setPosition(0.4);
+        servoswing.setPosition(.68);
+        servoart.setPosition(.78);
+
+        specimenClamp.setPosition(0);  //Specimeins are on the wall
+        //servohang.setPosition(1);
+
 
     }
 
