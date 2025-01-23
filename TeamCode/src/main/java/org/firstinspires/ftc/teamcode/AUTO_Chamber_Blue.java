@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-@Disabled
+
 @Config
 @Autonomous(name = "Auto To Corner", group = "Autonomous")
 public class AUTO_Chamber_Blue extends LinearOpMode {
@@ -36,12 +36,13 @@ public class AUTO_Chamber_Blue extends LinearOpMode {
         TrajectoryActionBuilder toSub = drive.actionBuilder(initialPose)
 
                 .strafeTo(new Vector2d(-20, -62));
-                            Pose2d toSubEnd = new Pose2d(-12, -60, Math.toRadians(90));
+                            Pose2d toSubEnd = new Pose2d(-20, -60, Math.toRadians(90));
                             // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
 
         TrajectoryActionBuilder backFromSub = drive.actionBuilder(toSubEnd)
 
                 .strafeTo(new Vector2d(0, -42));
+
         Pose2d backFromSubEnd = new Pose2d(0, -42, Math.toRadians(90));
         // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
 
@@ -120,10 +121,11 @@ public class AUTO_Chamber_Blue extends LinearOpMode {
 
 
         Actions.runBlocking(
-                new SequentialAction(
-                        toSub.build()
-                )
+                drive.actionBuilder(initialPose)
+                        .strafeTo(new Vector2d(20, -62))
+                        .build()
         );
+
        /* extend(1, -2);
         sleep(1000);
         robot.servorelease.setPosition(.46);

@@ -78,6 +78,12 @@ public class HardwareRobot {
         liftup.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftout.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
 
         leftFrontDrive.setPower(0);
         rightFrontDrive.setPower(0);
