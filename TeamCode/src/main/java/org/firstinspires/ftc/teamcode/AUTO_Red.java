@@ -350,7 +350,7 @@ public class AUTO_Red extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            newLiftTarget = robot.liftV.getCurrentPosition() + (int) (inches * (1140/(3.5 * 3.1415)));
+            newLiftTarget = robot.liftV.getCurrentPosition() + (int) (inches * (1140/(3.5 * 3.1415))*.717);
 
             robot.liftV.setTargetPosition(newLiftTarget);
 

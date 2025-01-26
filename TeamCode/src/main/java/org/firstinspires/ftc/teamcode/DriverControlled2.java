@@ -14,7 +14,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class DriverControlled2 extends LinearOpMode {
 
     HardwareRobot robot = new HardwareRobot();
+
     private volatile boolean servoOverrideActive = false; // Flag to manage servo control
+    private  int zeroLiftH; // Int variable shared across all instances
 
 
     @Override
@@ -55,6 +57,9 @@ public class DriverControlled2 extends LinearOpMode {
         robot.liftH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.liftV.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+
+        zeroLiftH = robot.liftH.getCurrentPosition();
+
         int newLiftTargetH;
         int newLiftTargetV;
 
@@ -74,8 +79,8 @@ public class DriverControlled2 extends LinearOpMode {
         double swingPosition= 0.5;
         double artPosition = 0.5;
         double bucketartPosition = .5;
-        double bucketrotatePosition = 0;
-        double bucketgrabPosition = .5;
+        double bucketrotatePosition = 0.25;
+        double bucketgrabPosition = .58;
 
 
         // Variables for articulation servo
@@ -161,10 +166,10 @@ public class DriverControlled2 extends LinearOpMode {
             {liftHPower = 0;
             }
 // new code for Livy's Controller
-            double intakePosition = 0.60;
+            double intakePosition = 0.3;
 
             if (gamepad2.a) {
-                intakePosition = .8;
+                intakePosition = .5;
             }
 
             rotatePostion = .3;
@@ -229,6 +234,11 @@ public class DriverControlled2 extends LinearOpMode {
             if (gamepad2.dpad_down){
                 patternPrime = RevBlinkinLedDriver.BlinkinPattern.DARK_BLUE;
             }
+
+            bucketgrabPosition = .58;
+            if (gamepad2.y) {
+                bucketgrabPosition = 0.2;
+            }
 /*
         if (robot.pole.getDistance(DistanceUnit.INCH) > 9 && robot.pole.getDistance(DistanceUnit.INCH) <14) {
             pattern = RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN;
@@ -250,7 +260,6 @@ public class DriverControlled2 extends LinearOpMode {
             robot.leftRearDrive.setPower(rear_left);
             robot.rightRearDrive.setPower(rear_right);
 
-            robot.liftH.setPower(liftHPower);
             robot.liftV.setPower(liftVPower);
             robot.hang.setPower(hangPower);
 
@@ -264,9 +273,7 @@ public class DriverControlled2 extends LinearOpMode {
                 robot.servoswing.setPosition(swingPosition);
                 robot.servointake.setPosition(intakePosition);
                 robot.servoart.setPosition(articulationPosition);
-
-
-
+                robot.liftH.setPower(liftHPower);
             }
 
         }
@@ -280,41 +287,53 @@ public class DriverControlled2 extends LinearOpMode {
         new Thread(() -> {
             try {
                 servoOverrideActive = true; // Mark override as active
+                robot.liftH.setTargetPosition(zeroLiftH);
+                robot.liftH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.liftH.setPower(1);
+
                 setServoPosition(robot.servoart, 0.85); //ensure head is orented appropriately
-                Thread.sleep(1000);
+                Thread.sleep(100);
 
                 // Move servos through a sequence
                 //LowerArm right
-                setServoPosition(robot.servorotate, 0.6); //put sample on the ground
-                setServoPosition(robot.servointake, 0.8); //ensure low claw says closed
+                setServoPosition(robot.servorotate, 0.28); //flip up the Sample
+                setServoPosition(robot.servointake, 0.5); //ensure low claw says closed
                 setServoPosition(robot.servoart, 0.85); //ensure head is orented appropriately
                 setServoPosition(robot.servoswing, 0.75); //swing to reposition sample in claw
-                Thread.sleep(1000);
+                setServoPosition(robot.bucketgrab, 0.2); //open the high claw
+                Thread.sleep(700);
 
-                setServoPosition(robot.servorotate, 0.28); //flip up the Sample
-                setServoPosition(robot.servoart, 0.85); //ensure head is orented appropriately
-                setServoPosition(robot.servoswing, 0.1); //move sample to robot left
-                Thread.sleep(1000);  // Wait for movement to complete
+                setServoPosition(robot.servorotate, 0.62); //put sample on the ground
+                setServoPosition(robot.servointake, 0.44); //loosly grip the Sample
+                Thread.sleep(250);  // Wait for movement to complete
 
+                setServoPosition(robot.servoswing, 0.5); //move sample to robot left
+                setServoPosition(robot.servoart, 0); //ensure head is orented appropriately
+                setServoPosition(robot.servorotate, 0.25); //flip sample up
+                Thread.sleep(250);  // Wait for movement to complete
+
+                //LowerArm back in
+                setServoPosition(robot.servoswing, 0.65); //swing for transfer
+                Thread.sleep(500);
 
                 //top arm out
                 setServoPosition(robot.bucketart, 0.6);
-                Thread.sleep(1000);
+                Thread.sleep(10);
 
                 //top arm down
-                setServoPosition(robot.bucketrotate, 0.6);
-                Thread.sleep(500);
+                setServoPosition(robot.bucketrotate, 0.8);
+                Thread.sleep(600);
 
                 //top arm grab
-                setServoPosition(robot.bucketgrab, 0.2);
-                Thread.sleep(1000);
+                setServoPosition(robot.bucketgrab, 0.58);
+                Thread.sleep(500);
 
                 //lowerarm letgo
-                setServoPosition(robot.specimenClamp, 0.5);
+                setServoPosition(robot.servointake, 0.3);
                 Thread.sleep(500);
 
                 //lowerarm right
-                setServoPosition(robot.servoart, 0.5);
+                setServoPosition(robot.servoswing, 0.3);
                 Thread.sleep(500);
 
                 //top arm up
@@ -322,34 +341,18 @@ public class DriverControlled2 extends LinearOpMode {
                 Thread.sleep(500);
 
                 //top arm in
-                setServoPosition(robot.bucketart, 0.6);
-                Thread.sleep(1000);
+               // setServoPosition(robot.bucketart, 0.6);
+                //Thread.sleep(1000);
+
+
+                //Release hLift from power
+                robot.liftH.setPower(0);
+                robot.liftH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 
 
 
-
-
-                //DOes not rotate
-                setServoPosition(robot.servoart, 0.5);
-                Thread.sleep(500);
-                // flip up
-                setServoPosition(robot.servorotate, 0.25);
-                Thread.sleep(1000);  // Wait for movement to complete
-
-                setServoPosition(robot.specimenClamp, 0.5);
-                Thread.sleep(500);
-
-                //Upper Arm
-                setServoPosition(robot.bucketrotate, 0.5);
-                Thread.sleep(500);
-
-                setServoPosition(robot.bucketart, 0.6);
-                Thread.sleep(1000);
-
-                setServoPosition(robot.bucketgrab, 0.4);
-                Thread.sleep(1000);
 
 
 

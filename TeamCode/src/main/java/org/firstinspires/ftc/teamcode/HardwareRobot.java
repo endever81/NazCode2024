@@ -78,6 +78,7 @@ public class HardwareRobot {
         liftH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftV.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftH.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftV.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
