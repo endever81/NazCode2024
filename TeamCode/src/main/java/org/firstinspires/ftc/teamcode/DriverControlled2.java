@@ -56,21 +56,28 @@ public class DriverControlled2 extends LinearOpMode {
 
         robot.liftH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.liftV.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.liftV2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         zeroLiftH = robot.liftH.getCurrentPosition();
 
         int newLiftTargetH;
         int newLiftTargetV;
+        int newLiftTargetV2;
 
         waitForStart();
 
         newLiftTargetH = robot.liftH.getCurrentPosition();
         newLiftTargetV = robot.liftV.getCurrentPosition();
+        newLiftTargetV2 = robot.liftV2.getCurrentPosition();
+
         robot.liftH.setTargetPosition(newLiftTargetH);
         robot.liftV.setTargetPosition(newLiftTargetV);
+        robot.liftV2.setTargetPosition(newLiftTargetV2);
+
         telemetry.addData("horizontal",robot.liftH.getCurrentPosition());
         telemetry.addData("Vertical",robot.liftV.getCurrentPosition());
+        telemetry.addData("Vertical2",robot.liftV2.getCurrentPosition());
         telemetry.addData("encoder", robot.leftRearDrive.getCurrentPosition());
         telemetry.update();
         double hangPower = 0;
@@ -79,7 +86,7 @@ public class DriverControlled2 extends LinearOpMode {
         double swingPosition= 0.5;
         double artPosition = 0.5;
         double bucketartPosition = .5;
-        double bucketrotatePosition = 0.25;
+        double bucketrotatePosition = 0.4;
         double bucketgrabPosition = .58;
 
 
@@ -99,6 +106,7 @@ public class DriverControlled2 extends LinearOpMode {
         while (opModeIsActive()){
             telemetry.addData("horizontal",robot.liftH.getCurrentPosition());
             telemetry.addData("Vertical",robot.liftV.getCurrentPosition());
+            telemetry.addData("Vertical2",robot.liftV2.getCurrentPosition());
             telemetry.addData(
                     "encoder", robot.leftRearDrive.getCurrentPosition());
             telemetry.update();
@@ -161,15 +169,16 @@ public class DriverControlled2 extends LinearOpMode {
 
 
             double liftVPower = ((gamepad1.right_trigger)-(gamepad1.left_trigger));
+            double liftV2Power = ((gamepad1.right_trigger)-(gamepad1.left_trigger));
             double liftHPower = gamepad2.right_stick_y;
             if(robot.liftH.getCurrentPosition() <-1300 && gamepad2.right_stick_y < 0)
             {liftHPower = 0;
             }
 // new code for Livy's Controller
-            double intakePosition = 0.3;
+            double intakePosition = 0.3; //.5
 
             if (gamepad2.a) {
-                intakePosition = .5;
+                intakePosition = .48; //.7
             }
 
             rotatePostion = .3;
@@ -261,6 +270,7 @@ public class DriverControlled2 extends LinearOpMode {
             robot.rightRearDrive.setPower(rear_right);
 
             robot.liftV.setPower(liftVPower);
+            robot.liftV2.setPower(liftV2Power);
             robot.hang.setPower(hangPower);
 
 
@@ -297,16 +307,17 @@ public class DriverControlled2 extends LinearOpMode {
                 // Move servos through a sequence
                 //LowerArm right
                 setServoPosition(robot.servorotate, 0.28); //flip up the Sample
-                setServoPosition(robot.servointake, 0.5); //ensure low claw says closed
+                setServoPosition(robot.servointake, 0.46); //ensure low claw says closed .68
                 setServoPosition(robot.servoart, 0.85); //ensure head is orented appropriately
                 setServoPosition(robot.servoswing, 0.75); //swing to reposition sample in claw
-                setServoPosition(robot.bucketgrab, 0.2); //open the high claw
+                setServoPosition(robot.bucketgrab, 0.15
+                ); //open the high claw
                 Thread.sleep(700);
-
-                setServoPosition(robot.servorotate, 0.62); //put sample on the ground
-                setServoPosition(robot.servointake, 0.44); //loosly grip the Sample
+                Thread.interrupted();
+                setServoPosition(robot.servorotate, 0.68); //put sample on the ground
                 Thread.sleep(250);  // Wait for movement to complete
 
+                setServoPosition(robot.servointake, 0.48); //tightly grip the Sample .7
                 setServoPosition(robot.servoswing, 0.5); //move sample to robot left
                 setServoPosition(robot.servoart, 0); //ensure head is orented appropriately
                 setServoPosition(robot.servorotate, 0.25); //flip sample up
@@ -329,7 +340,7 @@ public class DriverControlled2 extends LinearOpMode {
                 Thread.sleep(500);
 
                 //lowerarm letgo
-                setServoPosition(robot.servointake, 0.3);
+                setServoPosition(robot.servointake, 0.3); //.5
                 Thread.sleep(500);
 
                 //lowerarm right
@@ -337,7 +348,7 @@ public class DriverControlled2 extends LinearOpMode {
                 Thread.sleep(500);
 
                 //top arm up
-                setServoPosition(robot.bucketrotate, 0.25);
+                setServoPosition(robot.bucketrotate, 0.4);
                 Thread.sleep(500);
 
                 //top arm in

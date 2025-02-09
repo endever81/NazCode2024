@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Config
-@Autonomous(name = "Auto BUCKET SIDE", group = "Autonomous")
+@Autonomous(name = "Auto BUCKET SIDE BAD", group = "Autonomous")
 public class AUTO_BUCKET_SIDE extends LinearOpMode {
     public class Lift {
         private DcMotorEx liftV;

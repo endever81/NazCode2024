@@ -16,7 +16,8 @@ public class HardwareRobot {
     public DcMotor rightRearDrive = null;
     public DcMotor liftH = null;
     public DcMotor liftV = null;
-    public DcMotor intake = null;
+    public DcMotor liftV2 = null;
+   // public DcMotor intake = null;
 
     public DcMotor hang = null;
     public Servo servorotate = null;
@@ -52,7 +53,7 @@ public class HardwareRobot {
         rightRearDrive = hwMap.get(DcMotor.class, "motor_rear_right");
         liftH = hwMap.get(DcMotor.class, "liftH");
         liftV = hwMap.get(DcMotor.class, "liftV");
-        intake = hwMap.get(DcMotor.class, "motor_intake");
+        liftV2 = hwMap.get(DcMotor.class, "liftV2");
         hang = hwMap.get(DcMotor.class, "hang");
 
         servohang = hwMap.get(Servo.class, "servo_hang");
@@ -77,9 +78,11 @@ public class HardwareRobot {
         liftH.setDirection(DcMotor.Direction.REVERSE);
         liftH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftV.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftV2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftH.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftV.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftV2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
         leftFrontDrive.setPower(0);
@@ -92,7 +95,7 @@ public class HardwareRobot {
         bucketrotate.setPosition(0);
 
         servorotate.setPosition(.6);
-        servointake.setPosition(0.4);
+        servointake.setPosition(0.3); //.5
         servoswing.setPosition(.68);
         servoart.setPosition(.78);
 

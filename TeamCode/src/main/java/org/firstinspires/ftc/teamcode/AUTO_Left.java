@@ -182,7 +182,7 @@ public class AUTO_Left extends LinearOpMode {
 
         TrajectoryActionBuilder toSub = drive.actionBuilder(initialPose)
                 .waitSeconds(5)
-                .strafeTo(new Vector2d(35, -17));
+                .strafeTo(new Vector2d(35, -19));
         Pose2d toSubEnd = new Pose2d(0, -20, Math.toRadians(180));
         // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
 

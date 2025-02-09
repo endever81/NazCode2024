@@ -189,8 +189,8 @@ public class AUTO_Blue extends LinearOpMode {
         TrajectoryActionBuilder toSamples = drive.actionBuilder(toSubEnd)
                 //Travel Around submersible and toward samples.
                 //.waitSeconds(.15)
-                .splineToSplineHeading(new Pose2d(12,-35, Math.toRadians(180)), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(18,6, Math.toRadians(-94)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(11,-35, Math.toRadians(180)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(20,6, Math.toRadians(-94)), Math.toRadians(90))
                 .strafeTo(new Vector2d(39, 6))
                 //Push in Sample 1
                 .strafeTo(new Vector2d(39, -50))// push sample to wall
@@ -203,10 +203,10 @@ public class AUTO_Blue extends LinearOpMode {
                 //Push in Sample 3
                 // .strafeTo(new Vector2d(66,-48))
                 //Relocate to retrieve Specemine 1
-                .splineToSplineHeading(new Pose2d(29,-51, Math.toRadians(0)), Math.toRadians(-95))
+                .splineToSplineHeading(new Pose2d(30,-51, Math.toRadians(0)), Math.toRadians(-95))
                 //Press to wall for Spec1
                 // .waitSeconds(.15)
-                .strafeTo(new Vector2d(29, -62));
+                .strafeTo(new Vector2d(30, -62));
         Pose2d toSamplesEnd = new Pose2d(30, -53, Math.toRadians(-90));
 
         TrajectoryActionBuilder toSub2 = drive.actionBuilder(toSamplesEnd)
