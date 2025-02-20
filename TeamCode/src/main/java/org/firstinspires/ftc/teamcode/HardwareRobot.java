@@ -79,6 +79,7 @@ public class HardwareRobot {
         liftH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftV.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftV2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftV2.setDirection(DcMotor.Direction.REVERSE);
         liftH.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftV.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -92,12 +93,12 @@ public class HardwareRobot {
 
         bucketgrab.setPosition(.3);
         bucketart.setPosition(.25);
-        bucketrotate.setPosition(0);
+        bucketrotate.setPosition(.8);
 
-        servorotate.setPosition(.6);
+        servorotate.setPosition(.1);
         servointake.setPosition(0.3); //.5
-        servoswing.setPosition(.68);
-        servoart.setPosition(.78);
+        servoswing.setPosition(.81);
+        servoart.setPosition(.5);
 
         specimenClamp.setPosition(0);  //Specimeins are on the wall
         //servohang.setPosition(1);

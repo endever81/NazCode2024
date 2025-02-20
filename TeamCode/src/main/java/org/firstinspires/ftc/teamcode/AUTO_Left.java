@@ -350,27 +350,24 @@ public class AUTO_Left extends LinearOpMode {
     {     ElapsedTime runtime = new ElapsedTime();
 
         int newLiftTarget;
+        int newLiftTarget2;
+
+
 
         if (opModeIsActive()) {
 
-            newLiftTarget = robot.liftV.getCurrentPosition() + (int) (inches * (1140/(3.5 * 3.1415))*.717);
+            newLiftTarget = robot.liftV.getCurrentPosition() + (int) (inches * (-1140/(3.5 * 3.1415))*.717);
+            newLiftTarget2 = robot.liftV2.getCurrentPosition() + (int) (inches * (-1140/(3.5 * 3.1415))*.717);
 
             robot.liftV.setTargetPosition(newLiftTarget);
+            robot.liftV2.setTargetPosition(newLiftTarget2);
 
             robot.liftV.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftV2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             runtime.reset();
             robot.liftV.setPower(Math.abs(power));
-
-           /*while (opModeIsActive() &&
-                                   robot.liftV.isBusy()) {
-                       telemetry.addData("Lift", "Running at %7d",
-                                       robot.liftV.getCurrentPosition());
-                    telemetry.update();
-
-               }
-          robot.liftV.setPower(0);
-          robot.liftV.setMode(DcMotor.RunMode.RUN_USING_ENCODER); */
+            robot.liftV2.setPower(Math.abs(power));
 
         }
     }

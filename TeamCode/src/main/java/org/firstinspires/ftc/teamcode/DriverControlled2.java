@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@TeleOp (name = "Driver Controlled 1-21-25")
+@TeleOp (name = "Driver Controlled 2-19-25")
 
 public class DriverControlled2 extends LinearOpMode {
 
@@ -168,22 +168,22 @@ public class DriverControlled2 extends LinearOpMode {
             }
 
 
-            double liftVPower = ((gamepad1.right_trigger)-(gamepad1.left_trigger));
-            double liftV2Power = ((gamepad1.right_trigger)-(gamepad1.left_trigger));
-            double liftHPower = gamepad2.right_stick_y;
+            double liftVPower = ((gamepad1.left_trigger)-(gamepad1.right_trigger));
+            double liftV2Power = ((gamepad1.left_trigger)-(gamepad1.right_trigger));
+            double liftHPower = -gamepad2.right_stick_y;
             if(robot.liftH.getCurrentPosition() <-1300 && gamepad2.right_stick_y < 0)
             {liftHPower = 0;
             }
 // new code for Livy's Controller
             double intakePosition = 0.3; //.5
 
-            if (gamepad2.a) {
+            if (gamepad2.left_trigger > 0) {
                 intakePosition = .48; //.7
             }
 
             rotatePostion = .3;
 
-            if (gamepad2.b) {
+            if (gamepad2.right_trigger > 0) {
                 rotatePostion = .6;
             }
                 double leftStickXValue = gamepad2.left_stick_x;
@@ -245,7 +245,7 @@ public class DriverControlled2 extends LinearOpMode {
             }
 
             bucketgrabPosition = .58;
-            if (gamepad2.y) {
+            if (gamepad2.dpad_right) {
                 bucketgrabPosition = 0.2;
             }
 /*
@@ -257,8 +257,8 @@ public class DriverControlled2 extends LinearOpMode {
         }
 */
 //************************************************************************
-            // Start the asynchronous servo sequence when gamepad2.dpad_right is pressed
-            if (gamepad2.dpad_right && !servoOverrideActive) {
+            // Start the asynchronous servo sequence when gamepad2.y is pressed
+            if (gamepad2.y && !servoOverrideActive) {
                 controlServosAsync();
             }
 
@@ -301,55 +301,55 @@ public class DriverControlled2 extends LinearOpMode {
                 robot.liftH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.liftH.setPower(1);
 
-                setServoPosition(robot.servoart, 0.85); //ensure head is orented appropriately
+                setServoPosition(robot.servoart, 1); //ensure head is orented appropriately
                 Thread.sleep(100);
 
                 // Move servos through a sequence
                 //LowerArm right
-                setServoPosition(robot.servorotate, 0.28); //flip up the Sample
+                setServoPosition(robot.servorotate, 0.1); //flip up the Sample
                 setServoPosition(robot.servointake, 0.46); //ensure low claw says closed .68
-                setServoPosition(robot.servoart, 0.85); //ensure head is orented appropriately
-                setServoPosition(robot.servoswing, 0.75); //swing to reposition sample in claw
-                setServoPosition(robot.bucketgrab, 0.15
-                ); //open the high claw
+                setServoPosition(robot.servoart, 1); //ensure head is orented appropriately
+                setServoPosition(robot.servoswing, 0.3); //swing to reposition sample in claw
+                setServoPosition(robot.bucketgrab, 0.2); //open the high claw
                 Thread.sleep(700);
                 Thread.interrupted();
-                setServoPosition(robot.servorotate, 0.68); //put sample on the ground
+                setServoPosition(robot.servointake, 0.42); //loosen low claw .68
+                setServoPosition(robot.servorotate, 0.2); //put sample on the ground
                 Thread.sleep(250);  // Wait for movement to complete
 
-                setServoPosition(robot.servointake, 0.48); //tightly grip the Sample .7
-                setServoPosition(robot.servoswing, 0.5); //move sample to robot left
-                setServoPosition(robot.servoart, 0); //ensure head is orented appropriately
-                setServoPosition(robot.servorotate, 0.25); //flip sample up
+                setServoPosition(robot.servointake, 0.46); //tightly grip the Sample .7
+                setServoPosition(robot.servoswing, 0.35); //move sample back slightly
+                setServoPosition(robot.servorotate, 0.29); //move sample down slightly
                 Thread.sleep(250);  // Wait for movement to complete
 
                 //LowerArm back in
-                setServoPosition(robot.servoswing, 0.65); //swing for transfer
-                Thread.sleep(500);
+              //  setServoPosition(robot.servoswing, 0.65); //swing for transfer
+               // Thread.sleep(500);
 
                 //top arm out
-                setServoPosition(robot.bucketart, 0.6);
-                Thread.sleep(10);
+              //  setServoPosition(robot.bucketart, 0.6);
+               // Thread.sleep(10);
 
                 //top arm down
                 setServoPosition(robot.bucketrotate, 0.8);
-                Thread.sleep(600);
+                Thread.sleep(250);
 
                 //top arm grab
                 setServoPosition(robot.bucketgrab, 0.58);
-                Thread.sleep(500);
+                Thread.sleep(250);
 
                 //lowerarm letgo
-                setServoPosition(robot.servointake, 0.3); //.5
+                setServoPosition(robot.servointake, 0.1); //.5
                 Thread.sleep(500);
 
-                //lowerarm right
-                setServoPosition(robot.servoswing, 0.3);
-                Thread.sleep(500);
+                //lowerarm left
+                setServoPosition(robot.servoart, .5); //ensure head is orented appropriately
+                setServoPosition(robot.servoswing, 0.5);
+                Thread.sleep(250);
 
                 //top arm up
                 setServoPosition(robot.bucketrotate, 0.4);
-                Thread.sleep(500);
+                Thread.sleep(250);
 
                 //top arm in
                // setServoPosition(robot.bucketart, 0.6);
