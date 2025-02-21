@@ -160,10 +160,10 @@ public class DriverControlled2 extends LinearOpMode {
             }
 
 
-            if (gamepad1.dpad_up){
+            if (gamepad2.b){
                 specimenPosition = 0;
             }
-            if (gamepad1.dpad_down){
+            if (gamepad2.x){
                 specimenPosition =.3;
             }
 
@@ -171,7 +171,7 @@ public class DriverControlled2 extends LinearOpMode {
             double liftVPower = ((gamepad1.left_trigger)-(gamepad1.right_trigger));
             double liftV2Power = ((gamepad1.left_trigger)-(gamepad1.right_trigger));
             double liftHPower = -gamepad2.right_stick_y;
-            if(robot.liftH.getCurrentPosition() <-1300 && gamepad2.right_stick_y < 0)
+            if(robot.liftH.getCurrentPosition() > 1300 && gamepad2.right_stick_y < 0)
             {liftHPower = 0;
             }
 // new code for Livy's Controller
@@ -245,7 +245,7 @@ public class DriverControlled2 extends LinearOpMode {
             }
 
             bucketgrabPosition = .58;
-            if (gamepad2.dpad_right) {
+            if (gamepad2.y) {
                 bucketgrabPosition = 0.2;
             }
 /*
@@ -257,8 +257,8 @@ public class DriverControlled2 extends LinearOpMode {
         }
 */
 //************************************************************************
-            // Start the asynchronous servo sequence when gamepad2.y is pressed
-            if (gamepad2.y && !servoOverrideActive) {
+            // Start the asynchronous servo sequence when gamepad2.dpad_right is pressed
+            if (gamepad2.dpad_right && !servoOverrideActive) {
                 controlServosAsync();
             }
 

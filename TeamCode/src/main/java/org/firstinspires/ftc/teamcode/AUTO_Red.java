@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Config
-@Autonomous(name = "Auto Red", group = "Autonomous")
+@Autonomous(name = "Auto Reds", group = "Autonomous")
 public class AUTO_Red extends LinearOpMode {
     public class Lift {
         private DcMotorEx liftV;
@@ -187,85 +187,97 @@ public class AUTO_Red extends LinearOpMode {
 
         TrajectoryActionBuilder toSub = drive.actionBuilder(initialPose)
 
-                .strafeTo(new Vector2d(-2, -31.5));
-        Pose2d toSubEnd = new Pose2d(0, -31.5, Math.toRadians(180));
+                .strafeTo(new Vector2d(0, -33));
+        Pose2d toSubEnd = new Pose2d(0, -33, Math.toRadians(180));
         // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
 
         TrajectoryActionBuilder toSamples = drive.actionBuilder(toSubEnd)
                 //Travel Around submersible and toward samples.
-                .strafeToLinearHeading(new Vector2d(33, -60),Math.toRadians(-84))
-                .strafeToLinearHeading(new Vector2d(35, -55),Math.toRadians(-82))
+                .strafeToLinearHeading(new Vector2d(32, -65),Math.toRadians(-84))
+                .strafeToLinearHeading(new Vector2d(30, -51),Math.toRadians(-82))
+                .strafeTo(new Vector2d(30.5, -51)) // move back to sample 1
                 .waitSeconds(.1)
+                .strafeTo(new Vector2d(18, -100)) // push sample 1
+
+                .strafeTo(new Vector2d(-40, -61)) // move back to sample 2
+                .strafeTo(new Vector2d(-22, -61)) // move over to sample 2
+                // .waitSeconds(1)
+                .strafeTo(new Vector2d(-23, -100)) // push sample 2
+
+                //    .strafeTo(new Vector2d(-50, -63)) // move back to sample 3
+                //   .waitSeconds(.1)
+                //   .strafeTo(new Vector2d(-25, -63)) // move over to sample 3
+                //  .strafeTo(new Vector2d(-30, -100)) // push sample 3
+                //   .strafeTo(new Vector2d(-45, -90)) // back up
+
                 //Push in Sample 1
-                // .strafeTo(new Vector2d(39-25, -50-25))// push sample to wall
-                .strafeToLinearHeading(new Vector2d(20, -83),Math.toRadians(180))
-
-
-                .strafeToLinearHeading(new Vector2d(-5, -90),Math.toRadians(180))
-
+                //   .strafeTo(new Vector2d(37, -90))// push sample to wall
+                //    .strafeToLinearHeading(new Vector2d(3, -71),Math.toRadians(180))
+                //    .strafeToLinearHeading(new Vector2d(0, -100),Math.toRadians(180))
                 //.strafeTo(new Vector2d(15, -65))// bak up
 
-                .strafeToLinearHeading(new Vector2d(-30, -25),Math.toRadians(90)) //back for sample 2
+                //    .strafeToLinearHeading(new Vector2d(-7, -33),Math.toRadians(90))
+                //   .waitSeconds(5)
+                //   .strafeTo(new Vector2d(54-25, -10-25)) // move over to sample 2
+                //   .waitSeconds(100)
 
-                .strafeTo(new Vector2d(-21, -28))
-                .strafeTo(new Vector2d(-30, -68)) // push in sample 2
-
-                .strafeToLinearHeading(new Vector2d(-57, -15),Math.toRadians(-90))
-                .strafeTo(new Vector2d(-19, -53)) // push in sample 3
-                .strafeTo(new Vector2d(-19, -115)) // push in sample 3
-
-
-
-             //   .strafeToLinearHeading(new Vector2d(-13, -52),Math.toRadians(0))// push sample2 to wall
-             //   .strafeTo(new Vector2d(-13, -68))
-
-              //  .strafeToLinearHeading(new Vector2d(-30, -18),Math.toRadians(90))// move to sample3
-
+                //Push in Sample 2
+                //   .strafeTo(new Vector2d(54-25, -50-25))// push sample to wall
                 //.strafeTo(new Vector2d(52, -10)) // backup
                 //.strafeTo(new Vector2d(66, -10)) // move over
                 //Push in Sample 3
                 // .strafeTo(new Vector2d(66,-48))
                 //Relocate to retrieve Specemine 1
-         ///       .splineToSplineHeading(new Pose2d(30-25,-51-25, Math.toRadians(0)), Math.toRadians(-95))
+                //   .strafeToLinearHeading(new Vector2d(-20, -110),Math.toRadians(10))
+                .splineToSplineHeading(new Pose2d(-57,-105, Math.toRadians(0)), Math.toRadians(-95))
                 //Press to wall for Spec1
-                // .waitSeconds(.15)
-           ///     .strafeTo(new Vector2d(30-25, -62-25));
-                .strafeTo(new Vector2d(-30, -115))
-                .waitSeconds(1)
+                // .waitSeconds(5)
+                .strafeTo(new Vector2d(-54, -112)) //relocate
+                .strafeTo(new Vector2d(-54, -115)); //press to wall
 
-                .strafeToLinearHeading(new Vector2d(-26, -115),Math.toRadians(0))
-                .strafeTo(new Vector2d(-60, -115));
-
-
-        Pose2d toSamplesEnd = new Pose2d(50, -50, Math.toRadians(-90)); //roughly position to combat drift
+        Pose2d toSamplesEnd = new Pose2d(-54, -115, Math.toRadians(0));
 
         TrajectoryActionBuilder toSub2 = drive.actionBuilder(toSamplesEnd)
                 //Move to submersible to deliver Spec1
                 //.waitSeconds(.15)
-                .strafeTo(new Vector2d(25-25, -50.5-25))
-                .strafeToLinearHeading(new Vector2d(7-25, -6.5-25),Math.toRadians(145));
+                .strafeTo(new Vector2d(-54, -110))
+                .strafeToLinearHeading(new Vector2d(-80, -90),Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(-80, -79.5),Math.toRadians(190))
+
+                //  .strafeTo(new Vector2d(-90, -79.5))
+                .strafeTo(new Vector2d(-80, -78.5));
+
+
         //.waitSeconds(.25);
-        Pose2d toSub2End = new Pose2d(7-25, -0.5-25, Math.toRadians(145));
+        Pose2d toSub2End = new Pose2d(-80, -79, Math.toRadians(180));
 
 
         TrajectoryActionBuilder toWall2 = drive.actionBuilder(toSub2End)
-                //Return for Spec2
-                //.waitSeconds(.25)
-                .strafeTo(new Vector2d(0-25, -10-25))
-                .strafeTo(new Vector2d(20-25, -50-25))
-                .strafeToLinearHeading(new Vector2d(29-25, -60-25),Math.toRadians(-20))
+                //Return for Spec
+                //  .waitSeconds(1)
+                .strafeTo(new Vector2d(-80, -81))
+                //   .strafeTo(new Vector2d(20-25, -50-25))
+                .strafeToLinearHeading(new Vector2d(-60, -100),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-55, -110),Math.toRadians(0))
+                .strafeTo(new Vector2d(-45, -120))
+
+                .waitSeconds(1)
+
                 //Press Wall for Spec2
-                .strafeTo(new Vector2d(29-25, -70.5-25));
-        Pose2d toWall2End = new Pose2d(29-25, -70.5-25, Math.toRadians(-20));
+                // .strafeTo(new Vector2d(-45, -110))
+                .strafeTo(new Vector2d(-45, -132));
+
+        Pose2d toWall2End = new Pose2d(-45, -115, Math.toRadians(0));
 
         TrajectoryActionBuilder toSub3 = drive.actionBuilder(toWall2End)
                 // .waitSeconds(.15)
                 //Move to submersible to deliver Spec2
-                .strafeTo(new Vector2d(20-25, -50-25))
-                .strafeToLinearHeading(new Vector2d(5-25, -45-25),Math.toRadians(95))
-                .strafeToLinearHeading(new Vector2d(2-25, -35-25),Math.toRadians(180))
+                .strafeTo(new Vector2d(-60, -110))
+                .strafeToLinearHeading(new Vector2d(-85, -90),Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(-90, -79.5),Math.toRadians(190))
 
-                .strafeToLinearHeading(new Vector2d(2-25, -25-25),Math.toRadians(180));
+                //  .strafeTo(new Vector2d(-90, -79.5))
+                .strafeTo(new Vector2d(-90, -78.5));
         //.waitSeconds(.25);
 
         Pose2d toSub3End = new Pose2d(2-25, -18-25, Math.toRadians(180));
@@ -313,7 +325,7 @@ public class AUTO_Red extends LinearOpMode {
         lift (1, -5);
         sleep(750);
         robot.specimenClamp.setPosition(.4);
-        lift (.5, -13.5);
+        lift (.5, -14);
 
 
         Actions.runBlocking(
@@ -333,7 +345,7 @@ public class AUTO_Red extends LinearOpMode {
         lift (1, -5);
         sleep(800);
         robot.specimenClamp.setPosition(.4);
-        lift (1, -13.5);
+        lift (.5, -13.5);
 
         Actions.runBlocking(
                 new SequentialAction(
