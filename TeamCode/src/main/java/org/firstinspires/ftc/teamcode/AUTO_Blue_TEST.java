@@ -337,7 +337,7 @@ public class AUTO_Blue_TEST extends LinearOpMode {
                     )
             );
         }
-        if (currentDistance > 4) {
+        if (currentDistance < 3) {
             Actions.runBlocking(
                     new SequentialAction(
                             toSub3Correctionback.build()
