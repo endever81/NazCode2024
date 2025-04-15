@@ -277,7 +277,7 @@ public class AUTO_Left extends LinearOpMode {
         if (isStopRequested()) return;
         robot.servohang.setPosition(1);
         robot.specimenClamp.setPosition(0);
-        robot.servorotate.setPosition(.4);
+        robot.servorotate.setPosition(.1);
         lift (1, 18.5);
         Actions.runBlocking(
                 new SequentialAction(

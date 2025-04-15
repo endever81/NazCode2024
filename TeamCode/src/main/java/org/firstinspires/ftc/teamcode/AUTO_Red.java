@@ -187,8 +187,8 @@ public class AUTO_Red extends LinearOpMode {
 
         TrajectoryActionBuilder toSub = drive.actionBuilder(initialPose)
 
-                .strafeTo(new Vector2d(0, -26));
-        Pose2d toSubEnd = new Pose2d(0, -26, Math.toRadians(180));
+                .strafeTo(new Vector2d(0, -23));
+        Pose2d toSubEnd = new Pose2d(0, -23, Math.toRadians(180));
         // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
 
         TrajectoryActionBuilder toSamples = drive.actionBuilder(toSubEnd)
@@ -245,14 +245,14 @@ public class AUTO_Red extends LinearOpMode {
                 .strafeTo(new Vector2d(40, -58))
                 //    .waitSeconds(1)
                 .strafeToLinearHeading(new Vector2d(0, -46),Math.toRadians(180))
-                .strafeToLinearHeading(new Vector2d(-6, -46),Math.toRadians(195))
+                .strafeToLinearHeading(new Vector2d(-7, -46),Math.toRadians(195))
                 //  .waitSeconds(1)
                 //  .strafeTo(new Vector2d(-90, -79.5))
-                .strafeTo(new Vector2d(-6, -36.5));
+                .strafeTo(new Vector2d(-7, -34.5));
 
 
         //.waitSeconds(.25);
-        Pose2d toSub2End = new Pose2d(-6, -36.5, Math.toRadians(180));
+        Pose2d toSub2End = new Pose2d(-7, -34.5, Math.toRadians(180));
 
 
         TrajectoryActionBuilder toWall2 = drive.actionBuilder(toSub2End)
@@ -281,9 +281,9 @@ public class AUTO_Red extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(0, -46),Math.toRadians(195))
                 //  .waitSeconds(1)
                 //  .strafeTo(new Vector2d(-90, -79.5))
-                .strafeTo(new Vector2d(0, -36.5));
+                .strafeTo(new Vector2d(0, -33.5));
 
-        Pose2d toSub3End = new Pose2d(-4, -36.5, Math.toRadians(180));
+        Pose2d toSub3End = new Pose2d(-4, -33.5, Math.toRadians(180));
 
         TrajectoryActionBuilder toWall3 = drive.actionBuilder(toSub3End)
                 .strafeTo(new Vector2d(-4, -43))
@@ -306,10 +306,10 @@ public class AUTO_Red extends LinearOpMode {
                 .strafeTo(new Vector2d(40, -58))
                 //    .waitSeconds(1)
                 .strafeToLinearHeading(new Vector2d(0, -46),Math.toRadians(180))
-                .strafeToLinearHeading(new Vector2d(2, -46),Math.toRadians(195))
+                .strafeToLinearHeading(new Vector2d(-1, -46),Math.toRadians(195))
                 //  .waitSeconds(1)
                 //  .strafeTo(new Vector2d(-90, -79.5))
-                .strafeTo(new Vector2d(2, -36));
+                .strafeTo(new Vector2d(1, -34));
 
 
         Action trajectoryActionCloseOut = toSub4.fresh()
@@ -339,7 +339,7 @@ public class AUTO_Red extends LinearOpMode {
         lift (1, -5);
         sleep(400);
         robot.specimenClamp.setPosition(.4);
-        lift (.5, -14);
+        lift (.7, -14);
 
 
         Actions.runBlocking(
@@ -359,7 +359,7 @@ public class AUTO_Red extends LinearOpMode {
         lift (1, -5);
         sleep(400);
         robot.specimenClamp.setPosition(.4);
-        lift (.5, -13.5);
+        lift (.7, -13.5);
 
         Actions.runBlocking(
                 new SequentialAction(
@@ -378,7 +378,7 @@ public class AUTO_Red extends LinearOpMode {
         lift (1, -5);
         sleep(400);
         robot.specimenClamp.setPosition(.4);
-        lift (.5, -13.5);
+        lift (.7, -13.5);
 
         Actions.runBlocking(
                 new SequentialAction(
@@ -398,7 +398,9 @@ public class AUTO_Red extends LinearOpMode {
         lift (1, -18.5);
         sleep(1000);
         robot.specimenClamp.setPosition(.4);
-        lift (.5, -13.5);
+        lift (.7, -13.5);
+        robot.liftH.setPower(-.2);
+        sleep(500);
 
     }
 

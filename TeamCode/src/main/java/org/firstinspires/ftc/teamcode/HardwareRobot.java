@@ -3,9 +3,12 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 public class HardwareRobot {
@@ -25,12 +28,14 @@ public class HardwareRobot {
     public Servo servoart = null;
     public Servo servoswing = null;
 
+    public Servo servosweep = null;
     public Servo servointake = null;
     public Servo specimenClamp = null;
     public Servo bucketgrab = null;
     public Servo bucketrotate = null;
     public Servo bucketart = null;
     public RevBlinkinLedDriver blinkinLedDriver = null;
+    public DistanceSensor sensorDistance = null;
 
 
 
@@ -65,6 +70,9 @@ public class HardwareRobot {
         bucketgrab = hwMap.get(Servo.class, "bucket_grab");
         bucketart = hwMap.get(Servo.class, "bucket_articulate");
         bucketrotate = hwMap.get(Servo.class, "bucket_rotate");
+        servosweep = hwMap.get(Servo.class, "servo_sweep");
+
+        sensorDistance = hwMap.get(DistanceSensor.class, "sensor_distance");
 
 
         blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin");
@@ -95,6 +103,7 @@ public class HardwareRobot {
         bucketart.setPosition(.25);
         bucketrotate.setPosition(.8);
 
+        servosweep.setPosition(0);
         servorotate.setPosition(.1);
         servointake.setPosition(0.3); //.5
         servoswing.setPosition(.81);
@@ -104,6 +113,11 @@ public class HardwareRobot {
         //servohang.setPosition(1);
 
 
+    }
+
+    //create a separate method to carry a variable publicly throughout the greater program
+    public double getDistance() {
+        return sensorDistance.getDistance(DistanceUnit.INCH); // Get distance in millimeters
     }
 
 }

@@ -79,6 +79,7 @@ public class DriverControlled2 extends LinearOpMode {
         telemetry.addData("Vertical",robot.liftV.getCurrentPosition());
         telemetry.addData("Vertical2",robot.liftV2.getCurrentPosition());
         telemetry.addData("encoder", robot.leftRearDrive.getCurrentPosition());
+
         telemetry.update();
         double hangPower = 0;
         double specimenPosition = 0;
@@ -178,7 +179,7 @@ public class DriverControlled2 extends LinearOpMode {
             double intakePosition = 0.3; //.5
 
             if (gamepad2.left_trigger > 0) {
-                intakePosition = .48; //.7
+                intakePosition = .54; //.7
             }
 
             rotatePostion = .3;
@@ -307,17 +308,17 @@ public class DriverControlled2 extends LinearOpMode {
                 // Move servos through a sequence
                 //LowerArm right
                 setServoPosition(robot.servorotate, 0.1); //flip up the Sample
-                setServoPosition(robot.servointake, 0.46); //ensure low claw says closed .68
+                setServoPosition(robot.servointake, 0.52); //ensure low claw says closed .68
                 setServoPosition(robot.servoart, 1); //ensure head is orented appropriately
                 setServoPosition(robot.servoswing, 0.3); //swing to reposition sample in claw
                 setServoPosition(robot.bucketgrab, 0.2); //open the high claw
                 Thread.sleep(700);
                 Thread.interrupted();
-                setServoPosition(robot.servointake, 0.42); //loosen low claw .68
+                setServoPosition(robot.servointake, 0.48); //loosen low claw .68
                 setServoPosition(robot.servorotate, 0.2); //put sample on the ground
                 Thread.sleep(250);  // Wait for movement to complete
 
-                setServoPosition(robot.servointake, 0.46); //tightly grip the Sample .7
+                setServoPosition(robot.servointake, 0.52); //tightly grip the Sample .7
                 setServoPosition(robot.servoswing, 0.35); //move sample back slightly
                 setServoPosition(robot.servorotate, 0.29); //move sample down slightly
                 Thread.sleep(250);  // Wait for movement to complete
@@ -336,7 +337,7 @@ public class DriverControlled2 extends LinearOpMode {
 
                 //top arm grab
                 setServoPosition(robot.bucketgrab, 0.58);
-                Thread.sleep(250);
+                Thread.sleep(500);
 
                 //lowerarm letgo
                 setServoPosition(robot.servointake, 0.1); //.5

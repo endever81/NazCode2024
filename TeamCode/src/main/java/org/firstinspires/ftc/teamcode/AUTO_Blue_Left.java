@@ -39,28 +39,27 @@ public class AUTO_Blue_Left extends LinearOpMode {
 
         TrajectoryActionBuilder toSub = drive.actionBuilder(initialPose)
 
-                .strafeTo(new Vector2d(0, -29));
-        Pose2d toSubEnd = new Pose2d(0, -33.5, Math.toRadians(180));
+                .strafeTo(new Vector2d(0, -14));
+        Pose2d toSubEnd = new Pose2d(0, -14, Math.toRadians(180));
         // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
 
         TrajectoryActionBuilder toSample1 = drive.actionBuilder(toSubEnd)
                 //Travel Around submersible and toward sample 1.
-                .strafeToLinearHeading(new Vector2d(-55, -72),Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-62, -75),Math.toRadians(50))
+                .strafeToLinearHeading(new Vector2d(-25, -30),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-69, -16),Math.toRadians(70))
 
-                .waitSeconds(2); // move back to sample 1
+                .waitSeconds(1); // move back to sample 1
 
                // .splineToSplineHeading(new Pose2d(-57,-105, Math.toRadians(0)), Math.toRadians(-95))
-                Pose2d toSample1End = new Pose2d(-62, -75, Math.toRadians(50));
+                Pose2d toSample1End = new Pose2d(-69, -16, Math.toRadians(70));
 
         TrajectoryActionBuilder toHG1 = drive.actionBuilder(toSample1End)
                 //Move to High Goal to deliver Sample 1
 
-                .strafeToLinearHeading(new Vector2d(0, -70),Math.toRadians(-135))
-                .splineToSplineHeading(new Pose2d(-62,-92, Math.toRadians(-135)), Math.toRadians(-45))
+                .strafeToLinearHeading(new Vector2d(-69, -60),Math.toRadians(-135))
                 .waitSeconds(1);
 
-                Pose2d toHG1End = new Pose2d(-55, -82, Math.toRadians(-135));
+                Pose2d toHG1End = new Pose2d(-69, -60, Math.toRadians(-135));
 
 
         TrajectoryActionBuilder toSample2 = drive.actionBuilder(toHG1End)
@@ -104,6 +103,10 @@ public class AUTO_Blue_Left extends LinearOpMode {
         telemetry.addData("Initialization Complete", "Awaiting Start Command");
         telemetry.update();
         waitForStart();
+        robot.liftH.setTargetPosition(zeroLiftH);
+        robot.liftH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftH.setPower(1);
+        robot.bucketart.setPosition(0.5);
 
         if (isStopRequested()) return;
         robot.servohang.setPosition(1);
@@ -324,7 +327,7 @@ public class AUTO_Blue_Left extends LinearOpMode {
 
                 //top arm grab
                 setServoPosition(robot.bucketgrab, 0.58);
-                Thread.sleep(250);
+                Thread.sleep(250);//
 
                 //lowerarm letgo
                 setServoPosition(robot.servointake, 0.1); //.5

@@ -22,156 +22,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Config
 @Autonomous(name = "Auto Blue", group = "Autonomous")
 public class AUTO_Blue extends LinearOpMode {
-    public class Lift {
-        private DcMotorEx liftV;
-        private DcMotorEx liftV2;
-
-        public Lift(HardwareMap hardwareMap) {
-            liftV = hardwareMap.get(DcMotorEx.class, "liftV");
-            liftV.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            liftV.setDirection(DcMotorSimple.Direction.FORWARD);
-            liftV2 = hardwareMap.get(DcMotorEx.class, "liftV2");
-            liftV2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            liftV2.setDirection(DcMotorSimple.Direction.FORWARD);
-        }
-
-        public class LiftUp implements Action {
-            private boolean initialized = false;
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                if (!initialized) {
-                    liftV.setPower(0.8);
-                    liftV2.setPower(0.8);
-                    initialized = true;
-                }
-
-                double pos = liftV.getCurrentPosition();
-                packet.put("liftPos", pos);
-                if (pos < 500.0) {
-                    return true;
-                } else {
-                    liftV.setPower(0);
-                    return false;
-                }
-            }
-        }
-        public Action liftUp() {
-            return new LiftUp();
-        }
-
-        public class LiftDown implements Action {
-            private boolean initialized = false;
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                if (!initialized) {
-                    liftV.setPower(-0.8);
-                    initialized = true;
-                }
-
-                double pos = liftV.getCurrentPosition();
-                packet.put("liftPos", pos);
-                if (pos > 0.0) {
-                    return true;
-                } else {
-                    liftV.setPower(0);
-                    return false;
-                }
-            }
-        }
-        public Action liftDown(){
-            return new LiftDown();
-        }
-    }
-
-    public class Extender {
-        private DcMotorEx extendH;
-
-        public Extender (HardwareMap hardwareMap) {
-            extendH = hardwareMap.get(DcMotorEx.class, "liftH");
-            extendH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            extendH.setDirection(DcMotorSimple.Direction.FORWARD);
-        }
-
-        public class LiftOut implements Action {
-            private boolean initialized = false;
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                if (!initialized) {
-                    extendH.setPower(1);
-                    initialized = true;
-                }
-
-                double pos = extendH.getCurrentPosition();
-                packet.put("extPos", pos);
-                if (pos < 3000.0) {
-                    return true;
-                } else {
-                    extendH.setPower(0);
-                    return false;
-                }
-            }
-        }
-        public Action liftOut() {
-            return new LiftOut();
-        }
-
-        public class LiftIn implements Action {
-            private boolean initialized = false;
-
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                if (!initialized) {
-                    extendH.setPower(-0.8);
-                    initialized = true;
-                }
-
-                double pos = extendH.getCurrentPosition();
-                packet.put("extPos", pos);
-                if (pos > 100.0) {
-                    return true;
-                } else {
-                    extendH.setPower(0);
-                    return false;
-                }
-            }
-        }
-        public Action liftIn(){
-            return new LiftIn();
-        }
-    }
-
-    public static class Rotate {
-        private Servo rotate;
-
-        public Rotate(HardwareMap hardwareMap) {
-            rotate = hardwareMap.get(Servo.class, "servo_rotate");
-        }
-
-        public class RotateUp implements Action {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                rotate.setPosition(.4);
-                return false;
-            }
-        }
-        public Action rotateUp() {
-            return new RotateUp();
-        }
-
-        public class RotateDown implements Action {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                rotate.setPosition(0.1);
-                return false;
-            }
-        }
-        public Action rotateDown() {
-            return new RotateDown();
-        }
-    }
 
     HardwareRobot robot = new HardwareRobot();
 
@@ -180,21 +30,17 @@ public class AUTO_Blue extends LinearOpMode {
         robot.init(hardwareMap);
         Pose2d initialPose = new Pose2d(0, -63, Math.toRadians(180));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
-        // Rotate rotate = new Rotate(hardwareMap);
-        //Lift lift = new Lift(hardwareMap);
-        // Extender extender = new Extender(hardwareMap);
-
 
         TrajectoryActionBuilder toSub = drive.actionBuilder(initialPose)
 
-                .strafeTo(new Vector2d(0, -26));
-        Pose2d toSubEnd = new Pose2d(0, -26, Math.toRadians(180));
+                .strafeTo(new Vector2d(0, -25));
+        Pose2d toSubEnd = new Pose2d(0, -24, Math.toRadians(180));
         // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
 
         TrajectoryActionBuilder toSamples = drive.actionBuilder(toSubEnd)
                 //Travel Around submersible and toward samples.
-                .strafeToLinearHeading(new Vector2d(34, -30),Math.toRadians(-84))
-                .strafeToLinearHeading(new Vector2d(34, -18),Math.toRadians(-82))
+                .strafeToLinearHeading(new Vector2d(35, -30),Math.toRadians(-84))
+                .strafeToLinearHeading(new Vector2d(35, -18),Math.toRadians(-82))
                 .strafeTo(new Vector2d(44, -14)) // move back to sample 1
               //  .waitSeconds(1)
                 .strafeTo(new Vector2d(44, -52)) // push sample 1
@@ -248,7 +94,7 @@ public class AUTO_Blue extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(-6, -46),Math.toRadians(195))
               //  .waitSeconds(1)
               //  .strafeTo(new Vector2d(-90, -79.5))
-                .strafeTo(new Vector2d(-6, -36.5));
+                .strafeTo(new Vector2d(-6, -36));
 
 
         //.waitSeconds(.25);
@@ -398,8 +244,9 @@ public class AUTO_Blue extends LinearOpMode {
         lift (1, -18.5);
         sleep(1000);
         robot.specimenClamp.setPosition(.4);
+        robot.liftH.setPower(-.2);
         lift (.5, -13.5);
-
+        sleep(500);
     }
 
 
