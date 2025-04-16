@@ -61,6 +61,9 @@ public class AUTO_Blue_TEST extends LinearOpMode {
                 .strafeTo(new Vector2d(40, -50)) //move back to wall
 
                 .strafeTo(new Vector2d(40, -40)) //back up
+                .afterDisp(1, () ->{ //close arm after 1 inches
+                    robot.servosweep.setPosition(.3);
+                })
 
                 .strafeToLinearHeading(new Vector2d(30, -50),Math.toRadians(0)); //manuver to wall
 
@@ -192,7 +195,15 @@ public class AUTO_Blue_TEST extends LinearOpMode {
                 .strafeTo(new Vector2d(2, -36));
         Pose2d toSub4End = new Pose2d(2, -36, Math.toRadians(180));
 
-        TrajectoryActionBuilder toSub4Correction = drive.actionBuilder(toSub4End)
+        TrajectoryActionBuilder toSub4Correctionforw = drive.actionBuilder(toSub4End)
+                .strafeTo(new Vector2d(2, -36));
+        // toSub4End = new Pose2d(40, -63, Math.toRadians(180));
+      //  Action trajectoryActionCloseOut = toSub4.fresh()
+                //.strafeTo(new Vector2d(48, 12))
+              //  .build();
+         toSub4End = new Pose2d(2, -36, Math.toRadians(180));
+
+        TrajectoryActionBuilder toSub4Correctionback = drive.actionBuilder(toSub4End)
                 .strafeTo(new Vector2d(2, -36));
        // toSub4End = new Pose2d(40, -63, Math.toRadians(180));
         Action trajectoryActionCloseOut = toSub4.fresh()
@@ -312,7 +323,7 @@ public class AUTO_Blue_TEST extends LinearOpMode {
                     )
             );
         }
-        if (currentDistance > 3) {
+        if (currentDistance < 2) {
             Actions.runBlocking(
                     new SequentialAction(
                             toWall2Correctionback.build()
@@ -363,7 +374,7 @@ public class AUTO_Blue_TEST extends LinearOpMode {
                     )
             );
         }
-        if (currentDistance > 3) {
+        if (currentDistance < 2) {
             Actions.runBlocking(
                     new SequentialAction(
                             toWall3Correctionback.build()
@@ -385,7 +396,14 @@ public class AUTO_Blue_TEST extends LinearOpMode {
         if (currentDistance > 4) {
             Actions.runBlocking(
                     new SequentialAction(
-                            toSub4Correction.build()
+                            toSub4Correctionforw.build()
+                    )
+            );
+        }
+        if (currentDistance < 3) {
+            Actions.runBlocking(
+                    new SequentialAction(
+                            toSub4Correctionback.build()
                     )
             );
         }
