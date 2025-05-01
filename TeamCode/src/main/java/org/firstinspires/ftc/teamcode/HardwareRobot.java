@@ -28,6 +28,7 @@ public class HardwareRobot {
     public Servo servoart = null;
     public Servo servoswing = null;
 
+    public Servo servoarm = null;
     public Servo servosweep = null;
     public Servo servointake = null;
     public Servo specimenClamp = null;
@@ -61,6 +62,7 @@ public class HardwareRobot {
         liftV2 = hwMap.get(DcMotor.class, "liftV2");
         hang = hwMap.get(DcMotor.class, "hang");
 
+        servoarm = hwMap.get(Servo.class, "servo_arm");
         servohang = hwMap.get(Servo.class, "servo_hang");
         servorotate = hwMap.get(Servo.class, "servo_rotate");
         servoart = hwMap.get(Servo.class, "servo_art");
@@ -103,7 +105,8 @@ public class HardwareRobot {
         bucketart.setPosition(.25);
         bucketrotate.setPosition(.8);
 
-        servosweep.setPosition(0);
+        servoarm.setPosition(.17);
+        servosweep.setPosition(1);
         servorotate.setPosition(.1);
         servointake.setPosition(0.3); //.5
         servoswing.setPosition(.81);

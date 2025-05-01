@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@TeleOp (name = "Driver Controlled 2-19-25")
+@TeleOp (name = "Driver Controlled 5-1-25")
 
 public class DriverControlled2 extends LinearOpMode {
 
@@ -87,9 +87,9 @@ public class DriverControlled2 extends LinearOpMode {
         double swingPosition= 0.5;
         double artPosition = 0.5;
         double bucketartPosition = .5;
-        double bucketrotatePosition = 0.4;
+        double bucketrotatePosition = 0;
         double bucketgrabPosition = .58;
-
+        double armPosition = 0.17;
 
         // Variables for articulation servo
         double articulationBaseAngle = 0; // Base angle synchronized with swing arm
@@ -102,6 +102,7 @@ public class DriverControlled2 extends LinearOpMode {
 // Track button state to ensure single press action
         boolean xPressed = false;
         boolean yPressed = false;
+        boolean autoSwingEnabled = false;
 
 
         while (opModeIsActive()){
@@ -167,7 +168,22 @@ public class DriverControlled2 extends LinearOpMode {
             if (gamepad2.x){
                 specimenPosition =.3;
             }
+            if (gamepad2.left_stick_button) {
+                autoSwingEnabled = false;
+                armPosition = 0.17;
+            }
 
+            if (gamepad2.right_stick_button) {
+                autoSwingEnabled = true;
+            }
+
+            if (autoSwingEnabled) {
+                if (robot.liftV.getCurrentPosition() < -500) {
+                    armPosition = .86;
+                } else {
+                    armPosition = 0.17;
+                }
+            }
 
             double liftVPower = ((gamepad1.left_trigger)-(gamepad1.right_trigger));
             double liftV2Power = ((gamepad1.left_trigger)-(gamepad1.right_trigger));
@@ -274,8 +290,9 @@ public class DriverControlled2 extends LinearOpMode {
             robot.liftV2.setPower(liftV2Power);
             robot.hang.setPower(hangPower);
 
-
+            robot.servoarm.setPosition(armPosition);
             if (!servoOverrideActive) {
+
                 robot.specimenClamp.setPosition(specimenPosition);
                 robot.bucketgrab.setPosition(bucketgrabPosition);
                 robot.bucketart.setPosition(bucketartPosition);
@@ -349,7 +366,7 @@ public class DriverControlled2 extends LinearOpMode {
                 Thread.sleep(250);
 
                 //top arm up
-                setServoPosition(robot.bucketrotate, 0.4);
+                setServoPosition(robot.bucketrotate, 0);
                 Thread.sleep(250);
 
                 //top arm in
