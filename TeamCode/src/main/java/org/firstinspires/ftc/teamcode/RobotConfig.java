@@ -12,5 +12,5 @@ public class RobotConfig {
     public static double servoRotatePosition = 0.5;
     public static double servoSwingPosition = 0.5;
     public static double servoArtPosition = 0.5;
-
+    public static double servoSweepPosition = 0.5;
 }

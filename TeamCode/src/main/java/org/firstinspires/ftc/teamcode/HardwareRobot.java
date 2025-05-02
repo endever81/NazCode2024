@@ -103,7 +103,7 @@ public class HardwareRobot {
 
         bucketgrab.setPosition(.3);
         bucketart.setPosition(.25);
-        bucketrotate.setPosition(.8);
+        bucketrotate.setPosition(0);  //origionally 0.8
 
         servoarm.setPosition(.17);
         servosweep.setPosition(1);

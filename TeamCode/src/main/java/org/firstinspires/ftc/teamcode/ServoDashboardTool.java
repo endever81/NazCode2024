@@ -30,7 +30,7 @@ public class ServoDashboardTool extends LinearOpMode {
             robot.servoswing.setPosition(RobotConfig.servoSwingPosition);
             robot.servorotate.setPosition(RobotConfig.servoRotatePosition);
             robot.servoart.setPosition(RobotConfig.servoArtPosition);
-
+            robot.servosweep.setPosition(RobotConfig.servoSweepPosition);
             // Send telemetry data to FTC Dashboard
             telemetry.addData("Servo Intake Pose", RobotConfig.servoIntakePosition);
             telemetry.addData("Servo Rotate", RobotConfig.servoRotatePosition);
@@ -41,6 +41,7 @@ public class ServoDashboardTool extends LinearOpMode {
             telemetry.addData("Bucket Grab", RobotConfig.bucketGrabPosition);
             telemetry.addData("Bucket Articulation", RobotConfig.bucketArtPosition);
             telemetry.addData("Bucket Rotate", RobotConfig.bucketRotatePosition);
+            telemetry.addData("servo_sweep", RobotConfig.servoSweepPosition);
             telemetry.update();
         }
     }

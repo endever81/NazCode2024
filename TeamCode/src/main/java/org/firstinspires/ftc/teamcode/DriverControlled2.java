@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@TeleOp (name = "Driver Controlled 5-1-25")
+@TeleOp (name = "Driver Controlled 5-2-25")
 
 public class DriverControlled2 extends LinearOpMode {
 
@@ -103,7 +103,7 @@ public class DriverControlled2 extends LinearOpMode {
         boolean xPressed = false;
         boolean yPressed = false;
         boolean autoSwingEnabled = false;
-
+        boolean autoLiftEnabled = true;
 
         while (opModeIsActive()){
             telemetry.addData("horizontal",robot.liftH.getCurrentPosition());
@@ -168,6 +168,50 @@ public class DriverControlled2 extends LinearOpMode {
             if (gamepad2.x){
                 specimenPosition =.3;
             }
+
+            if (gamepad1.left_stick_button) {
+                autoLiftEnabled = false;
+            }
+
+            if (gamepad1.right_stick_button) {
+                autoLiftEnabled = true;
+            }
+
+            if (autoLiftEnabled) {
+                // Enable auto lift mode
+                if (gamepad1.left_trigger > 0.1) {
+                    robot.liftV.setTargetPosition(-1100);
+                    robot.liftV2.setTargetPosition(-1100);
+
+                    robot.liftV.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftV2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                    robot.liftV.setPower(1.0);
+                    robot.liftV2.setPower(1.0);
+                } else if (gamepad1.right_trigger > 0.1) {
+                    robot.liftV.setTargetPosition(0);
+                    robot.liftV2.setTargetPosition(0);
+
+                    robot.liftV.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftV2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                    robot.liftV.setPower(1.0);
+                    robot.liftV2.setPower(1.0);
+                } else {
+                    // Hold position without moving if no trigger is pressed
+                    robot.liftV.setPower(0);
+                    robot.liftV2.setPower(0);
+                }
+            } else {
+                // Manual lift control mode
+                robot.liftV.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.liftV2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+
+            double liftVPower = ((gamepad1.left_trigger)-(gamepad1.right_trigger));
+
+
+
             if (gamepad2.left_stick_button) {
                 autoSwingEnabled = false;
                 armPosition = 0.17;
@@ -185,8 +229,7 @@ public class DriverControlled2 extends LinearOpMode {
                 }
             }
 
-            double liftVPower = ((gamepad1.left_trigger)-(gamepad1.right_trigger));
-            double liftV2Power = ((gamepad1.left_trigger)-(gamepad1.right_trigger));
+
             double liftHPower = -gamepad2.right_stick_y;
             if(robot.liftH.getCurrentPosition() > 1300 && gamepad2.right_stick_y < 0)
             {liftHPower = 0;
@@ -287,7 +330,7 @@ public class DriverControlled2 extends LinearOpMode {
             robot.rightRearDrive.setPower(rear_right);
 
             robot.liftV.setPower(liftVPower);
-            robot.liftV2.setPower(liftV2Power);
+            robot.liftV2.setPower(liftVPower);
             robot.hang.setPower(hangPower);
 
             robot.servoarm.setPosition(armPosition);

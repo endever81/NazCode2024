@@ -31,7 +31,7 @@ public class AUTO_Blue_Left extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
 
-        Pose2d initialPose = new Pose2d(-18, -63, Math.toRadians(180));
+        Pose2d initialPose = new Pose2d(-18, -63, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         zeroLiftH = robot.liftH.getCurrentPosition();
@@ -39,25 +39,24 @@ public class AUTO_Blue_Left extends LinearOpMode {
 
         TrajectoryActionBuilder toSub = drive.actionBuilder(initialPose)
 
-                .strafeTo(new Vector2d(0, -14));
-        Pose2d toSubEnd = new Pose2d(0, -14, Math.toRadians(180));
+                .strafeTo(new Vector2d(-12, -41));
+        Pose2d toSubEnd = new Pose2d(-12, -41, Math.toRadians(90));
         // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
 
         TrajectoryActionBuilder toSample1 = drive.actionBuilder(toSubEnd)
                 //Travel Around submersible and toward sample 1.
-                .strafeToLinearHeading(new Vector2d(-25, -30),Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-69, -16),Math.toRadians(70))
+                .strafeToLinearHeading(new Vector2d(-18, -50),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-72, -24),Math.toRadians(90));
 
-                .waitSeconds(1); // move back to sample 1
 
                // .splineToSplineHeading(new Pose2d(-57,-105, Math.toRadians(0)), Math.toRadians(-95))
-                Pose2d toSample1End = new Pose2d(-69, -16, Math.toRadians(70));
+                Pose2d toSample1End = new Pose2d(-72, -24, Math.toRadians(90));
 
         TrajectoryActionBuilder toHG1 = drive.actionBuilder(toSample1End)
                 //Move to High Goal to deliver Sample 1
 
                 .strafeToLinearHeading(new Vector2d(-69, -60),Math.toRadians(-135))
-                .waitSeconds(1);
+                .waitSeconds(10);
 
                 Pose2d toHG1End = new Pose2d(-69, -60, Math.toRadians(-135));
 
@@ -112,6 +111,8 @@ public class AUTO_Blue_Left extends LinearOpMode {
         robot.servohang.setPosition(1);
         robot.specimenClamp.setPosition(0);
         robot.servorotate.setPosition(.1);
+        robot.servoarm.setPosition(.5);  //.6
+
         lift (1, 18.5); //Lift to High Chamber height
                 Actions.runBlocking(
                         new SequentialAction(
@@ -127,7 +128,8 @@ public class AUTO_Blue_Left extends LinearOpMode {
                                 toSample1.build()  //To Sample 1
                         )
                 );
-        robot.servoswing.setPosition(0.48);    // SET SWING ARM POSITION
+        robot.servoarm.setPosition(.17);
+        robot.servoswing.setPosition(0.5);    // SET SWING ARM POSITION
         robot.servoart.setPosition(0.54);     // Set Articulator Position
         robot.servorotate.setPosition(0.3);  //moves the claw up and down 0.3 up / 0.6 Down
         robot.servointake.setPosition(0.3); // Closes the claw  0.3 open / 0.48 closed

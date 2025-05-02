@@ -31,22 +31,33 @@ public class AUTO_Blue_No_Preload extends LinearOpMode {
 
 
         TrajectoryActionBuilder toSamples = drive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(23, -20)) //move forward to sample
+                .strafeTo(new Vector2d(30, -20)) //move forward to sample
                 .afterTime(.1, () ->{ //open arm after 40 inches
-                    robot.servosweep.setPosition(.5);
+                    robot.servosweep.setPosition(.4);
                 })
-                .strafeTo(new Vector2d(25, -50)) //move back to wall
-
-                .strafeTo(new Vector2d(30, -20)) //move forward to sample 2
-                .strafeTo(new Vector2d(30, -50)) //move back to wall
-
-                .strafeTo(new Vector2d(40, -20)) //move forward to sample 3
-                .strafeTo(new Vector2d(40, -50)) //move back to wall
-
-                .strafeTo(new Vector2d(40, -40)) //back up
-                .afterDisp(1, () ->{ //close arm after 1 inches
-                    robot.servosweep.setPosition(0);
+                .strafeTo(new Vector2d(35, -60)) //move back to wall
+                .afterTime(.1, () ->{ //open arm after 40 inches
+                    robot.servosweep.setPosition(1);
                 })
+                .strafeTo(new Vector2d(50, -15)) //move forward to sample 2
+                .afterTime(.1, () ->{ //open arm after 40 inches
+                    robot.servosweep.setPosition(.4);
+                })
+                .strafeTo(new Vector2d(50, -60)) //move back to wall
+                .afterTime(.1, () ->{ //open arm after 40 inches
+                    robot.servosweep.setPosition(1);
+                })
+                .strafeTo(new Vector2d(57, -20)) //move forward to sample 3
+                .afterTime(.1, () ->{ //open arm after 40 inches
+                    robot.servosweep.setPosition(.4);
+                })
+                .strafeTo(new Vector2d(57, -60)) //move back to wall
+                .afterTime(.1, () ->{ //close arm after 1 inches
+                    robot.servosweep.setPosition(1);
+                })
+
+                .strafeTo(new Vector2d(55, -40)) //back up
+                .strafeTo(new Vector2d(55, -50)) //press to wall
 
                 .strafeToLinearHeading(new Vector2d(30, -50),Math.toRadians(0)); //manuver to wall
 
@@ -237,7 +248,6 @@ public class AUTO_Blue_No_Preload extends LinearOpMode {
                 )
         );
         telemetry.update();
-        robot.servosweep.setPosition(0);
         if (currentDistance > 5) {
             Actions.runBlocking(
                     new SequentialAction(
