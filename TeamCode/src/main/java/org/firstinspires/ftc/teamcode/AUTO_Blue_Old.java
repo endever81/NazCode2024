@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import androidx.annotation.NonNull;
-
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -13,22 +10,18 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Config
-@Autonomous(name = "Auto Blue", group = "Autonomous")
-public class AUTO_Blue extends LinearOpMode {
+@Autonomous(name = "Auto Blue Old", group = "Autonomous")
+public class AUTO_Blue_Old extends LinearOpMode {
 
     HardwareRobot robot = new HardwareRobot();
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        Pose2d initialPose = new Pose2d(-3, -63, Math.toRadians(180));
+        Pose2d initialPose = new Pose2d(0, -63, Math.toRadians(180));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder toSub = drive.actionBuilder(initialPose)
@@ -36,8 +29,6 @@ public class AUTO_Blue extends LinearOpMode {
                 .strafeTo(new Vector2d(0, -25));
         Pose2d toSubEnd = new Pose2d(0, -24, Math.toRadians(180));
         // Headings: 180 = Left, 0 = Right, -90 = Down, 90=UP
-
-
 
         TrajectoryActionBuilder toSamples = drive.actionBuilder(toSubEnd)
                 //Travel Around submersible and toward samples.
@@ -48,13 +39,10 @@ public class AUTO_Blue extends LinearOpMode {
                 .strafeTo(new Vector2d(44, -52)) // push sample 1
               //  .waitSeconds(2)
                 .strafeTo(new Vector2d(43, -16)) // move back to sample 2
-                .strafeTo(new Vector2d(55, -16)) // move over to sample 2
+                .strafeTo(new Vector2d(57, -16)) // move over to sample 2
                // .waitSeconds(1)
                 .strafeTo(new Vector2d(55, -52)) // push sample 2
-                .strafeTo(new Vector2d(41, -16)) // move back to sample 2
-                .strafeTo(new Vector2d(59, -16)) // move over to sample 2
-                // .waitSeconds(1)
-                .strafeTo(new Vector2d(62, -52)) // push sample 2
+
                // .strafeTo(new Vector2d(50, -16)) // move back to sample 3
               //  .waitSeconds(.1)
              //   .strafeTo(new Vector2d(62, -16)) // move over to sample 3
@@ -93,25 +81,25 @@ public class AUTO_Blue extends LinearOpMode {
         TrajectoryActionBuilder toSub2 = drive.actionBuilder(toSamplesEnd)
                 //Move to submersible to deliver Spec1
                 //.waitSeconds(.15)
-           /*     .strafeTo(new Vector2d(40, -58))
+                .strafeTo(new Vector2d(40, -58))
             //    .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(0, -46),Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(0, -46),Math.toRadians(180))
                 .strafeToLinearHeading(new Vector2d(-6, -46),Math.toRadians(195))
               //  .waitSeconds(1)
-              //  .strafeTo(new Vector2d(-90, -79.5)) */
-                .strafeTo(new Vector2d(-16, -11));
+              //  .strafeTo(new Vector2d(-90, -79.5))
+                .strafeTo(new Vector2d(-6, -36));
 
 
         //.waitSeconds(.25);
-        Pose2d toSub2End = new Pose2d(-16, -10, Math.toRadians(0));
+        Pose2d toSub2End = new Pose2d(-6, -36.5, Math.toRadians(180));
 
 
         TrajectoryActionBuilder toWall2 = drive.actionBuilder(toSub2End)
                 //Return for Spec
               //  .waitSeconds(1)
-                .strafeTo(new Vector2d(30, -43))
+                .strafeTo(new Vector2d(-4, -43))
              //   .strafeTo(new Vector2d(20-25, -50-25))
-              //  .strafeToLinearHeading(new Vector2d(40, -64),Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(40, -64),Math.toRadians(0))
                // .strafeToLinearHeading(new Vector2d(-55, -110),Math.toRadians(0))
               //  .strafeTo(new Vector2d(-45, -120))
 
@@ -119,42 +107,27 @@ public class AUTO_Blue extends LinearOpMode {
 
                 //Press Wall for Spec2
                // .strafeTo(new Vector2d(-45, -110))
-                .strafeTo(new Vector2d(40, -65));
+                .strafeTo(new Vector2d(40, -78));
 
-        Pose2d toWall2End = new Pose2d(40, -61, Math.toRadians(0));
+        Pose2d toWall2End = new Pose2d(40, -78, Math.toRadians(0));
 
         TrajectoryActionBuilder toSub3 = drive.actionBuilder(toWall2End)
-                .strafeTo(new Vector2d(-19, -9.5));
+                //Move to submersible to deliver Spec1
+                //.waitSeconds(.15)
+                .strafeTo(new Vector2d(40, -58))
+                //    .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(2, -47),Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(0, -46),Math.toRadians(195))
+                //  .waitSeconds(1)
+                //  .strafeTo(new Vector2d(-90, -79.5))
+                .strafeTo(new Vector2d(0, -36.5));
 
-        Pose2d toSub3End = new Pose2d(-19, -9.5, Math.toRadians(0));
+        Pose2d toSub3End = new Pose2d(-4, -36.5, Math.toRadians(180));
 
         TrajectoryActionBuilder toWall3 = drive.actionBuilder(toSub3End)
-                //Return for Spec
-                //  .waitSeconds(1)
-                .strafeTo(new Vector2d(30, -43))
-                //   .strafeTo(new Vector2d(20-25, -50-25))
-                //  .strafeToLinearHeading(new Vector2d(40, -64),Math.toRadians(0))
-                // .strafeToLinearHeading(new Vector2d(-55, -110),Math.toRadians(0))
-                //  .strafeTo(new Vector2d(-45, -120))
-
-                //  .waitSeconds(1)
-
-                //Press Wall for Spec2
-                // .strafeTo(new Vector2d(-45, -110))
-                .strafeTo(new Vector2d(40, -62));
-        Pose2d toWall3End = new Pose2d(40, -62, Math.toRadians(0));
-
-        TrajectoryActionBuilder toSub4 = drive.actionBuilder(toWall3End)
-                .strafeTo(new Vector2d(-16, -12))
-                .strafeTo(new Vector2d(-16, -9));
-
-
-        Pose2d toSub4End = new Pose2d(-17, -9, Math.toRadians(0));
-
-        TrajectoryActionBuilder toWall4 = drive.actionBuilder(toSub4End)
                 .strafeTo(new Vector2d(-4, -43))
                 //   .strafeTo(new Vector2d(20-25, -50-25))
-                .strafeToLinearHeading(new Vector2d(40, -68),Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(40, -64),Math.toRadians(0))
                 // .strafeToLinearHeading(new Vector2d(-55, -110),Math.toRadians(0))
                 //  .strafeTo(new Vector2d(-45, -120))
 
@@ -162,8 +135,22 @@ public class AUTO_Blue extends LinearOpMode {
 
                 //Press Wall for Spec2
                 // .strafeTo(new Vector2d(-45, -110))
-                .strafeTo(new Vector2d(40, -79));
-        Pose2d toWall4End = new Pose2d(40, -61, Math.toRadians(0));
+                .strafeTo(new Vector2d(40, -78));
+        Pose2d toWall3End = new Pose2d(40, -78, Math.toRadians(0));
+
+        TrajectoryActionBuilder toSub4 = drive.actionBuilder(toWall3End)
+                //Deliver Spec3
+                //Move to submersible to deliver Spec1
+                //.waitSeconds(.15)
+                .strafeTo(new Vector2d(40, -58))
+                //    .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(0, -46),Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(2, -46),Math.toRadians(195))
+                //  .waitSeconds(1)
+                //  .strafeTo(new Vector2d(-90, -79.5))
+                .strafeTo(new Vector2d(2, -36));
+
+
         Action trajectoryActionCloseOut = toSub4.fresh()
                 //.strafeTo(new Vector2d(48, 12))
                 .build();
@@ -179,22 +166,19 @@ public class AUTO_Blue extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
-
         robot.servohang.setPosition(1);
         robot.specimenClamp.setPosition(0);
-        robot.servorotate.setPosition(.2);
-        robot.bucketrotate.setPosition(.1);
-
+        robot.servorotate.setPosition(.1);
         lift (1, 18.5);
         Actions.runBlocking(
                 new SequentialAction(
                         toSub.build()
                 )
         );
-        lift (1, -6);
-        sleep(500);
+        lift (1, -5);
+        sleep(400);
         robot.specimenClamp.setPosition(.4);
-        lift (.5, -13);
+        lift (.5, -14);
 
 
         Actions.runBlocking(
@@ -205,18 +189,16 @@ public class AUTO_Blue extends LinearOpMode {
         robot.specimenClamp.setPosition(0);
         sleep(400);
         lift (1, 18.5);
-        robot.servoarm.setPosition(.86);
 
         Actions.runBlocking(
                 new SequentialAction(
                         toSub2.build()
                 )
         );
-        lift (1, -6.5);
-        sleep(600);
+        lift (1, -5);
+        sleep(400);
         robot.specimenClamp.setPosition(.4);
-        lift (.5, -12.5);
-        robot.servoarm.setPosition(.17);
+        lift (.5, -13.5);
 
         Actions.runBlocking(
                 new SequentialAction(
@@ -224,20 +206,18 @@ public class AUTO_Blue extends LinearOpMode {
                 )
         );
         robot.specimenClamp.setPosition(0);
-        sleep(600);
+        sleep(400);
         lift (1, 18.5);
-        robot.servoarm.setPosition(.86);
 
         Actions.runBlocking(
                 new SequentialAction(
                         toSub3.build()
                 )
         );
-        lift (1, -6);
+        lift (1, -5);
         sleep(400);
         robot.specimenClamp.setPosition(.4);
-        lift (.5, -13);
-        robot.servoarm.setPosition(.17);
+        lift (.5, -13.5);
 
         Actions.runBlocking(
                 new SequentialAction(
@@ -245,25 +225,21 @@ public class AUTO_Blue extends LinearOpMode {
                 )
         );
         robot.specimenClamp.setPosition(0);
-        sleep(600);
+        sleep(400);
         lift (1, 18.5);
-        robot.servoarm.setPosition(.86);
+        // lift (1, 18.5);
 
         Actions.runBlocking(
                 new SequentialAction(
                         toSub4.build()
                 )
         );
-        lift (1, -6);
-        sleep(400);
+        lift (1, -18.5);
+        sleep(1000);
         robot.specimenClamp.setPosition(.4);
-        lift (.5, -13);
-        robot.servoarm.setPosition(.17);
-        Actions.runBlocking(
-                new SequentialAction(
-                        toWall4.build()
-                )
-        );
+        robot.liftH.setPower(-.2);
+        lift (.5, -13.5);
+        sleep(500);
     }
 
 

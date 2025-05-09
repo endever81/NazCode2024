@@ -2,12 +2,15 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
@@ -37,6 +40,7 @@ public class HardwareRobot {
     public Servo bucketart = null;
     public RevBlinkinLedDriver blinkinLedDriver = null;
     public DistanceSensor sensorDistance = null;
+    public NormalizedColorSensor sensorColorDistance = null;
 
 
 
@@ -75,7 +79,7 @@ public class HardwareRobot {
         servosweep = hwMap.get(Servo.class, "servo_sweep");
 
         sensorDistance = hwMap.get(DistanceSensor.class, "sensor_distance");
-
+        sensorColorDistance = hwMap.get(NormalizedColorSensor.class, "sensor_color");
 
         blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin");
         blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
@@ -103,13 +107,13 @@ public class HardwareRobot {
 
         bucketgrab.setPosition(.3);
         bucketart.setPosition(.25);
-        bucketrotate.setPosition(0);  //origionally 0.8
+        bucketrotate.setPosition(1);  //needs to be down to pass inspection
 
         servoarm.setPosition(.17);
-        servosweep.setPosition(1);
+        servosweep.setPosition(0.1);
         servorotate.setPosition(.1);
         servointake.setPosition(0.3); //.5
-        servoswing.setPosition(.81);
+        servoswing.setPosition(.71);
         servoart.setPosition(.5);
 
         specimenClamp.setPosition(0);  //Specimeins are on the wall

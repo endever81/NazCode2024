@@ -87,7 +87,7 @@ public class DriverControlled2 extends LinearOpMode {
         double swingPosition= 0.5;
         double artPosition = 0.5;
         double bucketartPosition = .5;
-        double bucketrotatePosition = 0;
+        double bucketrotatePosition = 0.65; //.65
         double bucketgrabPosition = .58;
         double armPosition = 0.17;
 
@@ -102,7 +102,7 @@ public class DriverControlled2 extends LinearOpMode {
 // Track button state to ensure single press action
         boolean xPressed = false;
         boolean yPressed = false;
-        boolean autoSwingEnabled = false;
+        boolean autoSwingEnabled = true;
         boolean autoLiftEnabled = true;
 
         while (opModeIsActive()){
@@ -176,19 +176,24 @@ public class DriverControlled2 extends LinearOpMode {
             if (gamepad1.right_stick_button) {
                 autoLiftEnabled = true;
             }
+            bucketrotatePosition = .65;
+            if (robot.liftV.getCurrentPosition() < -600){
+                bucketrotatePosition = 0; //.65
+            }
 
             if (autoLiftEnabled) {
                 // Enable auto lift mode
-                if (gamepad1.left_trigger > 0.1) {
-                    robot.liftV.setTargetPosition(-1100);
-                    robot.liftV2.setTargetPosition(-1100);
+                bucketrotatePosition = 0; //.65
+                if (gamepad1.right_trigger > 0.1) {
+                    robot.liftV.setTargetPosition(-1200);
+                    robot.liftV2.setTargetPosition(-1200);
 
                     robot.liftV.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.liftV2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                     robot.liftV.setPower(1.0);
                     robot.liftV2.setPower(1.0);
-                } else if (gamepad1.right_trigger > 0.1) {
+                } else if (gamepad1.left_trigger > 0.1) {
                     robot.liftV.setTargetPosition(0);
                     robot.liftV2.setTargetPosition(0);
 
@@ -211,11 +216,13 @@ public class DriverControlled2 extends LinearOpMode {
             double liftVPower = ((gamepad1.left_trigger)-(gamepad1.right_trigger));
 
 
-
             if (gamepad2.left_stick_button) {
                 autoSwingEnabled = false;
                 armPosition = 0.17;
+
             }
+
+
 
             if (gamepad2.right_stick_button) {
                 autoSwingEnabled = true;
@@ -304,7 +311,7 @@ public class DriverControlled2 extends LinearOpMode {
                 patternPrime = RevBlinkinLedDriver.BlinkinPattern.DARK_BLUE;
             }
 
-            bucketgrabPosition = .58;
+            bucketgrabPosition = .65;
             if (gamepad2.y) {
                 bucketgrabPosition = 0.2;
             }
@@ -367,36 +374,29 @@ public class DriverControlled2 extends LinearOpMode {
 
                 // Move servos through a sequence
                 //LowerArm right
-                setServoPosition(robot.servorotate, 0.1); //flip up the Sample
+                setServoPosition(robot.servorotate, 0); //flip up the Sample
                 setServoPosition(robot.servointake, 0.52); //ensure low claw says closed .68
-                setServoPosition(robot.servoart, 1); //ensure head is orented appropriately
-                setServoPosition(robot.servoswing, 0.3); //swing to reposition sample in claw
-                setServoPosition(robot.bucketgrab, 0.2); //open the high claw
                 Thread.sleep(700);
+                setServoPosition(robot.servoart, .94); //ensure head is orented appropriately!!!!!!!!!!!!
+                setServoPosition(robot.servoswing, 0.25); //swing to reposition sample in claw
+                setServoPosition(robot.bucketgrab, 0.2); //open the high claw
                 Thread.interrupted();
-                setServoPosition(robot.servointake, 0.48); //loosen low claw .68
-                setServoPosition(robot.servorotate, 0.2); //put sample on the ground
+                setServoPosition(robot.servointake, 0.5); //loosen low claw .68
+                setServoPosition(robot.servorotate, 0.40); //put sample on the ground .25
                 Thread.sleep(250);  // Wait for movement to complete
 
                 setServoPosition(robot.servointake, 0.52); //tightly grip the Sample .7
-                setServoPosition(robot.servoswing, 0.35); //move sample back slightly
-                setServoPosition(robot.servorotate, 0.29); //move sample down slightly
+                setServoPosition(robot.servoswing, 0.2); //move sample back slightly!!!!!!!!!!!!
+                setServoPosition(robot.servorotate, 0.40); //move sample down slightly .25
                 Thread.sleep(250);  // Wait for movement to complete
 
-                //LowerArm back in
-              //  setServoPosition(robot.servoswing, 0.65); //swing for transfer
-               // Thread.sleep(500);
-
-                //top arm out
-              //  setServoPosition(robot.bucketart, 0.6);
-               // Thread.sleep(10);
 
                 //top arm down
-                setServoPosition(robot.bucketrotate, 0.8);
+                setServoPosition(robot.bucketrotate, 0.94);//!!!!!!!!!!!!!
                 Thread.sleep(250);
 
                 //top arm grab
-                setServoPosition(robot.bucketgrab, 0.58);
+                setServoPosition(robot.bucketgrab, 0.65);//!!!!!!!!!!!
                 Thread.sleep(500);
 
                 //lowerarm letgo
